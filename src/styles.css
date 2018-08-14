@@ -1,0 +1,303 @@
+/* You can add global styles to this file, and also import other style files */
+html, body{height:100% !important;}
+.sa-icon.sa-custom
+{
+    width: 350px !important;
+    height: 250px !important;
+}
+
+.pac-container {  z-index: 1051 !important;}
+.cat__app-loader {
+    width: 44px;
+    height: 44px;
+    border-radius: 40px;
+
+    position: fixed;
+    z-index: 1100;
+
+    top: 50%;
+    left: 50%;
+    margin-left: -20px;
+    margin-top: -50px;
+
+    background: #0b80b2;
+    background: -moz-linear-gradient(-45deg,  #0b80b2 0%, #fb328d 80%);
+    background: -webkit-linear-gradient(-45deg,  #0b80b2 0%,#fb328d 80%);
+    background: linear-gradient(135deg,  #0b80b2 0%,#fb328d 80%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0b80b2', endColorstr='#fb328d',GradientType=1 );
+
+    animation: rotating 1s linear infinite;
+}
+
+.cat__app-loader div {
+    background: #f2f4f8;
+    width: 34px;
+    height: 34px;
+    border-radius: 30px;
+    margin: 5px;
+}
+
+@keyframes rotating {
+    from {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+.btn {
+    cursor: pointer;
+}
+
+.acc_header
+{
+    background-color: #005189;
+
+    /* Safari 4, Chrome 1-9, iOS 3.2-4.3, Android 2.1-3.0 */
+    background-image: -webkit-gradient(linear, left top, right top, from(#005189), to(#0190FE));
+
+    /* Safari 5.1, iOS 5.0-6.1, Chrome 10-25, Android 4.0-4.3 */
+    background-image: -webkit-linear-gradient(left, #005189, #0190FE);
+
+    /* Firefox 3.6 - 15 */
+    background-image: -moz-linear-gradient(left, #005189, #2e4053);
+
+    /* Opera 11.1 - 12 */
+    background-image: -o-linear-gradient(left, #005189, #2e4053);
+
+    /* Opera 15+, Chrome 25+, IE 10+, Firefox 16+, Safari 6.1+, iOS 7+, Android 4.4+ */
+    background-image: linear-gradient(to right, #005189, #2e4053);
+    margin: 0px;
+    overflow: hidden;
+}
+
+.cat__menu-left__logo img {
+    max-height: 4.3rem !important;
+    max-width: 100% !important;
+    vertical-align: bottom !important;
+    padding: 1px !important;
+}
+.cat__menu-left__logo{
+    background-color: #fff !important;
+}
+
+.cat__menu-left__lock{
+    background-color: #fff !important;
+}
+.cat__menu-left__logo{
+    padding: .2rem 1.28rem !important;
+}
+.acc_heading
+{
+    padding: 10px 1px 1px 10px;
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 0px;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+select, input[type=checkbox], input[type="radio"]
+{
+    cursor: pointer;
+}
+
+.form-control::placeholder {
+    color:  #636c72 !important;
+    opacity: 0.5 !important;
+}
+
+.set_height_scroll{
+    height: 420px;
+    overflow-y: scroll;
+}
+
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    font-family: Helvetica;
+}
+
+.loader {
+    height: 20px;
+    width: 250px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.loader--dot {
+    animation-name: loader;
+    animation-timing-function: ease-in-out;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    background-color: black;
+    position: absolute;
+    border: 2px solid white;
+}
+.loader--dot:first-child {
+    background-color: #8cc759;
+    animation-delay: 0.5s;
+}
+.loader--dot:nth-child(2) {
+    background-color: #8c6daf;
+    animation-delay: 0.4s;
+}
+.loader--dot:nth-child(3) {
+    background-color: #ef5d74;
+    animation-delay: 0.3s;
+}
+.loader--dot:nth-child(4) {
+    background-color: #f9a74b;
+    animation-delay: 0.2s;
+}
+.loader--dot:nth-child(5) {
+    background-color: #60beeb;
+    animation-delay: 0.1s;
+}
+.loader--dot:nth-child(6) {
+    background-color: #fbef5a;
+    animation-delay: 0s;
+}
+.loader--text {
+    position: absolute;
+    top: 200%;
+    left: 0;
+    right: 0;
+    width: 4rem;
+    margin: auto;
+}
+.loader--text:after {
+    content: "Loading";
+    font-weight: bold;
+    animation-name: loading-text;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes loader {
+    15% {
+        transform: translateX(0);
+    }
+    45% {
+        transform: translateX(230px);
+    }
+    65% {
+        transform: translateX(230px);
+    }
+    95% {
+        transform: translateX(0);
+    }
+}
+@keyframes loading-text {
+    0% {
+        content: "Loading";
+    }
+    25% {
+        content: "Loading.";
+    }
+    50% {
+        content: "Loading..";
+    }
+    75% {
+        content: "Loading...";
+    }
+}
+
+.cat__menu-left__inner
+{
+    background: #eef0f4;
+}
+.cat__menu-left__item > a{color:#000 !important}
+.cat__menu-left__item--active > a, .cat__menu-left__item:hover > a, .cat__menu-left__item:active > a, .cat__menu-left__item:focus > a
+{ background: #9ba8b2 !important; color: #000 !important}
+
+.loader2{
+    position: fixed;
+    background: #c0c0c0;
+    opacity: 0.5;
+    left: 0px;
+    right: 0px;
+    bottom:0px;
+    top:0px;
+    z-index: 9999;
+}
+.loader2 img{
+    width: 40px;
+    height:40px;
+    top:50%;
+    left: 50%;
+    margin-left: -20px;
+    margin-top: -20px;
+    position: absolute;
+}
+
+.pagination {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: inline;
+    padding-left: 0;
+    list-style: none;
+    border-radius: .25rem;
+    float: left;
+}
+.fa-sort {
+    font-size: 14px !important;
+}
+
+.body_image{
+    background-image: url("https://rcc.mcmservice.com/assets/modules/pages/common/img/login/7.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.padding_btm20{padding-bottom:20px}
+
+
+@media (max-width:767px) {
+
+  .cat__top-bar__logo img{width: 90px !important; height: 40px !important;}
+
+}
+
+@media (max-width: 400px) {
+
+  .cat__top-bar__right .cat__top-bar__item {
+    margin-left: 5px !important;
+  }
+
+  .cat__top-bar__logo {
+    margin-right: 0px !important
+  }
+
+  .cat__top-bar__logo {
+    width: 10rem !important;
+  }
+  .cat__top-bar__logo img{width:100% !important; height:100% !important}
+}

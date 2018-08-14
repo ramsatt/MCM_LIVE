@@ -1,0 +1,40 @@
+@media  (max-width:420px) {
+    .drp-cls {
+        top: 24px !important;
+
+    }
+}
+
+    .drp-cls
+    {
+        height: 200px;
+        left: 0px;
+        padding: 0;
+        position: absolute;
+        top: 28px;
+        z-index: 1;
+        width: 100%;
+        border: 1px solid #fff;
+        border-radius: 6px;
+        background: #FFF !important;
+    }
+
+    .drp-cls2
+    {
+        background-color: #fff;
+        background-image: none;
+        border: 2px solid #e5e5e5;
+        color: #777;
+        cursor: pointer;
+        display: block;
+        font-size: 14px;
+        height: 200px;
+        line-height: 22px;
+        max-width: 100%;
+        overflow: hidden;
+        padding: 5px 10px;
+        position: relative;
+        text-align: center;
+        transition: border-color 0.15s linear 0s;
+        width: 100%;
+    }

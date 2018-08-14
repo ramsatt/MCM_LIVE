@@ -1,0 +1,98 @@
+
+
+
+
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Menu Assignment</strong>
+        </span>
+    </div>
+    <div class="card-block">
+        <form #assignmentmenu="ngForm" id="assmenuform" >
+            <div class="row">
+                <div class="col-lg-6">
+                    <label class="form-label">User Role<span style="color: red"> *</span></label>
+                    <select [(ngModel)]="u_role" #userrole  name="Userrole" class="form-control col-lg-12" (change)="viewusercategory(userrole.value)" required>
+                        <option value="0" [selected]="true">----Select------</option>
+                        <option *ngFor="let role of user_role" value="{{role.URM_KeyID}}" > {{ role.URM_Role_Name }} </option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <label class="form-label">
+                        User Category:<span style="color: red"> *</span></label>
+                    <select [(ngModel)]="role" name="ucmid" #ucmkeyid class="form-control" (change)="viewrolemenu(ucmkeyid.value)">
+                        <input type="hidden" name="primid{{i}}" [(ngModel)]="submenuid">
+                        <option>----Select------</option>
+                        <option  *ngFor="let uc of user_category" value="{{uc.UCM_KeyID}}" > {{ uc.UCM_Category_Name }} </option>
+
+                    </select> </div></div><br>
+    <div class="row">
+
+        <div class="col-sm-4 col-xs-12 pull-left">
+            <div class="cus_main_menu2">
+                <br>
+                <table>
+                    <thead>
+                    <tr>
+
+                        <td>MAIN MENU</td>
+                       <!-- <td>Enable All Submenus</td>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let menu of menuarr; let i=index" style="cursor:pointer">
+
+                        <td (click)="selectmenu(menu.MMM_KeyID,ucmkeyid.value);setClickedRow(i)"
+                            [class.active]="i == selectedRow" style="text-align: left;padding-left: 10px"  >{{menu.MMM_Name}}</td>
+                       <!-- <td> <input type="checkbox" id="checkAll{{menu.MMM_KeyID}}"  (change)="check($event)"></td>-->
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+<div class="col-sm-8 col-xs-12 pull-left">
+  <div class="cus_main_menu2">
+
+      <br>
+      <table>
+      <thead>
+      <tr>
+        <td>SUB MENU<br>Select All<br> <input type="checkbox" id="checkAllmenu"  (change)="checkmenuall($event)"></td>
+        <td>MENU VISIBLE<br> <input type="checkbox" id="checkAllmenu"  (change)="checkmenu($event)"></td>
+
+        <td>Add<br> <input type="checkbox" id="checkAlladd"  (change)="checkadd($event)"> </td>
+
+        <td>Edit<br> <input type="checkbox" id="checkAlledit"  (change)="checkedit($event)"></td>
+          <td>Delete<br> <input type="checkbox" id="checkAlldelete"  (change)="checkdelete($event)"></td>
+          <td>View<br> <input type="checkbox" id="checkAllview"  (change)="checkview($event)"></td>
+          <td>Unassign/Deactivate<br> <input type="checkbox" id="checkAllunassign"  (change)="checkunassign($event)"></td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sub of submenu;let i=index">
+        <td style="text-align: left">{{sub.SUB_Name}}</td>
+        <td>
+          <input type="hidden" name="id{{i}}" [(ngModel)]="submenu[i].SUB_KeyID">
+
+
+        <input  type="checkbox" class="checkSingle{{sub.MMM_KeyID}}" id="enable" name="enable{{i}}" [ngModel]="sub.MA_Is_Active== 'Y'" (change)="updateCheckedOptions(sub.SUB_KeyID, $event)"></td>
+        <td><input  type="checkbox" class="checkSingle{{sub.MMM_KeyID}}" name="add{{i}}" [ngModel]="sub.MA_Add== 'Y'" ></td>
+        <td><input  type="checkbox" class="checkSingle{{sub.MMM_KeyID}}" name="edit{{i}}"[ngModel]="sub.MA_Edit== 'Y'" ></td>
+          <td><input  type="checkbox" class="checkSingle{{sub.MMM_KeyID}}" name="delete{{i}}"[ngModel]="sub.MA_Delete=='Y'"></td>
+          <td><input  type="checkbox" class="checkSingle{{sub.MMM_KeyID}}" name="view{{i}}"[ngModel]="sub.MA_View=='Y'"></td>
+          <td><input  type="checkbox" class="checkSingle{{sub.MMM_KeyID}}" name="unassign{{i}}"[ngModel]="sub.MA_Unassign=='Y'"></td>
+
+
+      </tr>
+      </tbody>
+    </table>
+
+      <button type="button" class="btn btn-primary" (click)="updateOptions(assignmentmenu.value)" >Assign</button>
+  </div>
+</div>
+        </div></form>
+</div>
+
+
+

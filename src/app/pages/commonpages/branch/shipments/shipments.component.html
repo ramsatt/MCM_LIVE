@@ -1,0 +1,352 @@
+<div class="row acc_header row_margin">
+  <div class="col-lg-8 col-sm-8 col-xs-8">
+    <h5 class="acc_heading">Parts Shipped</h5>
+  </div>
+
+  <div class="col-lg-4 col-sm-4 col-xs-4">
+       <span class="pull-right" style="margin-top: 10px">
+           <button  type="button" style="padding: 7px" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse" (click)="fromref()"[hidden]="add=='N'">
+               <i class="icmn-plus" aria-hidden="true"></i></button>
+       </span>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <input placeholder="From Date" #FromDate [(ngModel)]="fromdatem" name="AGM_EffectiveDate" #EffectiveDate type="text"
+               class="form-control col-lg-12 datepicker-only-init">
+    </div>
+    <div class="col-sm-4">
+        <input placeholder="To Date" name="AGM_EndDate" #ToDate
+               [(ngModel)]="todatem"
+               type="text"
+               class="form-control col-lg-12 datepicker-only-init">
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" (click)="filter(FromDate.value,ToDate.value)" >Filter</button>
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" (click)="resetfilter()" >Reset</button>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i class="icmn-search"></i>
+        </span>
+      <input  type="text" class="form-control" name="Site_Search" placeholder="Search" id="" [(ngModel)]="brnname">
+    </div>
+  </div>
+</div>
+<div class="cover1">
+  <table class="table demo nowrap"  width="100%" [mfData]="shipmentsresults|shipmentprocess:brnname" #brShipment="mfDataTable" [mfRowsOnPage]="5"
+         [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+    <thead class="th-color">
+    <tr>
+      <th><mfDefaultSorter by="RPSM_KeyID"> Shipment Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="RPSM_Shipment_Date"> Date<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="BM_Branch_Name"> Branch<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="BM_Address"> Address<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="SC_Company_Name"> Shipment Company<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="RPSM_TrackCode"> Track Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="RPSM_Status"> Status<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th [hidden]="edit=='N'">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let all of brShipment.data; let i=index" (click)="LoadShipmentrequests(all.RPSM_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+      <td>{{all.RPSM_KeyID}}</td>
+      <td>{{all.RPSM_Shipment_Date|dateconvert | date:'M/d/y'}}</td>
+      <td>{{all.BM_Branch_Name}}</td>
+      <td>{{all.BM_Address}}</td>
+      <td>{{all.SC_Company_Name}}</td>
+      <td>{{all.RPSM_TrackCode}} </td>
+      <td>{{all.RPSM_Status}}</td>
+          <td align="center" *ngIf="all.RPSM_Status!='Delivered'">
+            <div class="">
+              &nbsp;<button data-toggle="modal" [hidden]="edit=='N'"data-target="#updateshipment" (click)="setTrackid(all.RPSM_TrackCode,all.RPSM_KeyID,all.BM_Address,all.SC_KeyID,all.BM_KeyID)" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline">
+            </button>
+            </div>
+          </td>
+            <td align="center" style="width:150px" *ngIf="all.RPSM_Status=='Delivered'">
+                Track Code cannot be changed
+            </td>
+
+    </tr>
+    </tbody>
+      <tfoot>
+      <tr>
+          <td colspan="8">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+      </tr>
+      </tfoot>
+  </table>
+</div>
+
+<div class="row acc_header row_margin">
+
+    <div class="col-lg-12">
+        <h5 class="acc_heading">Shipment Parts Detail
+            <span class="pull-right" *ngIf="grpdf">
+            <button  type="button" style="padding: 5px; margin-right: 3px;" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" data-toggle="modal" data-target="#GRid3" [hidden]="viewbtn=='N'" >View GR</button>
+          </span>
+            <span></span></h5>
+    </div>
+
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-lg-12 col-sm-12">
+    <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icmn-search"></i>
+            </span>
+      <input type="text" class="form-control" name="Site_Search" [(ngModel)]="partfil_name"placeholder="Search" id="">
+    </div>
+  </div>
+</div>
+<div class="overflow_3row">
+  <div class="col-lg-12">
+    <table class="table table-hover nowrap" id="branch"  width="100%" >
+      <thead style="font-size: 12px !important;">
+      <tr>
+        <th>Request Id</th>
+        <th>Part Name</th>
+        <th>Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr  *ngFor="let allpart of shipmentrequests|partfilter:partfil_name;">
+        <td>{{allpart.RPD_RPM_KeyID}}</td>
+        <td>{{allpart.PM_Part_Name}}</td>
+        <td>{{allpart.RPSD_Shipment_Qty}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="modal fade modal-size-large" id="addshipment" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h3>Create Shipment From - <span class="text-primary">{{name}}</span></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #ShipmentFrorm="ngForm" id="mulreqpartform" >
+        <input type="hidden" name="requestfrom" [(ngModel)]="id">
+        <input type="hidden" name="trackstatus" [(ngModel)]="trackstatus">
+        <input type="hidden" name="requesttype" [(ngModel)]="requesttype">
+        <div class="modal-body">
+          <div class="panel-body">
+            <div [ngSwitch]='status'>
+              <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <label class="form-label">Shipment To<span style="color: red"> *</span></label>
+                  <select name="shipmentto" id="shipment_to" [(ngModel)]="requestto" class="form-control col-lg-12" #shipmentto (change)="LoadParts(shipmentto.value,this.id)" required>
+                    <option value="">----Select------</option>
+                    <option *ngFor="let branches of requestedbranches" value="{{branches.BM_KeyID}}" > {{ branches.BM_Branch_Name }}</option>
+                  </select>
+                </div>
+
+                  <div class="col-lg-6">
+                      <label class="form-label bld">Branch Shipment Address</label>
+                      <p>{{requesttoAddress}}</p>
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <label class="form-label">Shipment Date<span style="color: red"> *</span></label>
+                  <input class="form-control datepicker-only-init"  type="text" name="shipmentdate" #ShipmentDate readonly>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <label class="form-label">Shipment Company<span style="color: red"> *</span></label>
+                  <select  name="shipmentcompany" [(ngModel)]="shipmentcompany" id="shipment_company" class="form-control col-lg-12" #Shpcmpbr required>
+                    <option value="">----Select------</option>
+                    <option *ngFor="let sc of shipmentcompanies" value="{{sc.SC_KeyID}}" > {{ sc.SC_Company_Name }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <label class="form-label">Track Code </label>
+                  <input class="form-control" type="text" name="trackcode" [(ngModel)]="trackcode" id="track_code" #trackid (change)="trackId(Shpcmpbr.value,trackid.value,'')">
+                </div>
+                  <div class="col-lg-6 bld">
+                      <label class="form-label">Shipment Booking Address</label>
+                      <p>{{trackingAddressbr}}</p>
+                  </div>
+              </div>
+
+
+                <div class="row" *ngIf="showloadingbr === false; else elseBlock">
+                <div class="col-lg-12 col-sm-12 col-xs-12 ">
+                  <label class="form-label">Parts<span style="color: red"> *</span></label>
+                    <div class="cover1">
+                  <table class="table table-hover nowrap demo1" id="model_service" width="100%">
+                    <thead style="background: #4567B1;color: #FFF">
+                    <tr>
+                      <th></th>
+                      <th>Request Id</th>
+                      <th>Date</th>
+                      <th>Ticket Id</th>
+                      <th>Part</th>
+                      <th>Current Stock</th>
+                      <th>Requested Qty</th>
+                      <th>Already Shipped</th>
+                      <th>Shipment Qty</th>
+                      <th>Yet To Be Shipped</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let partsinfo of parts;let i=index">
+                      <input type="hidden" name="RPSD_RPM_KeyID{{i}}" [(ngModel)]="parts[i].RPM_KeyID">
+                      <input type="hidden" name="RPSD_RPD_KeyID{{i}}" [(ngModel)]="parts[i].RPD_KeyID">
+                      <input type="hidden" name="PM_KeyID{{i}}" [(ngModel)]="parts[i].PM_KeyID">
+                      <input type="hidden" name="RPM_HeroKit_Yes_No{{i}}" [(ngModel)]="parts[i].RPM_HeroKit_Yes_No">
+                      <input type="hidden" name="RPD_Type_KeyID{{i}}" [(ngModel)]="parts[i].RPD_Type_KeyID">
+                      <input type="hidden" name="RPD_Ordered_Qty{{i}}" [(ngModel)]="parts[i].RPD_Ordered_Qty">
+                      <input type="hidden" name="RPD_Branch_Part_Exist{{i}}" [(ngModel)]="parts[i].RPD_Branch_Part_Exist">
+                      <td><input type="checkbox" class="shpchk" [(ngModel)]="parts[i].checked" name="checked{{i}}" (change)="updateCheckedOptions(partsinfo.RPM_KeyID, $event,i)"></td>
+                      <td>{{partsinfo.RPM_KeyID}}</td>
+                      <td>{{partsinfo.RPD_TimeStamp | date:'M/d/y'}}</td>
+                      <td>{{partsinfo.RPM_Ticket_KeyID}}</td>
+                      <td style="padding-left:2px">{{partsinfo.PM_Part_Name}}</td>
+                      <td *ngIf="partsinfo.NHKP"><input id="crs{{i}}" class="form-control col-lg-8"  [(ngModel)]="partsinfo.NHKP" #crs name="crs{{i}}" type="text" readonly></td>
+                      <td *ngIf="partsinfo.HKP"><input id="crs{{i}}" class="form-control col-lg-8"  [(ngModel)]="partsinfo.HKP" #crs name="crs{{i}}" type="text" readonly></td>
+                      <td>{{partsinfo.RPD_Ordered_Qty}}</td>
+                      <td>{{partsinfo.RPD_Shipped_Qty}}</td>
+                      <td><input placeholder="Qty" id="shqty{{i}}" (keyup)="textenable(i,$event)" [(ngModel)]="parts[i].ytbqty" #qty name="quantity{{i}}" type="text"
+                                   class="form-control col-lg-8 "  readonly (change)="ytbquantity(i)" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                          <span id="ytbqtymsg{{i}}" class="text-danger spancls"></span></td>
+                      <td><input id="ytbty{{i}}" class="form-control col-lg-8"  [(ngModel)]="parts[i].RPD_Yet_To_Be_Shipped" #ytbqty name="yetobe{{i}}" type="text" readonly></td>
+
+                    </tr>
+                    </tbody>
+                  </table>
+                    </div>
+                </div>
+              </div>
+
+                <ng-template #elseBlock>
+                    <div class='container'>
+                        <div class='loader'>
+                            <div class='loader--dot'></div>
+                            <div class='loader--dot'></div>
+                            <div class='loader--dot'></div>
+                            <div class='loader--dot'></div>
+                            <div class='loader--dot'></div>
+                            <div class='loader--dot'></div>
+                            <div class='loader--text'></div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" [disabled]="!ShipmentFrorm.form.valid || checkService() || checkqty()" (click)="createShipment(ShipmentFrorm.value)" data-dismiss="modal" data-toggle="modal" data-target="#mulreqpartinfo">Create Shipment</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="updateshipment" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Update Track Code</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #ShipmentupdateFrorm="ngForm">
+                <input type="hidden" name="ShipmentId" [(ngModel)]="ShipmentId">
+                <input type="hidden" name="trackstatus" [(ngModel)]="trackstatus">
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <div [ngSwitch]='status'>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="form-label">Shipment Company<span style="color: red"> *</span></label>
+                                    <select  name="shipmentcompany" id="shipment_company" (change)="trackId(companyId,updatedtrackid.value)" [(ngModel)]="companyID" class="form-control col-lg-12" #Shpcmp required >
+                                        <option value="">----Select------</option>
+                                        <option *ngFor="let sc of shipmentcompanies" value="{{sc.SC_KeyID}}" > {{ sc.SC_Company_Name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="form-label">Track Code </label>
+                                    <input class="form-control" type="text" name="trackupdateid" [(ngModel)]="UpdateTrackid" #updatedtrackid (change)="trackId(companyID,updatedtrackid.value)" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label class="form-label bld">Branch Shipment Address</label>
+                                <p>{{requesttoAddress}}</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label bld">Shipment Booking Address</label>
+                                <p>{{trackingAddressbr}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" *ngIf="showloadingbr === false; else elseBlock2">
+                        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" [disabled]="!ShipmentupdateFrorm.form.valid" (click)="UpdateTrack(ShipmentupdateFrorm.value)" data-dismiss="modal" data-toggle="modal" data-target="#mulreqpartinfo">Update</button>
+                    </div>
+
+                    <ng-template #elseBlock2>
+                        <div class='container'>
+                            <div class='loader'>
+                                <div class='loader--dot'></div>
+                                <div class='loader--dot'></div>
+                                <div class='loader--dot'></div>
+                                <div class='loader--dot'></div>
+                                <div class='loader--dot'></div>
+                                <div class='loader--dot'></div>
+                                <div class='loader--text'></div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="GRid3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Goods Receipt</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe [src]="GRM_GoodsReceipt_Path" width="100%" height="480px" type='application/pdf'></iframe>
+            </div>
+        </div>
+    </div>
+</div>

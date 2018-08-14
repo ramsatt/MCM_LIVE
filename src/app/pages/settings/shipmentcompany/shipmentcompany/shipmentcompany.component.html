@@ -1,0 +1,165 @@
+
+<div class="row acc_header row_margin">
+
+  <div class="col-lg-12"><h5 class="acc_heading">Shipment Company<span>
+    <button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline "data-toggle="modal"  data-target="#addship" [hidden]="b_add=='N'"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+
+</div>
+
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+    <input [(ngModel)]="shipfil_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+  </div></div>
+</div>
+
+<table class="table table-condensed table-hover"   width="100%">
+  <thead>
+  <tr>
+
+    <th>Company</th>
+    <th>URL</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let ship of allship| shipmentcompany:shipfil_name;" >
+
+    <td>{{ship.SC_Company_Name}}</td>
+    <td>{{ship.SC_Company_URL}}</td>
+
+    <td><button (click)="open(ship.SC_KeyID)" data-toggle="modal" data-target="#editship" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" [hidden]="edit=='N'"></button>
+      <button  (click)="Delete(ship.SC_KeyID) " class="btn btn-icon btn-danger fa fa-trash" [hidden]="delete=='N'"><i _ngcontent-mdt-28="" aria-hidden="true" class=""></i></button></td>
+    <div class="modal fade" id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Delete</h4>
+          </div>
+          <div class="modal-body">
+            <p>Do you want to delete {{ship.SC_KeyID}}?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"  data-dismiss="modal"(click)="Delete(Ship.SC_KeyID)">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tr>
+  </tbody>
+</table>
+
+<div class="modal fade" id="addship" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Create</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+          <div [hidden]="submitted">
+            <form id="addshipform" #shipForm="ngForm"name="form-validation-simple" method="POST">
+              <div class="form-group">
+                <label class="form-label">Company Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="shipname" #ship="ngModel" name="shipname"
+                       type="text"
+                       class="form-control"
+                       required>
+                <div *ngIf="ship.errors && (ship.dirty || ship.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!ship.errors.required">
+                    Company Name is required
+                  </div>
+
+                </div>   </div>
+              <div class="form-group">
+                <label class="form-label">URL <span style="color: red">*</span></label>
+                <input [(ngModel)]="url" #ship_url="ngModel"
+                       type="text"
+                       class="form-control"
+                       name="shipurl"
+                       required url="">
+                <div *ngIf="ship_url.errors && (ship_url.dirty || ship_url.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!ship_url.errors.required">
+                    URL is required
+                  </div>
+
+                </div>    </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"[disabled]="!shipForm.form.valid"  (click)="add()">Save</button>
+              </div>
+            </form></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editship" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Update</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+          <div [hidden]="submitted">
+            <form id="form-validation-simple" #e_shipForm="ngForm"  name="form-validation-simple" method="POST">
+
+              <div class="form-group">
+                <label class="form-label">Company Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="e_shipname" #e_ship="ngModel" name="shipname"
+                       type="text"
+                       class="form-control"
+                       required>
+                <div *ngIf="e_shipname.errors && (e_shipname.dirty || e_shipname.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!e_shipname.errors.required">
+                    Company Name is required
+                  </div>
+
+                </div>  </div>
+              <div class="form-group">
+                <label class="form-label">URL <span style="color: red">*</span></label>
+                <input [(ngModel)]="e_url" #e_ship_url="ngModel"
+                       type="text"
+                       class="form-control"
+                       name="shipurl"
+                       required url>
+                <div *ngIf="e_ship_url.errors && (e_ship_url.dirty || e_ship_url.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!e_ship_url.errors.required">
+                   URL is required
+                  </div>
+
+                </div>   </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" [disabled]="!e_shipForm.form.valid" (click)="upship()">Update</button>
+              </div>
+            </form></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>

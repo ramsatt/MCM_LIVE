@@ -1,0 +1,119 @@
+<div class="cat__content">
+  <section class="card">
+    <div class="card-header">
+         <span class="cat__core__title">
+            <strong>Contracts </strong>
+        </span>
+    </div>
+
+    <div class="card-block">
+      <div class="margin-bottom-50">
+        <div class="nav-tabs-horizontal">
+          <ul class="nav nav-tabs icon_full" role="tablist" >
+            <li class="nav-item" *ngFor="let sub of Asssubmenu ">
+              <a  attr.data-target="{{sub.SUB_URL}}" class="nav-link  {{sub.SUB_Active}}" href="javascript: void(0);" data-toggle="tab"  role="tab" >
+                <i class="{{sub.SUB_Icon}}"></i>
+                <span class="hide">{{sub.SUB_Name}}</span>
+              </a>
+            </li>
+
+
+          </ul>
+         <!-- <ul class="nav nav-tabs icon_full" role="tablist" >
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#technicians" role="tab">
+                <i class="icmn-users"></i>
+                <span class="hide">Account</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#raisedrequest" role="tab" >
+                <i class="icmn-database"></i>
+                <span class="hide">Branch</span>
+              </a>
+            </li>
+
+
+          </ul>-->
+          <div class="tab-content padding-vertical-20">
+            <div class="tab-pane active" id="technicians" role="tabpanel"  >
+
+              <div class="row acc_header row_margin">
+
+                <div class="col-lg-12"><h5 class="acc_heading">Accounts<span>
+    <button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline "
+            (click)="open('contract/add')" [hidden]="add=='N'" style="padding:5px; margin-right: 0px;margin-bottom: 10px;"><i class="icmn-plus" aria-hidden="true" ></i></button></span></h5></div>
+
+              </div>
+
+              <ng-template #elseBlock>
+                <div class="row">
+                  <div class="col-lg-12 col-sm-12 col-xs-12" style="text-align: center">
+                <b > Sorry.You don't have permission to view this page.Please click branch tab to view yours.</b>
+                    </div>
+                </div>
+              </ng-template>
+      <div class="row" *ngIf="urmkeyid == 1 || urmkeyid==2;else elseBlock"  >
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+          <div class="row" style="margin-bottom: 10px">
+
+          </div>
+          <table class="table table-striped" [mfData]="allval|contract : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="5"
+  [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+            <tr>
+
+              <th> <mfDefaultSorter by="CM_Name">Agreement Name <i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+              <th> <mfDefaultSorter by="AM_Name">Account Name <i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+              <th> <mfDefaultSorter by="CMContype">Contract Type <i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+              <th> <mfDefaultSorter by="CM_Date">Date <i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+
+
+              <th >Action</th>
+
+
+            </tr>
+            <tr>
+              <th colspan="5">
+
+                <input class="form-control" [(ngModel)]="filterQuery"/>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let val of mf.data;let i=index;" >
+
+              <td>{{val.CM_Name}}</td>
+              <td>{{val.AM_Name}}</td>
+              <td>{{val.CMContype}}</td>
+              <td>{{val.CM_Date}}</td>
+
+
+              <td class="text-center dis_inblock"> <button *ngIf="edit!='N' && val.CM_Status!='N'" (click)="open('contract/edit/'+val.CM_KeyID)" type="button" style="padding: 7px;margin-right: 2px;float: left"  class="btn btn-icon btn-warning btn-rounded margin-inline"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+                <a target="_blank" href="{{url}}/{{val.CM_Addendum}}">  <button style="padding: 7px;margin-right: 2px" class="btn btn-icon btn-primary pull-right btn-rounded margin-inline" [hidden]="viewbtn=='N'" type="button"><i aria-hidden="true" class="fa fa-eye"></i></button></a>
+                            </td>
+
+
+
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="4">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+</div>
+            <div class="tab-pane " id="raisedrequest" role="tabpanel" ><app-bcoverview></app-bcoverview></div></div>
+    </div></div></div>
+
+  </section>
+
+  <app-footer></app-footer>
+
+</div>
+

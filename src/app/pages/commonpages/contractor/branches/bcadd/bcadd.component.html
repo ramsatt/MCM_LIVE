@@ -1,0 +1,139 @@
+<div class="cat__content">
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong *ngIf="sessid!=4">Create Contract for Branch</strong>
+           <strong *ngIf="sessid==4">Update Contract for Branch</strong>
+        </span>
+    </div>
+    <div class="card-block">
+
+      <div class="margin-bottom-50">
+
+
+              <table style="margin-left: 15px;">
+                <tr>
+                  <!--<td style="width: 200px;"><input class="form-check-input" id="herorequestto1" name="account" value="Manufacturer" type="radio" #acc1 (click)="findBranchall(acc1.value)">
+                    Manufacturer</td>-->
+                  <!--<td style="width: 200px;"><input class="form-check-input" id="herorequestto2" name="account" value="Branch" type="radio" #acc2 (click)="findBranchall(acc2.value)">
+                    Branch</td>-->
+
+                </tr>
+              </table>
+              <form [formGroup]="form" (ngSubmit)="submit(form.value)" id="bncform" (window:resize)="beResponsive()">
+                <div class="row">
+
+                  <div class="col-lg-6">
+                    <div class="form-group" *ngIf="sessid!=4">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"  [(ngModel)]="contype1" #Checkbox (change)="Checkboxvalue($event)"formControlName="contype1" id="ckboxes" >Scanned Copy
+                        </label>
+                      </div>
+
+
+
+                    </div>
+                    <div class="form-group" *ngIf="sessid!=4" [ngClass]="{'has-error':!form.controls.contype.valid && form.controls.contype.touched}" >
+                      <label class="form-label"   >Contract Type<span style="color: red"> *</span></label>
+                      <select  [(ngModel)]="contype" #aggtype (change)="handbook(aggtype.value)"  formControlName="contype" required class="form-control col-lg-12" >
+                        <option value="" [selected]="true">----Select------</option>
+                        <option  value="MA" >Member Agreement</option>
+                        <option  value="MB" >Member Handbook</option>
+                        <option  value="NDA" >Non Disclosure Agreement</option>
+                        <option  value="SA" >Service Agreement</option>
+                      </select>
+
+                        <div *ngIf="form.controls.contype.hasError('required') && form.controls.contype.touched" class="alert alert-danger">Please select Contract Type.</div>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error':!form.controls.ambmkeyid.valid && form.controls.ambmkeyid.touched}" *ngIf="sessid!=4">
+                      <label class="form-label">Branch Name<span style="color: red" > *</span></label>
+                      <select  [(ngModel)]="ambmkeyid" #branchaggid formControlName="ambmkeyid" id="bncname" required (change)="checkdup(branchaggid.value)" class="form-control col-lg-12" >
+                        <option value="0" [selected]="true">----Select------</option>
+                        <option *ngFor="let branches of allval" value="{{branches.id}}" > {{ branches.name }}</option>
+                      </select>
+                        <div *ngIf="form.controls.ambmkeyid.hasError('required') && form.controls.ambmkeyid.touched" class="alert alert-danger">Please select the Branch .</div>
+                    </div>
+
+                    <div class="form-group" id="texteditor" style="display: none">
+                    <textarea class="summernote"></textarea></div>
+                    <div class="form-group" [ngClass]="{'has-error':!form.controls.contractname.valid && form.controls.contractname.touched}"  *ngIf="sessid!=4">
+                      <label class="form-label">Agreement/Handbook Name<span style="color: red"> *</span></label>
+                      <input type="text"  [(ngModel)]="contractname"  formControlName="contractname" class="form-control col-lg-12" >
+                        <div *ngIf="form.controls.contractname.hasError('required') && form.controls.contractname.touched" class="alert alert-danger">Agreement Name required .</div>
+                    </div>
+                    <div class="form-group" id="pname" [ngClass]="{'has-error':!form.controls.pname.valid && form.controls.pname.touched}" id="name">
+                      <label class="form-label">Person Name<span style="color: red"> *</span></label>
+                      <input type="text"  [(ngModel)]="pname"  formControlName="pname" class="form-control col-lg-12" >
+                        <div *ngIf="form.controls.pname.hasError('required') && form.controls.pname.touched" class="alert alert-danger">Person Name required .</div>
+                    </div>
+                    <div class="form-group"[ngClass]="{'has-error':!form.controls.title.valid && form.controls.title.touched}"   id="title">
+                      <label class="form-label">Title<span style="color: red"> *</span></label>
+                      <input type="text"  [(ngModel)]="title"  formControlName="title" class="form-control col-lg-12" >
+                        <div *ngIf="form.controls.title.hasError('required') && form.controls.title.touched" class="alert alert-danger">Title required .</div>
+                    </div>
+
+
+                    <div class="form-group"  id="date" >
+                      <label>Date <span style="color: red"> *</span></label>
+                      <input [(ngModel)]="date" class="form-control datepicker-only-init display-inline-block margin-inline"formControlName="date"   (blur)="date = assf_date.value"  #assf_date type="text" required onkeydown="return false" value="">
+                        <div *ngIf="form.controls.date.hasError('required') && form.controls.date.touched" class="alert alert-danger">Date required .</div>
+
+                    </div>
+                    <div class="form-group"  *ngIf="sessid!=4" id="updf" >
+                      <label>Upload PDF<span style="color: red"> *</span></label>
+                      <div class="col-md-9">
+                        <input   type="file" #pdffile (change)="onImageChangeFromFile($event)" />
+                        <div id="existerror" class="alert alert-danger" style="display: none">Invalid file.</div>
+                      </div>
+
+                    </div>
+                    <div class="form-group"  *ngIf="sessid!=4" id="umpdf">
+                      <label>Upload multiple Addendum</label>
+                      <div class="col-md-9">
+                        <input type="file"  #pdffile1 multiple (change)="fileChangeEvent($event)" />
+                        <div id="existerror1" class="alert alert-danger" style="display: none">Invalid file.</div>
+
+                      </div>
+
+                    </div>
+                    <div class="form-group"  id="sign">
+                      <div class="sig-container" #sigContainer1 style="width: 250px;">
+                        <div fxLayout="row">
+                          <button type="button" class="btn btn-danger" (click)="sigs.first.clear()" [disabled]="!form.controls.signaturefield1.valid">Clear</button>
+                        </div>
+                        <div fxLayout="row">
+                          <app-signaturefield formControlName="signaturefield1"></app-signaturefield></div>
+                      </div></div>
+
+
+
+                    <!-- <button (click)="onAddProperty()">Add Property</button>
+                     <div formArrayName="properties">
+                       <div *ngFor="let prop of form.get('properties').controls; let i = index"  >
+                         <input type="file"  class="form-control" [formControlName]="i" (change)="onFileChange($event,i)" multiple>
+
+                       </div>
+                     </div>--></div></div>
+                <div class='loader' *ngIf="loader == true;">
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--text'></div>
+                </div>
+                <div class="form-group" *ngIf="loader == false;">
+                  <input *ngIf="sessid!=4" type="submit" [value]="'Submit'" class="btn btn-primary"
+                         [disabled]="!form.valid || !enable()">
+                  <input *ngIf="sessid==4" type="submit" [value]="'Update'" class="btn btn-primary"
+                         [disabled]="!form.valid">
+                  <input  type="submit" [value]="'Cancel'" class="btn btn-primary" (click)="open('contract/overview')"></div>
+                <!--<div class="form-group" *ngIf="loader == false;">
+
+                <input *ngIf="sessid!=4" formControlName="submit"  [(ngModel)]="submit" type="submit" name="submit" [value]="'Submit'" class="btn btn-primary" [disabled]="!form.valid">
+                <input *ngIf="sessid==4"  [(ngModel)]="submit" formControlName="submit" type="submit" name="submit"[value]="'Update'" class="btn btn-primary" [disabled]="!form.valid"></div>-->
+              </form>
+        </div></div>
+  </section></div>

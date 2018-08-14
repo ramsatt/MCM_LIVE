@@ -1,0 +1,123 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Hero Kit Request Part - <span class="text-primary">{{name}}</span></h3>
+      <button type="button" class="close" data-dismiss="modal"  aria-label="Close" (click)="herokitfromreset()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form #heromulreqpartinfoformRequest="ngForm" id="mulreqpartformherokit" >
+      <input type="hidden" name="frombranch" [(ngModel)]="id">
+      <input type="hidden" name="requesttype" [(ngModel)]="requesttype">
+      <input type="hidden" name="herokitstatus" [(ngModel)]="herononherokitstatus">
+      <input type="hidden" name="herokitid" [(ngModel)]="heroid">
+      <input type="hidden" name="ticketId" [(ngModel)]="ticketId">
+      <input type="hidden" name="directshipment" [(ngModel)]="directshipment">
+
+      <div class="modal-body">
+        <div class="panel-body">
+          <div [ngSwitch]='status'>
+            <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+            <div class="row">
+              <div class="col-lg-12 col-sm-12 col-xs-12">
+                <label class="form-label">Request To<span style="color: red"> *</span></label>
+                <div class="form-check col-lg-4">
+                  <table style="margin-left: 15px;">
+                    <tr>
+                      <td style="width: 200px;"><input class="form-check-input" id="herorequestto1" name="account" value="Manufacturer" type="radio" #acc1 (click)="findBranchall(acc1.value,heroid)">
+                        Account</td>
+                      <td style="width: 200px;"><input class="form-check-input" id="herorequestto2" name="account" value="Branch" type="radio" #acc2 (click)="findBranchall(acc2.value,heroid)">
+                        Branch</td>
+                      <td style="width: 200px;"><input class="form-check-input" id="herorequestto3" name="account" value="Supplier" type="radio" #acc3 (click)="findBranchall(acc3.value,heroid)">
+                        Supplier</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="form-label">Name<span style="color: red"> *</span></label>
+                <select [(ngModel)]="BranchIdval" #herobranchall  name="BranchIdval" class="form-control col-lg-12" (change)="setLocation(this.requesttype,herobranchall.value,hblat,hblon)" required>
+                  <option value="0" [selected]="true">----Select------</option>
+                  <option *ngFor="let branches of allbranchval" value="{{branches.id}}" > {{ branches.name }}</option>
+                </select>
+              </div>
+              <div class="col-lg-2">
+                <label class="form-label" style="font-weight: 700;">City</label>
+                <p></p><p>{{requestcity}}</p>
+              </div>
+
+
+              <div class="col-lg-2">
+                <label class="form-label" style="font-weight: 700;">State</label>
+                <p></p><p>{{requeststate}}</p>
+              </div>
+
+              <div class="col-lg-2">
+                <label class="form-label" style="font-weight: 700;">Miles</label>
+                <p></p><p>{{hmiles}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="form-label">Herokit<span style="color: red"> *</span></label>
+                <select [(ngModel)]="herokitidval" #herokitid  name="herokitid" class="form-control col-lg-12" (change)="findherokitparts(this.requesttype,herokitid.value,herobranchall.value)" required>
+                  <option value="0" [selected]="true">----Select------</option>
+                  <option *ngFor="let hk of mulherokitlist" value="{{hk.herokitid}}"> {{ hk.herokitname }}</option>
+                </select>
+              </div>
+
+              <div class="col-lg-6">
+                <p><span class="text-primary">{{DefaultDistanceMessage}}</span></p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 col-sm-12 col-xs-12">
+                <label class="form-label">Parts<span style="color: red"> *</span></label>
+                <table class="table table-hover nowrap" id="model_service" width="100%" [mfData]="allheroassignedpart" #hkpartslist="mfDataTable" [mfRowsOnPage]="10"
+                       [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                  <thead style="background: #4567B1;color: #FFF">
+                  <tr>
+                    <th>#</th>
+                    <th>Part Name</th>
+                    <th>Required Quantity</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr  *ngFor="let allpart of hkpartslist.data;let i=index">
+                    <input type="hidden" name="BPD_KeyID{{i}}" [(ngModel)]="allheroassignedpart[i].BPD_KeyID">
+                    <input type="hidden" name="id{{i}}" [(ngModel)]="allheroassignedpart[i].PM_KeyID">
+                    <input type="hidden" name="BPD_KeyID{{i}}" [(ngModel)]="allheroassignedpart[i].BPD_KeyID">
+                    <td><input name="checked{{i}}" id="chckbox" [(ngModel)]="allheroassignedpart[i].Checkbocval" type="checkbox" #ckbox (change)="checkrdpartid(i,allpart.PM_KeyID,allpart.BHKD_HKM_KeyID,$event)"  value="{{allpart.id}}" /></td>
+                    <td>{{allpart.PM_Part_Name}}</td>
+                    <td><input placeholder="Quantity"  (keyup)="textenable(i,$event)" type="text"
+                               class="form-control col-lg-6 " id="nqty{{i}}" readonly [(ngModel)]="allheroassignedpart[i].quantity" name="quantity{{i}}"  onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                  </tr>
+
+                  <tr *ngIf="!allheroassignedpart">
+                    <td align="center" colspan="4"> Selected Part not assign to {{this.requesttype}} </td>
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <td colspan="8">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-dismiss="modal" (click)="herokitfromreset()">Close</button>
+          <button type="button" class="btn btn-primary" [disabled]="!heromulreqpartinfoformRequest.form.valid || checkService() || checkqty()" (click)="updateParts(heromulreqpartinfoformRequest.value)" data-dismiss="modal" data-toggle="modal" target="#mulreqpartinfo">Request Parts</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

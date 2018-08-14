@@ -1,0 +1,245 @@
+
+<div class="row acc_header row_margin">
+
+<div class="col-lg-12"><h5 class="acc_heading">Holiday<span>
+    <button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline "data-toggle="modal"  data-target="#addholi"(click)="formrefresf()" [hidden]="b_add=='N'"><i class="icmn-plus" aria-hidden="true" ></i></button></span></h5></div>
+
+</div>
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+    <input [(ngModel)]="holifil_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+  </div></div>
+</div>
+<div class="cover1">
+<table class="table demo table-hover nowrap"  width="100%">
+  <thead style="background-color: #005374;color: white">
+  <tr>
+    <th>S.No</th>
+    <th>Date</th>
+    <th>Festival Name</th>
+    <th>Day Name</th>
+    <th>Notes</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let holi of allholiday| holiday:holifil_name;let i = index " >
+    <td>{{i+1}}</td>
+    <td>{{holi.HM_Date | date :'MM/dd/yyyy'}} </td>
+    <td>{{holi.HM_Festival_Name}}</td>
+    <td>{{holi.HM_Day}}</td>
+    <td>{{holi.HM_Notes}}</td>
+
+    <td><button (click)="open(holi.HM_KeyID)" data-toggle="modal" data-target="#editholiday" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" [hidden]="edit=='N'"></button>
+      <button  (click)="Delete(holi.HM_KeyID) " class="btn btn-icon btn-danger fa fa-trash" [hidden]="delete=='N'"><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button></td>
+
+  </tr>
+  </tbody>
+</table>
+</div>
+<div class="modal fade" id="addholi" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Create</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+            <div class="form-group">
+                <div class="radio">
+                    <label>
+                        <input type="radio" checked name="selectstatus" (change)="handleChange($event)" />Single
+                        <input type="radio" name="selectstatus"(change)="handleChange1($event)" />Multiple
+                    </label>
+                </div>
+                <div></div></div>
+
+              <div id="single">
+                  <div [hidden]="submitted">
+              <form id="addholidayformmulti" #holiFormsingle="ngForm" name="form-validation-simple" method="POST">
+
+              <div class="form-group">
+                <label class="form-label">Festival Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="fes_name" #singlefes="ngModel" name="fesname"
+                       type="text" id="fest_date"
+                       class="form-control"
+                       required >
+                <div *ngIf="singlefes.errors && (singlefes.dirty || singlefes.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!singlefes.errors.required">
+                    Festival Name is required
+                  </div>
+
+                </div>   </div>
+
+              <div class="form-group">
+                <label class="form-label">Festival Date <span style="color: red">*</span></label>
+
+                    <input [(ngModel)]="fes_date" class="form-control datepicker-only-init display-inline-block margin-inline" name="fesdate" placeholder="Date"  #singledfe_date="ngModel" (blur)="fes_date = dfessingle_date.value"  #dfessingle_date type="text" required onkeydown="return false" value="">
+                    <div *ngIf="singledfe_date.errors && (singledfe_date.dirty || singledfe_date.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!singledfe_date.errors.required">
+                        Date is required
+                      </div>
+
+                    </div>
+
+              </div>
+              <div class="form-group">
+                <label class="form-label">Notes <span style="color: red">*</span></label>
+                <textarea [(ngModel)]="fes_notes" #singlefesnote="ngModel" name="fesnote"
+                       type="text"
+                       class="form-control"
+                       required ></textarea>
+                <div *ngIf="singlefesnote.errors && (singlefesnote.dirty || singlefesnote.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!singlefesnote.errors.required">
+                   Notes required
+                  </div>
+
+                </div>   </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" [disabled]="!holiFormsingle.form.valid" (click)="add()">Save</button>
+              </div>
+            </form></div></div>
+              <div id="multiple">
+                  <div [hidden]="submitted">
+                  <form id="addholidayform" #holiForm="ngForm" name="form-validation-simple" method="POST">
+
+                      <div class="form-group">
+                          <label class="form-label">Festival Name <span style="color: red">*</span></label>
+                          <input [(ngModel)]="fes_name" #fes="ngModel" name="fesname"
+                                 type="text" id="fest_date"
+                                 class="form-control"
+                                 required >
+                          <div *ngIf="fes.errors && (fes.dirty || fes.touched)"
+                               class="alert alert-danger">
+                              <div [hidden]="!fes.errors.required">
+                                  Festival Name is required
+                              </div>
+
+                          </div>   </div>
+
+                      <div class="form-group">
+                          <label class="form-label">Festival Date <span style="color: red">*</span></label>
+                          <div class="row">
+                              <div class="col-lg-6">
+                                  <input [(ngModel)]="fes_date" class="form-control datepicker-only-init display-inline-block margin-inline" name="fesdate" placeholder="From"  #dfe_date="ngModel" (blur)="fes_date = dfes_date.value"  #dfes_date type="text" required onkeydown="return false" value="">
+                                  <div *ngIf="dfe_date.errors && (dfe_date.dirty || dfe_date.touched)"
+                                       class="alert alert-danger">
+                                      <div [hidden]="!dfe_date.errors.required">
+                                          From Date is required
+                                      </div>
+
+                                  </div>
+                              </div>
+                              <div class="col-lg-6">
+                                  <input [(ngModel)]="festo_date" class="form-control datepicker-only-init display-inline-block margin-inline" name="festodate" placeholder="To"  #dfeto_date="ngModel" (blur)="festo_date = dfesto_date.value"  #dfesto_date type="text" required onkeydown="return false">
+                                  <div *ngIf="dfeto_date.errors && (dfeto_date.dirty || dfeto_date.touched)"
+                                       class="alert alert-danger">
+                                      <div [hidden]="!dfeto_date.errors.required">
+                                          To Date is required
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="form-label">Notes <span style="color: red">*</span></label>
+                          <textarea [(ngModel)]="fes_notes" #fesnote="ngModel" name="fesnote"
+                                    type="text"
+                                    class="form-control"
+                                    required ></textarea>
+                          <div *ngIf="fesnote.errors && (fesnote.dirty || fesnote.touched)"
+                               class="alert alert-danger">
+                              <div [hidden]="!fesnote.errors.required">
+                                  Notes required
+                              </div>
+
+                          </div>   </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" [disabled]="!holiForm.form.valid" (click)="add()">Save</button>
+                      </div>
+                  </form></div></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editholiday" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Update</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+          <div [hidden]="submitted">
+            <form id="form-validation-simple" #e_holiForm="ngForm" name="form-validation-simple" method="POST">
+
+              <div class="form-group">
+
+                <label class="form-label">Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="e_fesname" #e_fname="ngModel" name="fesname"
+                       type="text"
+                       class="form-control"
+                       required>
+                <div *ngIf="e_fesname.errors && (e_fesname.dirty || e_fesname.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!e_fesname.errors.required">
+                    Festival Name is required
+                  </div>
+
+                </div>  </div>
+              <div class="form-group">
+                <label class="form-label">Date <span style="color: red">*</span></label>
+                <input [(ngModel)]="e_date"class="form-control datepicker-only-init display-inline-block margin-inline" name="fesdate" #e_dfe_date="ngModel" (blur)="e_date = e_dfes_date.value" #e_dfes_date type="text" required>
+                <div *ngIf="e_dfe_date.errors && (e_dfe_date.dirty || e_dfe_date.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!e_dfe_date.errors.required">
+                    Date is required
+                  </div>
+
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Notes <span style="color: red">*</span></label>
+                <textarea [(ngModel)]="e_fes_notes" #efesnote="ngModel" name="efesnote"
+                          type="text"
+                          class="form-control"
+                          required ></textarea>
+                <div *ngIf="efesnote.errors && (efesnote.dirty || efesnote.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!efesnote.errors.required">
+                    Notes required
+                  </div>
+
+                </div>   </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  [disabled]="!e_holiForm.form.valid" (click)="upholi()">Update</button>
+              </div>
+            </form></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>

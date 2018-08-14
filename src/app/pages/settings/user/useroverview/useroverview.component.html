@@ -1,0 +1,334 @@
+
+<!--<div class="row">
+  <div class="col-lg-4">
+    <div class="row acc_header row_margin">
+      <div class="col-lg-12"><h5 class="acc_heading">Users<!--<span class="pull-right"><button type="button" class="btn btn-icon btn-warning btn-rounded margin-inline hvr-pulse-grow" style="margin-bottom: 7px; padding: 6px;" (click)="SelectUserType()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="icmn-search"></i>
+          </span>
+          <input class="input-error form-control" id="l34" value="" type="text" type="text" class="form-control" name="Site_Search" placeholder="Search" id="users">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <table class="table table-fixed" id="" width="100%">
+        <tbody>
+        <tr *ngFor="let user of alluser; let i=index" (click)="selectuserdetails(user.UM_KeyID);setClickedRow(i)">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+            <b>{{user.UM_Login_Name}}</b><br>
+           {{user.UM_EmailID}}
+
+          </td>
+
+
+        </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+  <div class="col-lg-8">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="box box-widget widget-user">
+          <!-- Add the bg color to the header using any of the bg-* classes
+          <div class="widget-user-header bg-black" style="background: url('assets/modules/pages/common/img/login/9.jpg')">
+            <h3 class="widget-user-username">{{firstname}}</h3>
+            <h5 class="widget-user-desc">{{userrole}}</h5>
+          </div>
+          <div class="widget-user-image hvr-pulse-shrink">
+            <img class="img-circle" src="assets/modules/dummy-assets/common/img/avatars/1.jpg" alt="User Avatar">
+          </div>
+          <div class="box-footer">
+            <div class="row">
+<table class="table table-responsive" width="100%">
+  <tr>
+    <td width="25%">First Name:</td>
+    <td width="25%">{{firstname}}</td>
+    <td width="25%">Last Name:</td>
+    <td width="25%">{{lastname}}</td>
+  </tr>
+  <tr>
+    <td>User Name:</td>
+    <td>{{username}}</td>
+    <td>Email:</td>
+    <td>{{email}}</td>
+  </tr>
+  <tr>
+    <td>Mobile:</td>
+    <td>8973576694</td>
+    <td>Role:</td>
+    <td>Admin</td>
+  </tr>
+  <tr>
+    <td>Category:</td>
+    <td>{{usercategory}}</td>
+    <td>company:</td>
+    <td>{{userrole}}</td>
+  </tr>
+</table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="SelectUserType" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Select User Role</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/1.jpg') no-repeat center;">
+              <h5>Role</h5>
+              <h1 style="color: #00BCD4;">MCM STAFF</h1>
+              <a class="hvr-pulse" [routerLink]="'/users/mcmstaff/create'" data-dismiss="modal">Create User</a>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/2.jpg') no-repeat center;">
+              <h5>Role</h5>
+              <h1 style="color: #00d4ca;">MANAGEMENT</h1>
+              <a class="hvr-pulse" [routerLink]="'/users/management/create'" data-dismiss="modal">Create User</a>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/3.jpg') no-repeat center;">
+              <h5>Role</h5>
+              <h1 style="color: #00d499;">Account</h1>
+              <a class="hvr-pulse" [routerLink]="'/users/manufecturer/create'" data-dismiss="modal">Create User</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/4.jpg') no-repeat center;">
+              <h5>Role</h5>
+              <h1 style="color: #FFC107;">SITES</h1>
+              <a class="hvr-pulse" [routerLink]="'/users/site/create'" data-dismiss="modal">Create User</a>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/1.jpg') no-repeat center;">
+              <h5>Role</h5>
+              <h1 style="color: #00BCD4;">BRANCH</h1>
+              <a class="hvr-pulse" [routerLink]="'/users/branch/create'" data-dismiss="modal">Create User</a>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/2.jpg') no-repeat center;">
+              <h5>Role</h5>
+              <h1 style="color: #00d4ca;">TECHNICIANS</h1>
+              <a class="hvr-pulse" [routerLink]="'/users/technician/create'" data-dismiss="modal">Create User</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/3.jpg') no-repeat center;">
+              <h5>Role</h5>
+              <h1 style="color: #00d499;">DISPATCH</h1>
+              <a class="hvr-pulse" [routerLink]="'/users/dispatch/create'" data-dismiss="modal">Create User</a>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/4.jpg') no-repeat center;">
+              <h5>Role</h5>
+              <h1 style="color: #FFC107;">CUSTOMERS</h1>
+              <a class="hvr-pulse" [routerLink]="'/users/customer/create'" data-dismiss="modal">Create User</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="card-block">
+
+  <div class="col-lg-12">
+    <div class="mb-5">
+      <div class="nav-tabs-horizontal">
+    <!--<ul class="nav nav-tabs mb-4" role="tablist">
+           <li class="nav-item">
+             <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#allusers" role="tab">
+               <i class="icmn-home"></i>
+               All users
+             </a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#adminusers" role="tab">
+               <i class="icmn-users"></i>
+               Admin users
+             </a>
+           </li>
+
+         </ul>-->
+          <ul class="nav nav-tabs" role="tablist" >
+              <li class="nav-item" *ngFor="let child of Chilmenu ">
+                  <a  attr.data-target="{{child.SUB_URL}}" class="nav-link  {{child.SUB_Active}}" href="javascript: void(0);" data-toggle="tab"  role="tab" >
+                      <i class="{{child.SUB_Icon}}"></i>
+                      <span class="hide">{{child.SUB_Name}}</span>
+                  </a>
+              </li>
+
+
+          </ul>
+
+        <div class="tab-content">
+          <div  class="tab-pane active " id="allusers" role="tabcard">
+            <div class="row acc_header row_margin">
+
+              <div class="col-lg-12"><h5 class="acc_heading">User Details</h5></div>
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                  <input [(ngModel)]="userdetail" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+                </div></div>
+            </div>
+            <div class="over_flow">
+              <table class="table table-hover nowrap"  width="100%">
+                <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Category</th>
+                  <th>Created On</th>
+                  <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of alluser| user:userdetail;let i = index " >
+                  <td>{{i+1}}</td>
+                  <td>{{user.UM_Login_Name}} </td>
+                  <td style="width: 260px;
+    display: inline-block;">{{user.UM_EmailID}}</td>
+                  <td>{{user.URM_Role_Name}}</td>
+                  <td>{{user.UCM_Category_Name}}</td>
+
+                  <td>{{user.UM_TimeStamp|dateconvert| date :'MM/dd/yyyy h:mma'}}</td>
+                  <td ><button type="button" [hidden]="unassignbtn=='N'" *ngIf="user.UM_Active=='N' ; else elseBlockper" class="btn btn-icon btn-warning btn-rounded margin-inline hvr-pulse-grow" style="margin-bottom: 7px; padding: 6px;" (click)="Deactivate(user.UM_URM_KeyID,user.UM_KeyID,user.UM_Active)">Activate</button>
+                    <ng-template #elseBlockper>
+                      <button type="button" [hidden]="unassignbtn=='N'"  class="btn btn-icon btn-danger btn-rounded margin-inline hvr-pulse-grow" style="margin-bottom: 7px; padding: 6px;" (click)="Deactivate(user.UM_URM_KeyID,user.UM_KeyID,user.UM_Active)">Deactivate</button>
+                    </ng-template>
+                    <button  data-toggle="modal"  data-target="#update_user_cat" (click)="resetpwd(user.UM_KeyID)"class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" [hidden]="editbtn=='N'"></button>
+                    <button  (click)="Delete(user.UM_KeyID,user.UM_URM_KeyID) " class="btn btn-icon btn-danger fa fa-trash" [hidden]="deletebtn=='N'"><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button> </td>
+
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div  class="tab-pane " id="adminusers" role="tabcard">
+<app-createuser></app-createuser>
+          </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="update_user_cat" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Reset Category/Password for {{Dfirstname}} {{Dlastname}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+          <div [hidden]="submitted">
+            <form #UpdatesetUser="ngForm"  id="UpdateUser">
+              <div class="form-group">
+                <label>Role:</label>
+
+{{Dviewrole}}
+              </div>
+              <div class="form-group">
+                <label>Category <span style="color: red">*</span></label>
+                <select class="form-control" name="Category" #usercat="ngModel" id="Category"  [(ngModel)]="Dusercatid">
+                 <option *ngFor="let user_cat of usercatid2" [value]="user_cat.UCM_KeyID">{{user_cat.UCM_Category_Name}}</option>
+                </select>
+
+              </div>
+              <div class="form-group">
+                <label>Password </label>
+                <input class="form-control" [(ngModel)]="escltprimePassword"  ngModel placeholder="Enter the Password" type="password" name="ePassword"  #epassword="ngModel" pattern="^(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%])[0-9A-Za-z!@#$%]{6,15}$"  autocomplete="off" >
+                <div *ngIf="epassword.errors && (epassword.dirty || epassword.touched)"
+                     class="alert alert-danger">
+
+                  <div [hidden]="!epassword.errors.pattern">
+                    Password must contain 6 characters of letters, numbers and at least one special character.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Confirm Password </label>
+                <input class="form-control" ngModel placeholder="Enter the Confirm password" type="password" name="eCnfPassword" [(ngModel)]="escltPassword" (ngModelChange)="editpasswordvalidation(epassword.value,$event)"  #ecnfpassword="ngModel" reverse="false" (autocomplete)="off">
+
+                <div id="existerror1" style="display:none;" class="alert alert-danger">Password mismatch</div>
+              </div>
+              <div class="form-actions">
+                <div class="form-group row">
+                  <div class="col-md-9 offset-md-5">
+                    <button class="btn btn-primary" type="submit" [disabled]="!UpdatesetUser.form.valid || !enable1()" (click)="updateuser()" >Update</button>
+                    <button class="btn btn-default" type="button" data-dismiss="modal" >Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </form></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>

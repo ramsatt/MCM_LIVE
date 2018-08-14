@@ -1,0 +1,145 @@
+
+<div class="row acc_header row_margin">
+
+  <div class="col-lg-12"><h5 class="acc_heading">User Category<span>
+    <button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline "data-toggle="modal"  data-target="#addcat"(click)="formrefresf()" [hidden]="b_add=='N'" ><i class="icmn-plus" aria-hidden="true" ></i></button></span></h5></div>
+
+</div>
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+      <input [(ngModel)]="usercategory" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+    </div></div>
+</div>
+<div class="cover1">
+<table class="table demo table-hover nowrap"  width="100%">
+  <thead style="background-color: #005374;color: white">
+  <tr>
+    <th>S.No</th>
+    <th>Category</th>
+    <th>Role</th>
+
+    <th >Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let cat of allcat| usercategory:usercategory;let i = index " >
+    <td>{{i+1}}</td>
+    <td>{{cat.UCM_Category_Name}}</td>
+    <td> {{cat.URM_Role_Name}}</td>
+
+
+
+    <td><button [hidden]="edit=='N'" data-toggle="modal" data-target="#editcat" (click)="LoadcatDetails(cat.UCM_KeyID)" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" ></button>
+      <!--<button   class="btn btn-icon btn-danger fa fa-trash" (click)="Delete(cat.UCM_KeyID)"><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button>--></td>
+
+  </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="modal fade" id="addcat" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Create</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+
+
+            <div [hidden]="submitted">
+              <form id="addcatform" #catForm="ngForm" name="form-validation-simple" method="POST">
+
+                <div class="form-group">
+                  <label class="form-label">Role <span style="color: red">*</span></label>
+                  <select [(ngModel)]="user_role" #urole="ngModel"  name="user_role" class="form-control col-lg-12" required>
+                   <option *ngFor="let role of usersrole" [value]="role.URM_KeyID" > {{ role.URM_Role_Name }} </option>
+                  </select>
+                  <div *ngIf="urole.errors && (urole.dirty || urole.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!urole.errors.required">
+                      User Role is required
+                    </div>
+
+                  </div>   </div>
+                <div class="form-group">
+                  <label class="form-label">Category <span style="color: red">*</span></label>
+                  <input [(ngModel)]="user_cat" #ucat="ngModel" name="user_cat"
+                         type="text"
+                         class="form-control"
+                         required (ngModelChange)="checkunique(urole.value,$event)" >
+                  <div *ngIf="ucat.errors && (ucat.dirty || ucat.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!ucat.errors.required">
+                      Category is required
+                    </div>
+
+
+                  </div> <div  class="alert alert-danger" id="existerror" style="display:none">Category already exists for this role.</div>  </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn" data-dismiss="modal">Close</button>
+                  <button type="button" [disabled]="!catForm.form.valid " data-dismiss="modal" class="btn btn-primary"  (click)="cat_add()">Create</button>
+                </div>
+              </form></div>
+         </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editcat" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Update</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+
+
+          <div [hidden]="submitted">
+            <form id="editcatform" #ecatform="ngForm" name="form-validation-simple" method="POST">
+
+
+              <div class="form-group">
+                <label class="form-label">Category <span style="color: red">*</span></label>
+                <input [(ngModel)]="euser_cat" #eucat="ngModel" name="euserscat"
+                       type="text"
+                       class="form-control"
+                       required >
+                <div *ngIf="eucat.errors && (eucat.dirty || eucat.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!eucat.errors.required">
+                    Category is required
+                  </div>
+
+                </div>   </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button"  data-dismiss="modal" class="btn btn-primary"  (click)="cat_update()">Update</button>
+              </div>
+            </form></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

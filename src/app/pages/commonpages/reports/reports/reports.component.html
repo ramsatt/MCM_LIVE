@@ -1,0 +1,172 @@
+
+
+<div class="cat__content">
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Reports</strong>
+        </span>
+    </div>
+
+    <div class="card-block" >
+      <div class="margin-bottom-50">
+        <div class="nav-tabs-horizontal">
+            <ul class="nav nav-tabs icon_full" role="tablist">
+                <!--<li class="nav-item">
+                    <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#hreports" role="tab">
+                        <i class="icmn-home"></i>
+                        <span class="hide">Herokit Parts</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#nhreports" role="tab">
+                        <i class="icmn-hammer"></i>
+                        <span class="hide">Not Herokit Parts</span>
+                    </a>
+                </li>-->
+                <li class="nav-item" *ngFor="let sub of Asssubmenu ">
+                    <a  attr.data-target="{{sub.SUB_URL}}" class="nav-link  {{sub.SUB_Active}}" href="javascript: void(0);" data-toggle="tab"  role="tab" >
+                        <i class="{{sub.SUB_Icon}}"></i>
+                        <span class="hide">{{sub.SUB_Name}}</span>
+                    </a>
+                </li>
+
+
+            </ul>
+          <div class="tab-content padding-vertical-20">
+            <div class="tab-pane active" id="hreports" role="tabpanel">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                              <i class="icmn-search"></i>
+                          </span>
+                            <input class="input-error form-control"[(ngModel)]="brhkm" type="text" class="form-control" name="Site_Search" placeholder="Search">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="cover1">
+
+                        <table class="table demo2 table-hover nowrap " id="branch" [mfData]="brhrkparts|raisedrequest:brhkm" #reqReports="mfDataTable" [mfRowsOnPage]="5"
+                               [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                            <thead>
+                            <tr>
+                                <th><mfDefaultSorter by="BM_Branch_Name"> Branch<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="AM_Name"> Manufacturer<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="HKM_Name"> Herokit<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="PM_KeyID"> Part Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="PM_Part_Name"> Part<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="PM_Price"> Unit Cost<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="BHPD_Opening_Balance"> Opening Balance<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="BHPD_Current_Stock"> Stock<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="BHPD_Replenishment"> Replenishment<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let requests of reqReports.data;let i=index">
+                                <input type="hidden" #requestid [value]="requests.RPD_KeyID" />
+                                <td style="word-wrap: break-word">{{requests.BM_Branch_Name}}</td>
+                                <td style="word-wrap: break-word">{{requests.AM_Name}}</td>
+                                <td style="word-wrap: break-word">{{requests.HKM_Name}}</td>
+                                <td style="word-wrap: break-word">{{requests.PM_KeyID}}</td>
+                                <td style="word-wrap: break-word">{{requests.PM_Part_Name}}</td>
+                                <td style="word-wrap: break-word">{{requests.PM_Price}}</td>
+                                <td style="word-wrap: break-word">{{requests.BHPD_Opening_Balance}}</td>
+                                <td style="word-wrap: break-word">{{requests.BHPD_Current_Stock}}</td>
+                                <td style="word-wrap: break-word">{{requests.BHPD_Replenishment}}</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="9">
+                                    <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="nhreports" role="tabpanel">
+
+                  <div class="row">
+                      <div class="col-lg-12" style="padding: 2px">
+                          <div class="row">
+                              <div class="col-lg-12">
+                                  <div class="input-group">
+                                      <span class="input-group-addon">
+                                          <i class="icmn-search"></i>
+                                      </span>
+                                      <input class="input-error form-control"[(ngModel)]="br" type="text" class="form-control" name="Site_Search" placeholder="Search">
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-lg-12">
+                                  <div class="cover1">
+                                  <table class="table table-hover nowrap demo1" id="branch" [mfData]="brparts|raisedrequest:br" #nonreReports="mfDataTable" [mfRowsOnPage]="10"
+                                         [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                                      <thead>
+                                      <tr>
+                                          <th><mfDefaultSorter by="BM_Branch_Name"> Branch<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                          <th><mfDefaultSorter by="PM_KeyID"> Part Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                          <th><mfDefaultSorter by="PM_Part_Name"> Part<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                          <th><mfDefaultSorter by="PM_Price"> Unit Cost<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                          <th><mfDefaultSorter by="BPD_Opening_Balance"> Opening Balance<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                          <th><mfDefaultSorter by="BPD_Current_Stock"> Stock<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                          <th><mfDefaultSorter by="BPD_Replenishment"> Replenishment<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngFor="let requests of nonreReports.data;let i=index">
+                                          <input type="hidden" #requestids [value]="requests.RPD_KeyID" />
+                                          <td>{{requests.BM_Branch_Name}}</td>
+                                          <td>{{requests.PM_KeyID}}</td>
+                                          <td>{{requests.PM_Part_Name}}</td>
+                                          <td>{{requests.PM_Price}}</td>
+                                          <td>{{requests.BPD_Opening_Balance}}</td>
+                                          <td>{{requests.BPD_Current_Stock}}</td>
+                                          <td>{{requests.BPD_Replenishment}}</td>
+                                      </tr>
+                                      </tbody>
+                                      <tfoot>
+                                      <tr>
+                                          <td colspan="6">
+                                              <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+                                          </td>
+                                      </tr>
+                                      </tfoot>
+                                  </table></div>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     <!-- <ng-template #elseBlock>
+          <div class='container'>
+              <div class='loader'>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--dot'></div>
+                  <div class='loader--text'></div>
+              </div>
+          </div>
+      </ng-template>-->
+  </section>
+  <app-footer></app-footer>
+</div>
+

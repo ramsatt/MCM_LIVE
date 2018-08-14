@@ -1,0 +1,15 @@
+.th-color{
+    background-color: #005374;
+    border-color: #005374;
+    color: #FFF;
+}
+
+.cover1 {
+    overflow: auto;
+    position: relative;
+    height: 350px;
+    width: auto;
+}
+.borderdark td, .borderdark th{
+    border: 3px solid #005374;
+}

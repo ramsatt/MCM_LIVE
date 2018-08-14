@@ -1,0 +1,59 @@
+<div class="row acc_header row_margin">
+  <div class="col-lg-2 col-sm-2 col-xs-2"><h5 class="acc_heading">Agreements</h5></div>
+  <div class="col-lg-6 col-sm-6 col-xs-6">
+    <h2 class="acc_name">{{name}}</h2>
+  </div>
+  <div class="col-lg-4 col-sm-4 col-xs-4">
+       <span class="pull-right" style="margin-top: 10px">
+           <button *ngIf="isSet" (click)="openagreementlink('asset/agreement/create/'+this.id+'/'+this.AMID)" type="button" style="padding: 7px" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse">
+               <i class="icmn-plus" aria-hidden="true"></i></button>
+       </span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icmn-search"></i>
+            </span>
+      <input class="input-error form-control" id="l34" value="" type="text" [(ngModel)]="agreementName" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="table-responsive mb-5">
+      <table class="table table-hover nowrap" id="branch" width="100%">
+        <thead>
+        <tr>
+          <th (click)="viewAgreement()">Name</th>
+          <th>Account Name</th>
+          <th>Site Name</th>
+          <th>Effective Date</th>
+          <th>End Date</th>
+          <th>Renewal Date</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let agreement of allagreement|agreement:agreementName;" >
+
+          <td>{{agreement.AGM_Agreement_Name}}</td>
+          <td>{{agreement.AM_Name}}</td>
+          <td>{{agreement.SM_SiteName}}</td>
+          <td>{{agreement.AGM_EffectiveDate | date:'M/d/y'}}</td>
+          <td>{{agreement.AGM_EndDate | date:'M/d/y'}}</td>
+          <td>{{agreement.AGM_Renewal_AlertDate | date:'M/d/y'}}</td>
+          <td align="center">
+            <div class="">
+
+              &nbsp;<button (click)="openagreementlink('asset/agreement/edit/'+agreement.AGM_KeyID)" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline">
+
+            </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

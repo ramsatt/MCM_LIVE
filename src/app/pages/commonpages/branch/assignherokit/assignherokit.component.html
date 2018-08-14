@@ -1,0 +1,163 @@
+<div class="row acc_header row_margin">
+    <div class="col-lg-12">
+        <h5 class="acc_heading">Herokit Parts
+            <span>
+                <button [hidden]="add=='N'" type="button" class="rnd btn btn-icon btn-warning pull-right btn-rounded margin-inline "  (click)="refreshhero()" >
+                    <i class="icmn-plus" aria-hidden="true" ></i></button> &nbsp;
+                <button  type="button" style="padding: 5px;margin-right: 3px;"class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" data-toggle="modal" data-target="#reheromulreqpart"  (click)="fromref2()">Request Parts</button>
+            </span></h5></div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icmn-search"></i>
+            </span>
+            <input  type="text" class="form-control" name="Site_Search" placeholder="Search" id="" [(ngModel)]="herokit_name">
+        </div>
+    </div>
+</div>
+<div class="overflow_3row">
+    <table class="table table-hover nowrap "  width="100%">
+        <thead>
+        <tr>
+            <th>Herokit Name</th>
+            <th> Actions </th>
+        </tr>
+        </thead>
+        <tbody><tr *ngFor="let all of viewasspart|herokit:herokit_name;let i=index" (click)="Slectedherokit(all.HKM_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+            <td>{{all.HKM_Name}}</td>
+            <td> <button  [hidden]="delete=='N'" [disabled]="brStatus=='N' && this.urmid!=1" (click)="Delete(all.BHKD_KeyID) " class="btn btn-icon btn-danger fa fa-trash" ><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button></td>
+        </tr></tbody>
+    </table></div>
+<div class="row acc_header row_margin">
+
+    <div class="col-lg-12">
+        <h5 class="acc_heading">Herokit Parts List<span></span></h5></div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-lg-12 col-sm-12">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icmn-search"></i>
+            </span>
+            <input type="text" class="form-control" name="Site_Search" [(ngModel)]="partfil_name"placeholder="Search" id="">
+        </div>
+    </div>
+</div>
+<div class="">
+    <div class="col-lg-12">
+        <div class="cover1">
+        <table class="table demo table-hover nowrap" id="branch"  width="100%" [mfData]="allheroassignedpartreq|partfilter:partfil_name" #hkPartsLists="mfDataTable" [mfRowsOnPage]="10"
+               [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead style="font-size: 12px !important;" class="th-color">
+            <tr>
+                <th><mfDefaultSorter by="PM_Part_Name"> Part<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                <th><mfDefaultSorter by="BHPD_Current_Stock"> Current Stock<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                <th><mfDefaultSorter by="BHPD_Target_Stock"> Target Stock<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                <th><mfDefaultSorter by="BHPD_Replenishment"> Replenishment<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                <th><mfDefaultSorter by="BHPD_Virtual_Stock"> Virtual Stock<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                <th><mfDefaultSorter by="BHPD_Reserved_Stock"> Total Reserved Stock<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                <th><mfDefaultSorter by="PS_Status"> Stock Status<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                <!--<th>Request Part</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let allparts of hkPartsLists.data;">
+                <td class="col-xs-12 col-lg-12 col-sm-12" [ngClass]="normal">{{allparts.PM_Part_Name}}</td>
+                <td><input style="width: 80px;" class="form-control" [readonly]="brStatus=='N' && this.urmid!=1" #CR [value]="allparts.BHPD_Current_Stock" (change)="updateReplNh(CR.value,allparts.BHPD_KeyID,'Y','cr',allparts.BHKD_HKM_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                <td><input style="width: 80px;" class="form-control" [readonly]="brStatus=='N' && this.urmid!=1" #TR [value]="allparts.BHPD_Target_Stock" (change)="updateReplNh(TR.value,allparts.BHPD_KeyID,'Y','tr',allparts.BHKD_HKM_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                <td><input style="width: 80px;" class="form-control" [readonly]="brStatus=='N' && this.urmid!=1" #RP [value]="allparts.BHPD_Replenishment" (change)="updateReplNh(RP.value,allparts.BHPD_KeyID,'Y','rp',allparts.BHKD_HKM_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                <td><input style="width: 80px;" class="form-control" [readonly]="brStatus=='N' && this.urmid!=1" #SVS [value]="allparts.BHPD_Shipment_Virtual_Stock" (change)="updateReplNh(SVS.value,allparts.BHPD_KeyID,'Y','svs',allparts.BHKD_HKM_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                <td><input style="width: 80px;" class="form-control" [readonly]="brStatus=='N' && this.urmid!=1" #TRS [value]="allparts.BHPD_Reserved_Stock" (change)="updateReplNh(TRS.value,allparts.BHPD_KeyID,'Y','trs',allparts.BHKD_HKM_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                <td>{{allparts.PS_Status}}</td>
+                <!--<td><button  type="button" style="padding: 5px"class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" data-toggle="modal" data-target="#reqparts" (click)="setPartID(allpart.PM_KeyID,allpart.PM_Part_Name,blat,blon)">Req Parts</button></td>-->
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="6">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade "id="asskit" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="panel-body">
+                        <h3>Assign Herokit for {{Branch_Name}}</h3>
+                        <div [ngSwitch]='status'>
+                            <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>Select Account</label>
+                                        <select class="form-control" #accnt name="account" [(ngModel)]="AccountID" (change)="viewassignkit(accnt.value)" id="selacc">
+                                            <option>--Select--</option>
+                                            <option *ngFor="let account of AccountArray" [value]="account.AM_KeyID">{{account.AM_Name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  class="row" >
+                                <div class="col-lg-12">
+                                    <div class="margin-bottom-50">
+                                        <div id="partlist" *ngIf="kitexist">
+                                            <table class="table table-condensed table-hover" id="part" width="100%">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 70px;"> Select</th>
+                                                    <th>Name</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr *ngFor="let all of results"  >
+                                                    <td [ngClass]="normal" style="text-align: center" > <input type="checkbox" (change)="updateCheckedOptions(all.HKM_KeyID, $event)"/>
+                                                    </td>
+                                                    <td>{{all.HKM_Name}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table></div>
+                                        <div id="partlist2" style="text-align: center" *ngIf="!kitexist">
+                                            There is no Herokit for the selected Account!
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" [disabled]="enable2()" (click)="updateOptions(id)">Assign</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade modal-size-large" id="reheromulreqpart" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <app-hkrequest [id]="id"></app-hkrequest>
+</div>
+
+

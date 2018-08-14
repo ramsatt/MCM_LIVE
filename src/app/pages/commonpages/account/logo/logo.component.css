@@ -1,0 +1,12 @@
+.messaging-img
+{
+    width: 250px;
+    /*position: fixed;*/
+    height: 150px;
+}
+
+@media (max-width:991px) {
+
+  .media_margin { margin-top:15px; }
+
+}

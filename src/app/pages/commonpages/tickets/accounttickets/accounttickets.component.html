@@ -1,0 +1,113 @@
+<div class="cat__content">
+    <section class="card">
+        <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Tickets</strong>
+        </span>
+        </div>
+
+        <div class="card-block">
+            <div class="margin-bottom-50">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="row acc_header row_margin" style="padding: 3px;">
+                            <div class="col-lg-12"><h5 class="acc_heading">Tickets <span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" style="padding: 5px;
+    margin-bottom: 5px;" (click)="Get_All_Submited_Ticket_List()"><i class="icmn-spinner9" aria-hidden="true"></i></button></span></h5></div>
+                        </div>
+                        <div class="row" style="padding: 0px;">
+                            <div class="col-lg-12">
+                                <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                    <input class="input-error form-control" id="l34" value="" type="text" [(ngModel)]="account_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="padding: 0px;">
+                            <div class="col-lg-12">
+                                <div class="btn-group btn-group-justified margin-inline">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-secondary">All</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-secondary">Week</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-secondary">Month</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-secondary">Year</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <input [(ngModel)]="date_from" name="datefrom" type="text" class="form-control datepicker-only-init display-inline-block margin-inline" placeholder="From" />
+                            </div>
+                            <div class="col-lg-5">
+                                <input [(ngModel)]="date_to" name="datetp" type="text" class="form-control datepicker-only-init display-inline-block margin-inline" placeholder="To" />
+                            </div>
+                            <div class="col-lg-2 margin_zero">
+                                <button type="button" class="btn btn-icon btn-primary btn-rounded margin-inline" style="padding: 10px;"><i class="icmn-search" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div class="row t_list">
+                            <div class="list_card_sat" *ngFor="let ticket of TicketsArray" (click)="SelectedTicket(ticket.TM_KeyID)">
+                                <div class="list_card_sat_image">
+
+                                    <img src="https://rcc.mcmservice.com/mcmbackend/web/uploads/Model_Images/{{ticket.AM_KeyID}}/image/{{ticket.MM_Model_Image}}" height="128"
+                                         width="128"/>
+                                    <p class="t_model_name">{{ticket.MM_Model_Name}}</p>
+                                </div>
+                                <div class="list_card_sat_Content">
+                                    <div class="t_title">
+                                        {{ticket.TM_Internal_Reference_No}}
+                                    </div>
+                                    <div class="t_content">
+                                        Account: <b>{{ticket.AM_Name}}</b><br>
+                                        Site: <b>{{ticket.SM_SiteName}}</b><br>
+                                        <h4><span class="badge badge-info"> Status: {{ticket.TSLM_Status}}</span></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7" style="padding: 10px">
+                        <div class="mb-5">
+                            <div class="nav-tabs-horizontal">
+                                <ul class="nav nav-tabs mb-4" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#ticket_Overview" role="tab">
+                                            <i class="icmn-newspaper"></i>
+                                            Overview
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#Trip_Details" role="tab">
+                                            <i class="icmn-airplane"></i>
+                                            Trip Details
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="ticket_Overview" role="tabcard">
+                                        <app-accountticketdetails [TicketID]="ScltTicketID"></app-accountticketdetails>
+                                    </div>
+                                    <div class="tab-pane" id="Trip_Details" role="tabcard">
+                                        <app-accounttripdetails [TicketID]="ScltTicketID"></app-accounttripdetails>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <app-footer></app-footer>
+</div>
+

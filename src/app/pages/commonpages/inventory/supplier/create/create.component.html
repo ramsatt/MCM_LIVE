@@ -1,0 +1,183 @@
+
+
+            <strong>Create Suppliers</strong>
+
+
+    <div class="card-block">
+      <div [hidden]="submitted">
+        <form #supplierForm="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-label">Supplier Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="suppliername" #supplier="ngModel" name="suppliername"
+                       type="text" placeholder="Enter supplier Name"
+                       class="form-control"
+                       required minlength="2" maxlength="50">
+                <div *ngIf="supplier.errors && (supplier.dirty || supplier.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!supplier.errors.required">
+                    Supplier Name is required
+                  </div>
+                  <div [hidden]="!supplier.errors.minlength">
+                    Supplier Name must be at least 2 characters long.
+                  </div>
+                  <div [hidden]="!supplier.errors.maxlength">
+                    Supplier Name cannot be more than 50 characters long.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Address</label>
+                <input [(ngModel)]="address" name="validation-simple[address]"
+                       type="text" placeholder="Enter Address"
+                       class="form-control"
+                       data-validation="[NOTEMPTY]" #search>
+              </div>
+              <div class="form-group">
+                <label class="form-label">City <span style="color: red">*</span></label>
+                <input [(ngModel)]="city" name="city"
+                       type="text" id="city" placeholder="Enter City Name"
+                       class="form-control"
+                       #sup_city="ngModel" required minlength="2" maxlength="50" (change)="GoogleAddress(sup_city.value)"
+                >
+                <div *ngIf="sup_city.errors && (sup_city.dirty || sup_city.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_city.errors.required">
+                    City Name is required
+                  </div>
+                  <div [hidden]="!sup_city.errors.minlength">
+                    City Name must be at least 2 characters long.
+                  </div>
+                  <div [hidden]="!sup_city.errors.maxlength">
+                    City Name cannot be more than 50 characters long.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">State</label>
+                <input [(ngModel)]="state" name="validation-simple[state]"
+                       type="text" id="state"
+                       class="form-control"
+                       data-validation="[NOTEMPTY]" placeholder="Enter the State Name">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Country</label>
+                <input [(ngModel)]="country" name="validation-simple[country]"
+                       type="text" id="country"
+                       class="form-control" placeholder="Enter the Country Name"
+                       >
+              </div>
+
+
+            </div>
+            <div class="col-lg-6">
+
+              <div class="form-group">
+                <label class="form-label">Zip <span style="color: red">*</span></label>
+                <input [(ngModel)]="zip" name="validation-simple[zip]"
+                       type="text" id="zip"
+                       class="form-control" placeholder="Enter ZIP Code"
+
+                       #sup_zip="ngModel" required pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$" >
+                <div *ngIf="sup_zip.errors && (sup_zip.dirty || sup_zip.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_zip.errors.pattern">
+                    ZIP code not valid.
+                  </div>
+                  <div [hidden]="!sup_zip.errors.required">
+                    ZIP code must required
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Latitude</label>
+                <input [(ngModel)]="latitude" #sup_lat="ngModel"name="validation-simple[latitude]"
+                       type="text"
+                       class="form-control"
+                        pattern="^[0-9.*#+-]+$">
+                <div *ngIf="sup_lat.errors && (sup_lat.dirty || sup_lat.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_lat.errors.pattern">
+                    Latitude cannot be alphabetic value.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Longitude</label>
+                <input [(ngModel)]="longitude" name="validation-simple[longitude]"
+                       type="text" #sup_lan="ngModel"
+                       class="form-control"
+                       pattern="^[0-9.*#+-]+$">
+                <div *ngIf="sup_lan.errors && (sup_lan.dirty || sup_lan.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_lan.errors.pattern">
+                    Longitude cannot be alphabetic value.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone <span style="color: red">*</span></label>
+                <input [(ngModel)]="phone" name="validation-simple[phone]" placeholder="Enter the Phone Number" type="text" id="phone" class="form-control"
+                       data-validation="[NOTEMPTY]"  pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}"
+                       #sup_phone="ngModel" required id="us-phone-mask-crsup" minlength="14">
+                <div *ngIf="sup_phone.errors && (sup_phone.dirty || sup_phone.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_phone.errors.required">
+                    Phone Number must required
+                  </div>
+                  <div [hidden]="!sup_phone.errors.minlength">
+                    Phone Number must be 10 digits long.
+                  </div>
+                  <div [hidden]="!sup_phone.errors.pattern">
+                    Phone Number not valid.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input [(ngModel)]="email"
+                       type="text" id="email" #sup_email="ngModel" name="validation-simple[email]"
+                       class="form-control" placeholder="Enter Email"
+                       pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*" >
+                <div *ngIf="sup_email.errors && (sup_email.dirty || sup_email.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_email.errors.required">
+                    Email is required
+                  </div>
+                  <div [hidden]="!sup_email.errors.minlength">
+                    Email must be at least 2 characters long.
+                  </div>
+
+                  <div [hidden]="!sup_email.errors.pattern">
+                    Please Enter Valid Email Address.
+                  </div>
+                </div>
+
+              </div>
+
+
+
+              <div class="form-group">
+                <label for="l38">Description</label>
+                <textarea [(ngModel)]="description" name="desc" class="form-control" rows="5" id="l38" placeholder="Enter the Description"></textarea>
+              </div>
+
+
+            </div>
+
+          </div>
+
+          <div class="row">
+            <button type="submit" class="btn btn-primary" style="margin-right: 10px"
+                    [disabled]="!supplierForm.form.valid" (click)="createSupplier()">Create</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+

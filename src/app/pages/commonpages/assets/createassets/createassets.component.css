@@ -1,0 +1,7 @@
+.modal.modal-size-large .modal-dialog{
+    max-width: 90% !important;
+}
+.scroll{
+    height: 370px;
+    overflow-y: auto;
+}

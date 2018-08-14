@@ -1,0 +1,147 @@
+
+
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>update Suppliers</strong>
+        </span>
+    </div>
+
+    <div class="card-block">
+      <div [hidden]="submitted">
+        <form #supplierForm="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-label">Supplier Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="suppliername" #supplier="ngModel" name="suppliername"
+                       type="text" placeholder="Enter supplier Name"
+                       class="form-control"
+                       required minlength="2" maxlength="50">
+                <div *ngIf="supplier.errors && (supplier.dirty || supplier.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!supplier.errors.required">
+                    supplier Name is required
+                  </div>
+                  <div [hidden]="!supplier.errors.minlength">
+                    supplier Name must be at least 2 characters long.
+                  </div>
+                  <div [hidden]="!supplier.errors.maxlength">
+                    supplier Name cannot be more than 50 characters long.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Address</label>
+                <input [(ngModel)]="address" name="validation-simple[address]"
+                       type="text" placeholder="Enter Address"
+                       class="form-control"
+                       data-validation="[NOTEMPTY]" #search>
+              </div>
+              <div class="form-group">
+                <label class="form-label">City <span style="color: red">*</span></label>
+                <input [(ngModel)]="city" name="city"
+                       type="text" id="city" placeholder="Enter City Name"
+                       class="form-control"
+                       #sup_city="ngModel" required minlength="2" maxlength="50"
+                >
+                <div *ngIf="sup_city.errors && (sup_city.dirty || sup_city.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_city.errors.required">
+                    City Name is required
+                  </div>
+                  <div [hidden]="!sup_city.errors.minlength">
+                    City Name must be at least 2 characters long.
+                  </div>
+                  <div [hidden]="!sup_city.errors.maxlength">
+                    City Name cannot be more than 50 characters long.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">State</label>
+                <input [(ngModel)]="state" name="validation-simple[state]"
+                       type="text" id="state"
+                       class="form-control"
+                       data-validation="[NOTEMPTY]" placeholder="Enter the State Name">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Country</label>
+                <input [(ngModel)]="country" name="validation-simple[country]"
+                       type="text" id="country"
+                       class="form-control"
+                       data-validation="[NOTEMPTY]" Enter the Country Name>
+              </div>
+
+
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-label">Zip {{partsid}}<span style="color: red">*</span></label>
+                <input [(ngModel)]="zip" name="validation-simple[zip]"
+                       type="text" id="zip"
+                       class="form-control" placeholder="Enter ZIP Code"
+                       data-validation="[NOTEMPTY]"
+                       #sup_zip="ngModel" required pattern="^[0-9]*$" minlength="6">
+                <div *ngIf="sup_zip.errors && (sup_zip.dirty || sup_zip.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_zip.errors.pattern">
+                    ZIP code must be a digits
+                  </div>
+                  <div [hidden]="!sup_zip.errors.required">
+                    ZIP code must required
+                  </div>
+                  <div [hidden]="!sup_zip.errors.minlength">
+                    ZIP code must be at least 6 number long.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone <span style="color: red">*</span></label>
+                <input [(ngModel)]="phone" name="validation-simple[phone]" placeholder="Enter the Phone Number" type="text" id="phone" class="form-control"
+                       data-validation="[NOTEMPTY]"
+                       #sup_phone="ngModel" required  id="us-phone-mask-input" minlength="14" pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                <div *ngIf="sup_phone.errors && (sup_phone.dirty || sup_phone.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!sup_phone.errors.required">
+                    Phone Number must required
+                  </div>
+                  <div [hidden]="!acc_phone.errors.minlength">
+                    Phone Number must be 10 digits long.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input [(ngModel)]="email"
+                       type="text" id="email" name="validation-simple[email]"
+                       class="form-control" placeholder="Enter Email" >
+
+
+              </div>
+
+
+
+              <div class="form-group">
+                <label for="l38">Description</label>
+                <textarea [(ngModel)]="description" name="desc" class="form-control" rows="5" id="l38" placeholder="Enter the Description"></textarea>
+              </div>
+
+
+            </div>
+
+          </div>
+
+          <div class="row">
+            <button type="submit" class="btn btn-primary" style="margin-right: 10px"
+                    [disabled]="!supplierForm.form.valid" (click)="editSupplier()">Update</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+
+

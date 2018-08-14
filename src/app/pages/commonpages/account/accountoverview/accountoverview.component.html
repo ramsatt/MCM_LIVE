@@ -1,0 +1,535 @@
+<div class="cat__content">
+    <section class="card">
+        <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Account - <span style="color: #0b58a2">{{AccountName}}</span></strong>
+        </span>
+        </div>
+
+        <div class="card-block" *ngIf="AccountsLoaded === true; else elseBlock">
+            <div class="margin-bottom-50">
+                <div class="nav-tabs-horizontal">
+                    <ul class="nav nav-tabs" role="tablist" >
+                        <li class="nav-item" *ngFor="let sub of Asssubmenu ">
+                            <a  attr.data-target="{{sub.SUB_URL}}" class="nav-link  {{sub.SUB_Active}}" href="javascript: void(0);" data-toggle="tab" (click)="modref(sub.SUB_Name)" role="tab" >
+                                <i class="{{sub.SUB_Icon}}"></i>
+                                <span class="hide">{{sub.SUB_Name}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="accounts" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-4" style="padding-right: 10px;">
+                                    <div class="row acc_header row_margin">
+                                        <div class="col-lg-12"><h5 class="acc_heading" (click)="LoadAccounts()">Accounts<span>
+                                        <button (click)="Navication('account/create')" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse" [hidden]="add=='N'"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                                <input class="input-error form-control" id="l34" value="" type="text" [(ngModel)]="account_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <table class="table table-fixed" id="" width="100%" >
+                                        <tbody>
+                                        <tr *ngFor="let account of AccountsArray | accountfilter:account_name; let i=index" (click)="SlectedAccount(account.AM_KeyID);setClickedRow(i)" [class.active]="account.AM_KeyID == AccountID">
+                                            <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+                                                <b>{{account.AM_Name}}</b>
+                                                <br>
+                                                <span *ngIf="account.AM_Contract_From != ''">{{account.AM_Contract_From}} - {{account.AM_Contract_To}}</span>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="row acc_header row_margin">
+                                        <div class="col-lg-2 col-sm-2 col-xs-2">
+                                            <div class="logomaincover">
+                                                <div class="logocover">
+                                                    <img class="acc_logo hvr-pulse" [src]="Account_Logo_Path" (click)="Navication('account/logo/'+AccountID)"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6 col-xs-6 width_70">
+                                            <h2 class="acc_name">{{AccountName}}</h2>
+                                        </div>
+                                        <div class="col-lg-4 col-sm-4 col-xs-4 width_30">
+                                       <span class="pull-right" style="margin-top: 10px"><button (click)="Navication('account/edit/'+AccountID)" type="button" style="padding: 7px" class="btn btn-icon btn-warning btn-rounded margin-inline hvr-pulse" [hidden]="edit=='N' || AccountID==''"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+                              <button (click)="DeleteAaccount(AccountID)" type="button" style="padding: 7px" class="btn btn-icon btn-danger btn-rounded margin-inline hvr-pulse" [hidden]="delete=='N' || AccountID==''"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="table-responsive mb-5">
+                                                <table class="table table-hover">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Account ID:
+                                                        </td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountID}}</span>
+                                                            </b>
+                                                        </td>
+                                                        <td>Account Name:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountName}}</span>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Address:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountAddress}}</span>
+                                                            </b>
+                                                        </td>
+                                                        <td>City:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountCity}}</span>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>State:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountState}}</span>
+                                                            </b>
+                                                        </td>
+                                                        <td>Country:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountCountry}}</span>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>ZIP:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountZIP}}</span>
+                                                            </b>
+                                                        </td>
+                                                        <td>Fax:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountFax}}</span>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phone:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountPhone}}</span>
+                                                            </b>
+                                                        </td>
+                                                        <td>Mobile:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountMobile}}</span>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Other Phone:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">{{AccountHomePhone}}</span>
+                                                            </b>
+                                                        </td>
+                                                        <td>Location:</td>
+                                                        <td>
+                                                            <b>
+                                                                <span class="text-primary1">Lat:{{lat}}<br>Lon:{{lng}}</span>
+                                                            </b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4">Description:<br>
+                                                            <span class="text-primary1">{{AccountDescription}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div id="map">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3" style="padding: 2px">
+                                    <div class="row acc_header row_margin">
+
+                                        <div class="col-lg-12"><h5 class="acc_heading">Sites<span><button (click)="Navication('site/create/'+AccountID)" [hidden]="add=='N'" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse"><i class="icmn-plus" aria-hidden="true" ></i></button></span></h5></div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                                <input class="input-error form-control" value="" type="text" [(ngModel)]="site_name" type="text" class="form-control" name="Site_Search" placeholder="Search">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-fixed" id="sites" width="100%">
+                                        <tbody>
+                                        <tr *ngFor="let site of SitesArray | site:site_name">
+                                            <td *ngIf="site.SM_IsActive === 'N'; else elsesite" class="col-xs-12 col-lg-12 col-sm-12">
+                                            <span><b>{{site.SM_SiteName}}</b>
+                                            <br>
+                                            {{site.SM_City}}
+                                                <span><button class="btn btn-icon btn-primary pull-right btn-rounded margin-inline" type="button" [hidden]="viewbtn=='N'" (click)="Navigation(site.SM_KeyID)"><i aria-hidden="true" class="fa fa-eye"></i></button></span>
+                                            </span><br><span  style="color: red;font-size:13px">
+                                                Deactivated</span></td>
+                                            <ng-template #elsesite>
+                                                <td  class="col-xs-12 col-lg-12 col-sm-12">
+                                            <span><b>{{site.SM_SiteName}}</b>
+                                            <br>
+                                            {{site.SM_City}}
+                                                <span><button class="btn btn-icon btn-primary pull-right btn-rounded margin-inline" type="button" [hidden]="viewbtn=='N'" (click)="Navigation(site.SM_KeyID)"><i aria-hidden="true" class="fa fa-eye"></i></button></span>
+                                            </span>
+                                                </td>
+                                            </ng-template>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <div class="col-lg-3" style="padding: 2px">
+                                    <div class="row acc_header row_margin">
+
+                                        <div class="col-lg-12"><h5 class="acc_heading">Assets<span><button type="button" [hidden]="add=='N'" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse"
+                                                                                                           (click)="Navication('assets/create')"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-lg-12 col-sm-12">
+                                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                                <input class="input-error form-control" [(ngModel)]="assname" id="l34"
+                                                       value="" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-fixed" width="100%">
+                                        <tbody>
+                                        <tr *ngFor="let ass of Assaccount|assets:assname;">
+                                            <td *ngIf="ass.ASM_IsActive === 'N'; else elseasset"  class="col-xs-12 col-lg-12 col-sm-12">
+                                                <b>{{ass.ASM_Asset_Name}}</b>
+                                                <br>
+                                                {{ass.ASM_Datefrom}} - {{ass.ASM_Dateto}}
+                                                <br><span  style="color: red;font-size:13px">
+                                                    Deactivated</span>
+                                            </td>
+                                            <ng-template #elseasset>
+                                                <td class="col-xs-12 col-lg-12 col-sm-12">
+                                                    <b>{{ass.ASM_Asset_Name}}</b>
+                                                    <br>
+                                                    {{ass.ASM_Datefrom}} - {{ass.ASM_Dateto}}
+
+                                                </td>
+                                            </ng-template>
+                                        </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                <div class="col-lg-3" style="padding: 2px">
+                                    <div class="row acc_header row_margin">
+
+                                        <div class="col-lg-12"><h5 class="acc_heading">Branches<span><button type="button" [hidden]="add=='N'" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse"
+                                                                                                             (click)="Navication('branch/create')"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-lg-12 col-sm-12">
+                                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                                <input class="input-error form-control" [(ngModel)]="bncname" id="l34" value="" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-fixed" width="100%">
+                                        <tbody>
+                                        <tr *ngFor="let branch of BranchArray| branchfilter:bncname; let i=index">
+                                            <td *ngIf="branch.BM_IsActive === 'N'; else elsebranch" class="col-xs-12 col-lg-12 col-sm-12">
+                                                <b>{{branch.BM_Branch_Name}}</b>
+                                                <br>
+                                                {{branch.BM_City}}
+
+                                                <br><span  style="color: red;font-size:13px">
+                                                    Deactivated</span>
+                                            </td>
+                                            <ng-template #elsebranch>
+                                                <td class="col-xs-12 col-lg-12 col-sm-12">
+                                                    <b>{{branch.BM_Branch_Name}}</b>
+                                                    <br>
+                                                    {{branch.BM_City}}
+                                                </td></ng-template>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                <div class="col-lg-3" style="padding: 2px">
+                                    <div class="row acc_header row_margin">
+
+                                        <div class="col-lg-12"><h5 class="acc_heading">Tickets<span><button type="button" [hidden]="add=='N'" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse" (click)="Navication('tickets/create')"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                                <input class="input-error form-control" value="" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="btn-group btn-group-justified margin-inline">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary">All</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary">Week</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary">Month</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary">Year</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <input [(ngModel)]="date_from" name="datefrom" type="text" class="form-control datepicker-only-init display-inline-block margin-inline" placeholder="From" />
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <input [(ngModel)]="date_to" name="datetp" type="text" class="form-control datepicker-only-init display-inline-block margin-inline" placeholder="To" />
+                                        </div>
+                                        <div class="col-lg-2 margin_zero">
+                                            <button type="button" class="btn btn-icon btn-primary btn-rounded margin-inline"><i class="icmn-search" aria-hidden="true"></i></button>
+                                        </div>
+
+                                    </div>
+                                    <!--ticket list here-->
+                                    <table class="table table-fixed" width="100%">
+                                        <tbody>
+                                        <tr *ngFor="let ATL of AccountsTicketsArray">
+                                            <td class="col-xs-12 col-lg-12 col-sm-12" (click)="AccountTicketOverview()">
+                                                <b>Ticket No.:{{ATL.TM_KeyID}}</b>
+                                                <br>
+                                                Ref #:{{ATL.TM_Internal_Reference_No}}
+                                                <br>
+                                                Account: {{ATL.AM_Name}}
+                                                <br>
+                                                Site: {{ATL.SM_SiteName}}
+                                                <br>
+                                                <h4><span class="badge badge-info"> Status: {{ATL.TSLM_Status}}</span></h4>
+                                            </td>
+                                        </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="parts" role="tabpanel">
+
+                            <div class="row">
+                                <div class="col-lg-4" style="padding-right: 10px;">
+                                    <div class="row acc_header row_margin">
+                                        <div class="col-lg-12"><h5 class="acc_heading">Accounts<span>
+                                            <button (click)="Navication('account/create')" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" [hidden]="add=='N'"><i class="icmn-plus" aria-hidden="true" ></i></button></span></h5></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                                <input class="input-error form-control" id="l34" value="" type="text" [(ngModel)]="account_name" type="text" class="form-control" name="Site_Search" placeholder="Search">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <table class="table table-fixed" width="100%">
+                                        <tbody>
+                                        <tr *ngFor="let account of AccountsArray | accountfilter:account_name; let i=index" (click)="SlectedAccount(account.AM_KeyID);setClickedRow(i)"  [class.active]="account.AM_KeyID == AccountID">
+                                            <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+                                                <b>{{account.AM_Name}}</b>
+                                                <br>
+                                                {{account.AM_Contract_From}} - {{account.AM_Contract_To}}
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-lg-8"><app-herokitoverview [id]="AccountID" [name]="AccountName"></app-herokitoverview></div>
+                            </div></div>
+
+                        <div class="tab-pane" id="aggrement" role="tabpanel">
+
+                            <div class="row">
+                                <div class="col-lg-4" style="padding-right: 10px;">
+                                    <div class="row acc_header row_margin">
+                                        <div class="col-lg-12"><h5 class="acc_heading">Accounts<span><button [hidden]="add=='N'"(click)="Navication('account/create')" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                                <input class="input-error form-control" id="l34" value="" type="text" [hidden]="add=='N'" [(ngModel)]="account_name" type="text" class="form-control" name="Site_Search" placeholder="Search">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <table class="table table-fixed" width="100%">
+                                        <tbody>
+                                        <tr *ngFor="let account of AccountsArray | accountfilter:account_name; let i=index" (click)="SlectedAccount(account.AM_KeyID);setClickedRow(i)" [class.active]="account.AM_KeyID == AccountID">
+                                            <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+                                                <b>{{account.AM_Name}}</b>
+                                                <br>
+                                                {{account.AM_Contract_From}} - {{account.AM_Contract_To}}
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-lg-8">
+                                    <app-listagreement [id]="AccountID"></app-listagreement>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane" id="contacts" role="tabpanel">
+                            <app-accountusers [AccountID]="AccountID" [accname]="AccountName"></app-accountusers>
+                        </div>
+                        <div class="tab-pane" id="maptab" role="tabpanel">
+                            <app-accmap [Latitude]="lat" [Longitude]="lng">
+
+                            </app-accmap>
+
+                        </div>
+                        <div class="tab-pane" id="models" role="tabpanel">
+                            <app-accmodel [scltAccountID]="AccountID" ></app-accmodel>
+                        </div>
+                        <div class="tab-pane" id="InstructionList" role="tabpanel">
+                            <app-servicerequest [AccScltID]="AccountID" [menuchange]="menname"></app-servicerequest>
+                        </div>
+                        <div class="tab-pane" id="tickservicereq" role="tabpanel">
+                            <app-tickservicereq [AccScltID]="AccountID" [menuchange]="menname"></app-tickservicereq>
+                        </div>
+
+                        <div class="tab-pane" id="IR_Check_List" role="tabpanel">
+                            <div class="mb-5">
+                                <div class="nav-tabs-horizontal">
+                                    <!--<ul class="nav nav-tabs mb-4" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#Repair_Check_List" role="tab">
+                                                <i class="icmn-home"></i>
+                                                Check List Category
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#Inspection_Check_List" role="tab">
+                                                <i class="icmn-users"></i>
+                                                Check List
+                                            </a>
+                                        </li>
+                                    </ul>-->
+                                    <ul class="nav nav-tabs" role="tablist" >
+                                        <li class="nav-item" *ngFor="let sub of Chilmenu ">
+                                            <a  attr.data-target="{{sub.SUB_URL}}" class="nav-link  {{sub.SUB_Active}}" href="javascript: void(0);" data-toggle="tab"  role="tab" >
+                                                <i class="{{sub.SUB_Icon}}"></i>
+                                                <span class="hide">{{sub.SUB_Name}}</span>
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="Repair_Check_List" role="tabcard">
+                                            <app-checklistcategory [MenuChange]="menname"></app-checklistcategory>
+                                        </div>
+                                        <div class="tab-pane" id="Inspection_Check_List" role="tabcard">
+                                            <app-checklist [MenuChange]="menname"></app-checklist>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #elseBlock>
+            <div class='container'>
+                <div class='loader'>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--dot'></div>
+                    <div class='loader--text'></div>
+                </div>
+            </div>
+        </ng-template>
+
+    </section>
+    <app-footer></app-footer>
+</div>
+

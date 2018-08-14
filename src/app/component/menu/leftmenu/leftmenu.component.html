@@ -1,0 +1,26 @@
+<nav class="cat__menu-left"  *ngIf="sessid!=null">
+    <div class="cat__menu-left__lock cat__menu-left__action--menu-toggle">
+        <div class="cat__menu-left__pin-button">
+            <div><!-- --></div>
+        </div>
+    </div>
+    <div class="cat__menu-left__logo">`
+        <a [routerLink]="['/']">
+            <img src="{{logo_img}}" />
+        </a>
+    </div>
+    <div class="cat__menu-left__inner">
+        <ul class="cat__menu-left__list cat__menu-left__list--root">
+
+
+            <li *ngFor="let m of menu" class="cat__menu-left__item" [routerLinkActive]="['cat__menu-left__item--active']">
+                <a [routerLink]="m.MMM_URL">
+                    <span class="cat__menu-left__icon icmn-{{m.MMM_Icon}}"></span>
+
+                    {{m.MMM_Name}}
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>

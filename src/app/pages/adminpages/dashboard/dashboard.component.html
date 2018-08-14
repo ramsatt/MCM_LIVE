@@ -1,0 +1,116 @@
+
+<div class="cat__content">
+  <nav class="cat__core__top-sidebar cat__core__top-sidebar--bg">
+    <span class="cat__core__title d-block mb-2">
+        <strong>Dashboard</strong>
+    </span>
+  </nav>
+  <div class="row"  >
+
+    <div class="col-xl-4" id="accountcolum" style="display:none;">
+
+<span *ngFor="let sub of Asssubmenu;let i = index  " >
+
+    <app-stepblock [bgcolor]="'primary'" *ngIf="sub.MMM_Name=='Accounts'"  [count]="accountCount" [icon]="'books'" [title]="'Accounts'" (click)="Navigation('account/overview')"></app-stepblock>
+
+
+          </span></div>
+
+
+    <div class="col-xl-4" id="sitecolum" style="display:none;">
+      <span *ngFor="let sub of Asssubmenu;let i = index  " >
+    <app-stepblock [bgcolor]="'success'" *ngIf="sub.MMM_Name=='Sites'" [count]="siteCount" [icon]="'library'" [title]="'Sites'" (click)="Navigation('site/overview')"></app-stepblock>
+      </span>
+    </div>
+
+    <div class="col-xl-4" id="branchcolum" style="display:none;">
+      <span *ngFor="let sub of Asssubmenu;let i = index  " >
+    <app-stepblock [bgcolor]="'danger'" *ngIf="sub.MMM_Name=='Branch'" [count]="BranchCount" [icon]="'office'" [title]="'Branch'" (click)="Navigation('branch/overview')"></app-stepblock>
+      </span>
+    </div>
+
+
+
+  <div class="col-xl-4" id="inventorycolum" style="display:none;">
+    <span *ngFor="let sub of Asssubmenu;let i = index" >
+      <app-stepblock [bgcolor]="'warning'" *ngIf="sub.MMM_Name=='Inventory'" [count]="PartCount" [icon]="'cogs'" [title]="'Parts'" (click)="Navigation('part/overview')"></app-stepblock>
+    </span>
+    </div>
+
+  <div class="col-xl-4" id="assetcolum" style="display:none;">
+    <span *ngFor="let sub of Asssubmenu;let i = index ">
+      <app-stepblock *ngIf="sub.MMM_Name=='Assets'" [bgcolor]="'secondary'" [count]="AssetCount" [icon]="'list2'" [title]="'Assets'" (click)="Navigation('assets')"></app-stepblock>
+    </span>
+    </div>
+
+  <div class="col-xl-4"  id="ticketcolum" style="display:none;">
+
+   <span *ngFor="let sub of Asssubmenu;let i = index  " >
+      <app-stepblock *ngIf="sub.MMM_Name=='Tickets'" [bgcolor]="'primary'" [count]="ticketsCount" (click)="Navigation('tickets/overview')" [icon]="'ticket'" [title]="'Tickets'"></app-stepblock>
+</span>
+    </div>
+
+  <div class="col-xl-4"  id="accountingcolum" style="display:none;">
+
+   <span *ngFor="let sub of Asssubmenu;let i = index  "   >
+
+
+      <app-stepblock *ngIf="sub.MMM_Name=='Accounting'"[bgcolor]="'success'" [count]="rpdCount" [icon]="'hammer'" [title]="'Requested Parts'"></app-stepblock>
+</span>
+    </div>
+  <div class="col-xl-4"  id="pocolum" style="display:none;" >
+
+  <span *ngFor="let sub of Asssubmenu;let i = index  " >
+      <app-stepblock *ngIf="sub.MMM_Name=='Accounting'"[bgcolor]="'primary'" [count]="rpmCount" [icon]="'cart'" [title]="'Purchase Order'" (click)="Navigation('accounting/overview')"></app-stepblock>
+    </span>
+    </div>
+
+
+  <div class="col-xl-4" id="suppliercolum" style="display:none;" >
+
+  <span  *ngFor="let sub of Asssubmenu;let i = index  ">
+      <app-stepblock *ngIf="sub.MMM_Name=='Inventory'" [bgcolor]="'secondary'" (click)="Navigation('part/overview')" [count]="SupplierCount" [icon]="'users'" [title]="'Suppliers'"></app-stepblock>
+   </span> </div>
+  </div>
+  <!--<div class="row">
+    <div class="col-xl-3">
+    <app-stepblock [bgcolor]="'primary'" [count]="accountCount" [icon]="'books'" [title]="'Manufacturer'" (click)="Navigation('account/overview')"></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'success'" [count]="siteCount" [icon]="'library'" [title]="'Sites'" (click)="Navigation('site/overview')"></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'danger'" [count]="BranchCount" [icon]="'office'" [title]="'Branches'" (click)="Navigation('branch/overview')" ></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'warning'" [count]="PartCount" [icon]="'cogs'" [title]="'Parts'" (click)="Navigation('part/overview')"></app-stepblock>
+    </div>
+
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'secondary'" [count]="AssetCount" [icon]="'list2'" [title]="'Assets'" (click)="Navigation('assets')"></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'danger'" [count]="5" [icon]="'ticket'" [title]="'Tickets'"></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'success'" [count]="5" [icon]="'hammer'" [title]="'Requested Parts'"></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'primary'" [count]="5" [icon]="'cart'" [title]="'purchase Order'"></app-stepblock>
+    </div>
+
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'primary'" [count]="5" [icon]="'truck'" [title]="'Dispatch'"></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'warning'" [count]="5" [icon]="'calendar'" [title]="'Schedule'"></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'primary'" [count]="5" [icon]="'home3'" [title]="'Warehouse'"></app-stepblock>
+    </div>
+    <div class="col-xl-3">
+      <app-stepblock [bgcolor]="'secondary'" (click)="Navigation('part/overview')" [count]="SupplierCount" [icon]="'users'" [title]="'Suppliers'"></app-stepblock>
+    </div>
+  </div>-->
+  <app-footer></app-footer>
+</div>

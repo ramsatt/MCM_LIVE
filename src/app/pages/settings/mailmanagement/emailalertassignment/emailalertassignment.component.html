@@ -1,0 +1,78 @@
+
+<div class="card-block">
+  <form id="add" #addemailsettingsform="ngForm" name="form-validation-simple">
+      <div class="row">
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+              <div class="form-check col-lg-4">
+                  <table style="margin-left: 5px;">
+                      <tr>
+                          <td style="width: 200px;"><input checked class="form-check-input" value="1" [(ngModel)]="selectType"  name="selectType" type="radio" #acc1 (click)="emailTypeset(acc1.value)">
+                              Account</td>
+                          <td style="width: 200px;"><input class="form-check-input" value="2" [(ngModel)]="selectType"  name="selectType" type="radio" #acc2 (click)="emailTypeset(acc2.value)">
+                              Admin</td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+        <div class="row">
+          <div class="col-lg-4" *ngIf="!emailType">
+            <label class="form-label">Accounts<span style="color: red"> *</span></label>
+            <select [(ngModel)]="accounts" #accountnames2  name="accountname" class="form-control col-lg-12" (change)="setaccount(accountnames2.value)" required>
+                <option value="" selected >Select</option>
+              <option *ngFor="let acc of accountslist" value="{{acc.AM_KeyID}}" > {{ acc.AM_Name }} </option>
+            </select>
+          </div>
+          <div class="col-lg-4">
+            <label class="form-label">User Role<span style="color: red"> *</span></label>
+            <select [(ngModel)]="userrole_model" #userrole  name="roleid" class="form-control col-lg-12" (change)="viewusercategory(userrole.value)" required>
+                <option value="" selected >Select</option>
+              <option *ngFor="let role of user_role" value="{{role.URM_KeyID}}" > {{ role.URM_Role_Name }} </option>
+            </select>
+          </div>
+          <div class="col-lg-4">
+            <label class="form-label">
+              Category:<span style="color: red"> *</span></label>
+            <select [(ngModel)]="acc_br_sit_model" name="catid" #acc_br_sit class="form-control" (change)="viewusers(userrole.value,acc_br_sit.value,accID)">
+                <option value="" selected >Select</option>
+              <option  *ngFor="let uc of user_category" value="{{uc.userid}}" > {{ uc.username }} </option>
+
+            </select>
+          </div>
+        </div>
+      <br>
+    <div class="row">
+
+      <div class="col-sm-8 col-lg-12 pull-left">
+        <div class="cus_main_menu2">
+          <div class="cover1">
+            <table class="table demo table-hover nowrap">
+              <thead class="th-color">
+              <tr>
+                <td>Ticket Status</td>
+                <td><input id="chckboxall" type="checkbox" name="chckboxall" (click)="checkboxfun($event)"  /></td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr  *ngFor="let all of userlist;let j=index">
+                <input type="hidden" name="TSM_KeyID{{j}}" [(ngModel)]="all.TSM_KeyID">
+                <td style="text-align: left">{{all.TSM_Status}}</td>
+                <td>{{EAA_Is_Active}}<input [ngModel]="all.EAA_Is_Active== 'Y'" id="chckboxid" class="chkclass" type="checkbox" name="checkbox{{j}}" (change)="checkrdpartid(j,all.ECMID,userrole.value,all.categoryid,acc_br_sit.value,all.userid,this.sessid,$event)" /></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 pull-left">
+        <button type="button" class="btn btn-primary" (click)="updateParts(addemailsettingsform.value)">Assign Email</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+

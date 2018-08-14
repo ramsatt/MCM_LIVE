@@ -1,0 +1,62 @@
+<div class="row acc_header row_margin">
+  <div class="col-lg-12"><h5 class="acc_heading">Ticket Status List<span>
+    <button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inlin" (click)="Create_Ticket_Status()" [hidden]="b_add=='N'"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-lg-12 col-sm-12">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icmn-search"></i>
+      </span>
+      <input [(ngModel)]="tickfil_status" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+      </div>
+  </div>
+</div>
+
+<table class="table table-fixed"  width="100%">
+
+  <tbody>
+  <tr *ngFor="let tick of alltickets| ticketstatus:tickfil_status;" >
+
+    <td class="col-xs-12 col-lg-12 col-sm-12">{{tick.TSM_Status}}
+    <span class="pull-right"><button (click)="Update_Ticket_Status(tick.TSM_KeyID)" class="btn btn-icon btn-warning btn-rounded mr-2 mb-2" [hidden]="edit=='N'">
+      <i aria-hidden="true" class="icmn-pencil"></i>
+    </button>
+      <button  (click)="Delete(tick.TSM_KeyID) " class="btn btn-icon btn-danger btn-rounded mr-2 mb-2" [hidden]="delete=='N'" ><i aria-hidden="true" class="icmn-cross"></i></button></span></td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="modal fade" id="Status_Model" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header"><h4 class="modal-title">{{Modal_Tittle}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="ticketStatus_Form" (ngSubmit)="SaveStatus(ticketStatus_Form.value)" id="ModelForm">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="form-label">Name<span style="color: red">*</span></label>
+                <input class="form-control" type="text" formControlName="Status" placeholder="Enter status"/>
+                <div class="alert" *ngIf="!ticketStatus_Form.controls['Status'].valid && (ticketStatus_Form.controls['Status'].touched)">
+                  <div [hidden]="!ticketStatus_Form.controls['Status'].errors.required">
+                    Status is required.
+                  </div>
+                  Status must have 5 characters length.
+                </div>
+              </div>
+              <input type="submit" [value]="Modal_Button_Pri" class="btn btn-primary" [disabled]="!ticketStatus_Form.valid">
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

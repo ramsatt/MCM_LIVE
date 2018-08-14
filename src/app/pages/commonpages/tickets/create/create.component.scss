@@ -1,0 +1,375 @@
+$green:#469408;
+$yellow:#e69a2a;
+$red:#ea6c41;
+$blue:#177ec1;
+$pink:#dc4666;
+$orange:#ff8b15;
+$gold:#c4996d;
+$silver:#83878d;
+$black:#212121;
+$grey:#878787;
+$white:#fff;
+$twitter_blue:#00aced;
+$light_grey:rgba(33,33,33,0.1);
+$light_white:rgba(255,255,255,0.1);
+$xtra_lighter_grey:rgba(33,33,33,0.05);
+$xtra_lighter_white:rgba(255,255,255,0.05);
+$font_main: 'Roboto', sans-serif;
+
+table {
+    text-align: left;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0px 0px 5px #6c6c6c;
+    width: 100%;
+    border-radius: .25rem;
+}
+
+.alert{
+    background-color: red;
+}
+table th, td {
+    padding: 5px !important;
+}
+
+thead tr:first-child {
+    background: #19486C;
+    color: #fff;
+    border: none;
+}
+
+th:first-child,
+td:first-child {
+    padding: 0 0px 0 0px;
+}
+
+thead tr:last-child th {
+    border-bottom: 3px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #eee;
+    color: #000;
+    cursor: default;
+}
+
+tbody tr:last-child td {
+    border: none;
+}
+
+tbody td {
+    border-bottom: 1px solid #ddd;
+}
+
+td:last-child {
+    text-align: left;
+    padding-right: 10px;
+}
+
+.button {
+    color: #aaa;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.edit:hover {
+    color: #0a79df;
+}
+
+.delete:hover {
+    color: #626E82;
+}
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 1.25rem;
+    margin-bottom: -1px;
+    background-color: #FFF;
+    border: 1px solid #E4E7ED;
+}
+
+.media{
+    overflow: hidden;
+}
+.media-left {
+    padding-right: 10px;
+}
+.media-body, .media-left, .media-right {
+    display: table-cell;
+    vertical-align: top;
+}
+.mb-0, .my-0 {
+    margin-bottom: 0 !important;
+}
+.media-heading {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.avatar-sm {
+    width: 32px;
+}
+.avatar {
+    position: relative;
+    width: 30px;
+    white-space: nowrap;
+    border-radius: 1000px;
+    vertical-align: bottom;
+}
+.avatar, .spinner, .spinner-reverse {
+    display: inline-block;
+}
+.rounded-circle {
+    border-radius: 50%;
+}
+.avatar img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 0;
+    border-radius: 1000px;
+}
+img {
+    border-style: none;
+    vertical-align: middle;
+}
+.font-small-2 {
+    font-size: .8rem !important;
+}
+.text-muted {
+    color: #626E82 !important;
+}
+
+.close_icon{
+    margin-top: -17px;
+    margin-right: -10px;
+    cursor: pointer;
+}
+
+.card-view {
+    background: #fff;
+    margin-bottom: 12px;
+    border: 1px solid rgba(33, 33, 33, 0.1);
+    border-radius: 2px;
+    box-shadow: none;
+    padding: 15px 15px 0;
+    margin-left: -9px;
+    margin-right: -9px;
+}
+.pa-0 {
+    padding: 0px !important;
+}
+.panel-default {
+    border-color: #ddd;
+}
+.panel {
+    margin-bottom: 1px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.collapse.in {
+    display: block;
+}
+.collapse {
+    display: none;
+}
+.card-view.panel .panel-body {
+    padding: 5px 0 20px;
+}
+.panel-body {
+    padding: 15px;
+}
+.bg-green {
+    background:$green !important;
+}
+.bg-grey {
+    background:$grey !important;
+}
+.bg-yellow {
+    background:$yellow !important;
+}
+.bg-red {
+    background:$red !important;
+}
+.bg-blue {
+    background:$blue !important;
+}
+.bg-pink {
+    background:$pink !important;
+}
+.bg-light {
+    background:$white !important;
+}
+.bg-sathish
+{
+    background-color: #581845 !important;
+}
+.bg-dark {
+    background:$black !important;
+}
+.bg-twitter {
+    background:$twitter_blue !important;
+}
+.txt-dark {
+    color:$black !important;
+}
+.txt-light {
+    color:$white !important;
+}
+.txt-grey {
+    color:$grey !important;
+}
+
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.sm-data-box .data-wrap-left, .sm-data-box .data-wrap-right {
+    padding-top: 7px;
+    min-height: 75px;
+}
+.sm-data-box .counter {
+    font-size: 15px;
+}
+.txt-light {
+    color: #fff !important;
+}
+.block {
+    display: block !important;
+}
+.data-wrap-right {
+    padding-top: 7px;
+    min-height: 75px;
+}
+.sm-data-box .data-wrap-right .data-right-rep-icon {
+    font-size: 50px;
+}
+.text-center {
+    text-align: center;
+}
+.asign_space{padding: 4px;}
+
+.bg-white {
+    background-color: #fff;
+}
+.p-1 {
+    padding: .25rem .25rem !important;
+}
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+.pb-1 {
+    padding-bottom: .25rem !important;
+}
+.pt-1 {
+    padding-top: .25rem !important;
+}
+.mail-list {
+    position: relative;
+    height: 200px;
+}
+.ps {
+    -ms-touch-action: auto;
+    touch-action: auto;
+    overflow: auto;
+    -ms-overflow-style: none;
+}
+.mail-list .mail-list-item:first-child {
+    border-top: 1px solid #ccc;
+}
+.mail-list .mail-list-item {
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+.pb-2 {
+    padding-bottom: .5rem !important;
+}
+.pr-2 {
+    padding-right: .5rem !important;
+}
+.pt-2 {
+    padding-top: .5rem !important;
+}
+.pl-1, .px-1 {
+    padding-left: .25rem !important;
+}
+.media {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+.w-50p {
+    width: 50px;
+}
+.mr-3 {
+    margin-right: 1rem !important;
+}
+.d-flex {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.overflow-hidden {
+    overflow: hidden !important;
+}
+.media-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+.justify-content-between {
+    -webkit-box-pack: justify !important;
+    -ms-flex-pack: justify !important;
+    justify-content: space-between !important;
+}
+
+.mail-list .mail-list-item.unread .mail-sender, .mail-list .mail-list-item.unread .mail-subject {
+    font-weight: 700;
+}
+.mail-list .mail-list-item .mail-sender {
+    line-height: 18px;
+}
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.mail-container .mail-date {
+    white-space: nowrap;
+    padding-top: 1px;
+    padding-left: 4px;
+}
+.small, small {
+    font-size: 80%;
+}
+.iframe-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 30%;
+}
+.iframe-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 700px;
+}
+.modal.modal-size-large .modal-dialog {
+    max-width: 1045px;
+    width: auto;
+}
+
+.modal { overflow: auto !important; }

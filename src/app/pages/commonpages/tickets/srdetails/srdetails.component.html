@@ -1,0 +1,795 @@
+<!--First Row-->
+<div class="row">
+    <div class="col-lg-4">
+        <div class="col-lg-12">
+            <div class="row acc_header row_margin">
+                <div class="col-lg-12"><h5 class="acc_heading">Known Issues<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="ShowKnownIssueModal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="SER_SEL_KI_Name">
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-fixed"  width="100%">
+                <tbody>
+                <tr *ngFor="let k_i of KnownIssuesArray | selectedki:SER_SEL_KI_Name">
+                    <td class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="row" [style.background-color]="ActiveKIColor(k_i.TKIM_KeyID)"
+                             [style.color]="ActiveKITextColor(k_i.TKIM_AKIM_KeyID)">
+                        <div class="col-lg-10 col-sm-10 col-xs-10" (click)="Selected_KI(k_i)">{{k_i.TKIM_Known_Issue}}</div>
+                        <div class="col-lg-2 col-sm-2 col-xs-2">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_Acc_KI(k_i.TKIM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+                        </div>
+                    </div></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="col-lg-12">
+            <div class="row acc_header row_margin">
+                <div class="col-lg-12"><h5 class="acc_heading">Troubleshooting List<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="ShowSolutionModal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="SER_SEL_SOL_Name">
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-fixed"  width="100%">
+                <tbody>
+                <tr *ngFor="let Sol of SolutionArray | selectedsol:SER_SEL_SOL_Name">
+                    <td class="col-lg-12 col-sm-12 col-xs-12" [style.background-color]="ActiveSOLColor(Sol.TSOM_KeyID)"
+                        [style.color]="ActiveSOLTextColor(Sol.TSOM_ASOM_KeyID)">
+                        <div class="row">
+                            <div class="col-lg-10 col-sm-10 col-xs-10" (click)="SelectedSOL(Sol)">{{Sol.TSOM_Solution}}</div>
+                            <div class="col-lg-2 col-sm-2 col-xs-2">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_Acc_SOL(Sol.TSOM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-lg-4">
+        <div class="col-lg-12">
+            <div class="row acc_header row_margin">
+                <div class="col-lg-12"><h5 class="acc_heading">Parts<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="ShowPartModal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="SER_SEL_PART_Name">
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-fixed" width="100%">
+                <tbody>
+                <tr *ngFor="let part of PartsArray | selectedpart:SER_SEL_PART_Name">
+                    <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+                        <div class="row">
+                            <div class="col-lg-10 col-sm-10 col-xs-10">
+                                <img src="{{FileBasePath}}assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}" alt="" style="width: 60px; height: 50px;">{{part.PM_Part_Name}}</div>
+                            <div class="col-lg-2 col-sm-2 col-xs-2">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="RemovePart(part.PM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--Second Row-->
+<div class="row">
+    <div class="col-lg-4">
+        <div class="col-lg-12">
+            <div class="row acc_header row_margin">
+                <div class="col-lg-12">
+                    <h5 class="acc_heading">Documents<span><button type="button"
+                                                                   class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                   (click)="ShowInstructionModal()"><i class="icmn-plus"
+                                                                                                       aria-hidden="true"></i></button></span>
+                    </h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="SER_INS_Name">
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-fixed" width="100%">
+                <tbody>
+                <tr *ngFor="let ins of InstructionArray | selectedins: SER_INS_Name">
+                    <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+                        <div class="row">
+                            <div class="col-lg-10 col-sm-10 col-xs-10">{{ins.TIM_Name}}</div>
+                            <div class="col-lg-2 col-sm-2 col-xs-2">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_Acc_INS(ins.TIM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-lg-4">
+        <div class="col-lg-12">
+            <div class="row acc_header row_margin">
+                <div class="col-lg-12"><h5 class="acc_heading">Images<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="ShowImageModal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="SER_SEL_Image_Name">
+                    </div>
+                </div>
+            </div>
+            <table class="table table-fixed" width="100%">
+                <tbody>
+                <tr *ngFor="let image of ImagesArray | selectedimg:SER_SEL_Image_Name">
+                    <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal">
+                        <div class="row">
+                            <div class="col-lg-10 col-sm-10 col-xs-10">{{image.TIPDFM_Name}}</div>
+                            <div class="col-lg-2 col-sm-2 col-xs-2">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_TIC_INS_PDF(image.TIPDFM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="col-lg-12">
+            <div class="row acc_header row_margin">
+                <div class="col-lg-12"><h5 class="acc_heading">Videos<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="ShowVideoModal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="SER_SEL_Video_Name">
+                    </div>
+                </div>
+
+            </div>
+
+            <table class="table table-fixed" width="100%">
+                <tbody>
+                <tr *ngFor="let video of VideoArray | selectedvideo:SER_SEL_Video_Name">
+                    <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-xs-6">{{video.TGGIPDF_Name}}</div>
+                            <div class="col-lg-6 col-sm-6 col-xs-6">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_TIC_GEN_INS_PDF(video.TGIPDF_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Known Issue Model-->
+<div class="modal fade modal-size-large" id="KnownIssue" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Known Issues</h5>
+                <button type="button" class="close" aria-label="Close" (click)="CloseKnownIssueModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Select</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="SER_ASN_KI_Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input type="checkbox" class="checkbox" (click)="KISelectAll($event)"> Select All
+                                </div>
+                            </div>
+                            <form [formGroup]="AssignKIForm" novalidate>
+                                <div formArrayName="akiList" class="set_height_ov">
+                                    <div class="cust_checkbx" *ngFor="let aKI of akiList.controls ;let i=index" [formGroupName]="i" >
+                                        <input class="checkbox" type="checkbox" formControlName="isChosen" /> {{aKI.controls.AKIM_Name.value}}
+                                    </div>
+                                </div>
+                                <span class="pull-right">
+                                <button class="btn btn-primary" (click)="SubmitAssignedKnownIssue()">ADD</button>
+                            </span>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Create</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form [formGroup]="KI_Form" (ngSubmit)="Save_Acc_KI(KI_Form.value)" id="KIForm">
+                                        <div class="form-group col-lg-12">
+                                            <label class="form-label">Issue <span style="color: red">*</span></label>
+                                            <textarea class="form-control" rows="8" formControlName="kiName" placeholder="Enter the issue"></textarea>
+                                            <div class="alert" *ngIf="!KI_Form.controls['kiName'].valid && (KI_Form.controls['kiName'].touched || KI_Form.controls['kiName'].dirty)">
+                                                <div [hidden]="!KI_Form.controls['kiName'].errors.required">
+                                                    Issue required.
+                                                </div>
+                                                Issue must have 5 characters length.
+                                            </div>
+                                        </div>
+                                        <input type="submit" [value]="'Create'" class="btn btn-primary" [disabled]="!KI_Form.valid">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Solution Modal-->
+<div class="modal fade modal-size-large" id="Solutions" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Troubleshooting List</h5>
+                <button type="button" class="close" aria-label="Close" (click)="CloseSolutionModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Select</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_Known_Issue_Name">
+                                    </div>
+                                    <input type="checkbox" class="checkbox" (click)="SOLSelectAll($event)"> Select All
+                                    <form [formGroup]="AssignSOLForm" novalidate>
+                                        <div formArrayName="asolList" class="set_height_ov">
+                                            <div class="cust_checkbx" *ngFor="let aSOL of asolList.controls; let i=index" [formGroupName]="i" >
+                                                <input class="styled-checkbox" type="checkbox" checked formControlName="isChosen" /> {{aSOL.controls.ASOM_NAME.value}}
+                                            </div>
+                                        </div>
+                                        <span class="pull-right">
+                                <button class="btn btn-primary" (click)="SubmitAssignedSOL()">ADD</button>
+                            </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Create</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form [formGroup]="SOL_Form" (ngSubmit)="Save_Acc_SOL(SOL_Form.value)" id="SOLForm">
+                                        <div class="form-group col-lg-12">
+                                            <label class="form-label">Troubleshoot <span style="color: red">*</span></label>
+                                            <textarea class="form-control" rows="4" formControlName="solName" placeholder="Enter the Troubleshoot"></textarea>
+                                            <div class="alert" *ngIf="!SOL_Form.controls['solName'].valid && (SOL_Form.controls['solName'].touched || SOL_Form.controls['solName'].dirty)">
+                                                <div [hidden]="!SOL_Form.controls['solName'].errors.required">
+                                                    Troubleshoot required.
+                                                </div>
+                                                Troubleshoot must have 5 characters length.
+                                            </div>
+                                        </div>
+                                        <input type="submit" [value]="'Create'" class="btn btn-primary" [disabled]="!SOL_Form.valid">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--PartMOdal-->
+<div class="modal fade modal-size-large" id="Parts" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Parts</h5>
+                <button type="button" class="close" aria-label="Close" (click)="ClosePartModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Select</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_Known_Issue_Name">
+                                    </div>
+                                    <input type="checkbox" class="checkbox" (click)="PartSelectAll($event)"> Select All
+                                    <form [formGroup]="AssignPartsForm" novalidate>
+                                        <div formArrayName="aPARTList" class="set_height_ov">
+                                            <div class="cust_checkbx" *ngFor="let aPART of aPARTList.controls; let i=index" [formGroupName]="i" >
+                                                <input class="styled-checkbox" type="checkbox" checked formControlName="isChosen" />
+                                                <img src="{{FileBasePath}}assets/uploads/parts/{{aPART.controls.APART_ID.value}}/image/{{aPART.controls.APART_IMAGE.value}}" alt="" style="height: 50px; width: 60px">{{aPART.controls.APART_NAME.value}}
+                                            </div>
+                                        </div>
+                                        <span class="pull-right">
+                                <button class="btn btn-primary" (click)="SubmitSelectedParts()">ADD</button>
+                            </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Assign</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form [formGroup]="UnassignedPartsForm" novalidate>
+                                        <div formArrayName="uPARTList" class="set_height_ov">
+                                            <div class="cust_checkbx" *ngFor="let uPART of uPARTList.controls; let i=index" [formGroupName]="i" >
+                                                <input class="styled-checkbox" type="checkbox" formControlName="isChosen" />
+                                                <img src="{{FileBasePath}}assets/uploads/parts/{{uPART.controls.APART_ID.value}}/image/{{uPART.controls.APART_IMAGE.value}}" alt="" style="height: 50px; width: 60px">{{uPART.controls.APART_NAME.value}}
+                                            </div>
+                                        </div>
+                                        <span class="pull-right">
+                                <button class="btn btn-primary" (click)="SubmitSelectedUAParts()">Assign</button>
+                            </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-lg-4">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Assign</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_PartName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--InstructionModal-->
+<div class="modal fade modal-size-large" id="Instruction" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Documents</h5>
+                <button type="button" class="close" aria-label="Close" (click)="CloseInstructionModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Select</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_Known_Issue_Name">
+                                    </div>
+                                    <input type="checkbox" class="checkbox" (click)="INSSelectAll($event)"> Select All
+                                    <form [formGroup]="AssignINSForm" novalidate>
+                                        <div formArrayName="aINSList" class="set_height_ov">
+                                            <div class="cust_checkbx" *ngFor="let aINSList of aINSList.controls; let i=index" [formGroupName]="i" >
+                                                <input class="styled-checkbox" type="checkbox" checked formControlName="isChosen" />{{aINSList.controls.AINS_NAME.value}}
+                                            </div>
+                                        </div>
+                                        <span class="pull-right">
+                                <button class="btn btn-primary" (click)="Submit_Selected_INS()">ADD</button>
+                            </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Create</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form [formGroup]="INS_Form" (ngSubmit)="Save_ASR_INS(INS_Form.value)" id="INSForm">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label">Name<span style="color: red">*</span></label>
+                                                    <input class="form-control" type="text" formControlName="InsName"
+                                                           placeholder="Enter the document name"/>
+                                                    <div class="alert" *ngIf="!INS_Form.controls['InsName'].valid && (INS_Form.controls['InsName'].touched || INS_Form.controls['InsName'].dirty)">
+                                                        <div [hidden]="!INS_Form.controls['InsName'].errors.required">
+                                                            Document name is required.
+                                                        </div>
+                                                        Document name must have 4 characters length.
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-12">
+                                                    <label class="form-label">Description</label>
+                                                    <textarea class="form-control" rows="4" formControlName="InsDesc" placeholder="Enter the description"></textarea>
+                                                    <div class="alert" *ngIf="!INS_Form.controls['InsDesc'].valid && (INS_Form.controls['InsDesc'].touched || INS_Form.controls['InsDesc'].dirty)">Description must have minimum 10 characters long</div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Select PDF <span style="color: red">*</span></label>
+                                                    <input class="dropify form-control" type="file" #INS_File formControlName="InsFile">
+                                                    <div class="alert" *ngIf="!INS_Form.controls['InsFile'].valid">File required</div>
+                                                    <br>
+                                                    <span>Please upload PDF less than 2 MB.</span>
+                                                </div>
+
+                                                <input type="submit" [value]="'Create'" class="btn btn-primary"
+                                                       [disabled]="!INS_Form.valid"
+                                                       *ngIf="Document_Create_Button_Status">
+
+                                                <div class="mb-5" *ngIf="Document_Upload_Status">
+                                                    <br>
+                                                    <br>
+                                                    <div class="mb-5">
+                                                        <h4 *ngIf="Document_Upload_Status">Uploading -
+                                                            {{DocumentUploadProgress}}%</h4>
+                                                        <div class="progress mb-2">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                                 role="progressbar"
+                                                                 attr.aria-valuenow="{{getUploadProgress}}"
+                                                                 aria-valuemin="0" aria-valuemax="100"
+                                                                 [style]="getUploadProgress(DocumentUploadProgress)"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-lg-4">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Assign</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_PartName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--ImageModal-->
+<div class="modal fade modal-size-large" id="Images" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Images</h5>
+                <button type="button" class="close" aria-label="Close" (click)="CloseImageModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Select</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_Known_Issue_Name">
+                                    </div>
+                                    <input type="checkbox" class="checkbox" (click)="ImageSelectAll($event)"> Select All
+                                    <form [formGroup]="AImageForm" novalidate>
+                                        <div formArrayName="aIMGList" class="set_height_ov">
+                                            <div class="cust_checkbx" *ngFor="let aIMG of aIMGList.controls; let i=index" [formGroupName]="i" >
+                                                <input class="styled-checkbox" type="checkbox" checked formControlName="isChosen" />{{aIMG.controls.AIMG_NAME.value}}
+                                            </div>
+                                        </div>
+                                        <span class="pull-right">
+                                <button class="btn btn-primary" (click)="SubmitAIMGSelectedList()">ADD</button>
+                            </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Create</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form [formGroup]="INS_PDF_Form" (ngSubmit)="ASR_INS_PDF_Save(INS_PDF_Form.value)" id="INSPDFForm">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Name<span style="color: red">*</span></label>
+                                                    <input class="form-control" type="text" formControlName="InsPdfName" placeholder="Enter the image name"/>
+                                                    <div class="alert" *ngIf="!INS_PDF_Form.controls['InsPdfName'].valid && (INS_PDF_Form.controls['InsPdfName'].touched || INS_PDF_Form.controls['InsPdfName'].dirty)">
+                                                        <div [hidden]="!INS_PDF_Form.controls['InsPdfName'].errors.required">
+                                                        Image name is required.
+                                                        </div>
+                                                        Image name must have 4 characters length.
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Disabled <span style="color: red">*</span></label>
+                                                    <select class="form-control" formControlName="InsPDFStatus">
+                                                        <option value="NO">NO</option>
+                                                        <option value="YES">YES</option>
+                                                    </select>
+                                                    <div class="alert" *ngIf="!INS_PDF_Form.controls['InsPDFStatus'].valid && INS_PDF_Form.controls['InsPDFStatus'].touched">Status required</div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Select Image <span style="color: red">*</span></label>
+                                                    <input class="dropify form-control" type="file" #INS_PDF formControlName="InsPDF_File">
+                                                    <div class="alert" *ngIf="!INS_PDF_Form.controls['InsPDF_File'].valid">File required</div>
+                                                    <br>
+                                                    <span>Please upload image less than 2 MB.</span>
+                                                </div>
+
+                                                <input type="submit" [value]="'Create'" class="btn btn-primary"
+                                                       [disabled]="!INS_PDF_Form.valid"
+                                                       *ngIf="Image_Create_Button_Status">
+
+                                                <div class="mb-5" *ngIf="Image_Upload_Status">
+                                                    <br>
+                                                    <br>
+                                                    <h4>Uploading -
+                                                        {{ImageUploadProgress}}%</h4>
+                                                    <div class="progress mb-2">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                             role="progressbar"
+                                                             attr.aria-valuenow="{{getUploadProgress}}"
+                                                             aria-valuemin="0" aria-valuemax="100"
+                                                             [style]="getUploadProgress(ImageUploadProgress)"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--VideoModal-->
+<div class="modal fade modal-size-large" id="Videos" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Videos</h5>
+                <button type="button" class="close" aria-label="Close" (click)="CloseVideoModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Select</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                        <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_Known_Issue_Name">
+                                    </div>
+                                    <input type="checkbox" class="checkbox" (click)="VideoSelectAll($event)"> Select All
+                                    <form [formGroup]="AVideoForm" novalidate>
+                                        <div formArrayName="aVIDEOList" class="set_height_ov">
+                                            <div class="cust_checkbx" *ngFor="let aVIDEO of aVIDEOList.controls; let i=index" [formGroupName]="i" >
+                                                <input class="styled-checkbox" type="checkbox" checked formControlName="isChosen" />{{aVIDEO.controls.AVID_NAME.value}}
+                                            </div>
+                                        </div>
+                                        <span class="pull-right">
+                                <button class="btn btn-primary" (click)="SubmitSelectedAVideosList()">ADD</button>
+                            </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Create</h5></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form [formGroup]="Gen_Ins_PDF_Form" (ngSubmit)="Save_ASR_GEN_INS_PDF(Gen_Ins_PDF_Form.value)" id="GenInsPDFForm">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Name<span style="color: red">*</span></label>
+                                                    <input class="form-control" type="text" formControlName="GenPDFName" placeholder="Enter the video name"/><div class="alert" *ngIf="!Gen_Ins_PDF_Form.controls['GenPDFName'].valid && (Gen_Ins_PDF_Form.controls['GenPDFName'].touched || Gen_Ins_PDF_Form.controls['GenPDFName'].dirty)">
+                                                    <div [hidden]="!Gen_Ins_PDF_Form.controls['GenPDFName'].errors.required">
+                                                        Video name is required.
+                                                    </div>
+                                                    Video name must have 4 characters length.
+                                                </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Select Video<span style="color: red">*</span></label>
+                                                    <input class="dropify form-control" type="file" #GEN_INS_PDF formControlName="GenPDF_File">
+                                                    <div class="alert" *ngIf="!Gen_Ins_PDF_Form.controls['GenPDF_File'].valid">File required</div>
+                                                    <span>Please upload image less than 2 MB and video format should be.mp4,.webm</span>
+                                                </div>
+                                                <input type="submit" [value]="'Create'" class="btn btn-primary"
+                                                       [disabled]="!Gen_Ins_PDF_Form.valid"
+                                                       *ngIf="Video_Create_Button_Status">
+                                                <div class="mb-5" *ngIf="Video_Upload_Status">
+                                                    <br>
+                                                    <br>
+                                                    <h4>Uploading -
+                                                        {{VideoUploadProgress}}%</h4>
+                                                    <div class="progress mb-2">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                             role="progressbar"
+                                                             attr.aria-valuenow="{{VideoUploadProgress}}"
+                                                             aria-valuemin="0" aria-valuemax="100"
+                                                             [style]="getUploadProgress(VideoUploadProgress)"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

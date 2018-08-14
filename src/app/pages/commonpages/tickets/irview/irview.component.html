@@ -1,0 +1,474 @@
+<section class="card" id="ir-print-section">
+  <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Incident Report</strong>
+        </span>
+  </div>
+  <div class="card-block">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="margin-bottom-50">
+          <table class="table table-striped">
+            <tbody>
+            <tr>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Incident Report ID:</span>
+                <br>
+                {{IR_Array.IRM_KeyID}}
+              </td>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Ticket Number:</span>
+                <br>
+                {{IR_Array.IRM_Work_Order_No}}
+              </td>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Account:</span>
+                <br>
+               {{IR_Array.IRM_Account_Name}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Account Reference Number:</span>
+                <br>
+                {{IR_Array.IM_ACC_Ref_Number}}
+              </td>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Created On:</span>
+                <br>
+                {{IR_Array.IRM_Created_At | date:'yMMMdjms'}}
+              </td>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Updated On:</span>
+                <br>
+                {{IR_Array.IRM_Modified_At | date:'yMMMdjms'}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Site:</span>
+                <br>
+                {{IR_Array.IRM_Site_Name}}
+              </td>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Branch:</span>
+                <br>
+                {{IR_Array.IRM_Branch_Name}}
+              </td>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Service Request:</span>
+                <br>
+                {{IR_Array.IRM_Service_Request}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Model Name:</span>
+                <br>
+                {{IR_Array.IRM_Model_Name}}
+              </td>
+              <td>
+                <span class="font-size-10 text-uppercase color-default">Asset Name:</span>
+                <br>
+                {{IR_Array.IRM_Asset_Name}}
+              </td>
+              <td>
+                  <span class="font-size-10 text-uppercase color-default">Trip Number:</span>
+                <br>
+                {{this.GenerateTripNumber(IR_Array.IRM_TRIP_KeyID)}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <div class="margin-bottom-50">
+          <h2>Part Details</h2>
+          <h3 *ngIf="HeroKitPartAvailable">Hero Kit Parts</h3>
+          <table class="table" *ngIf="HeroKitPartAvailable">
+            <thead class="thead-inverse">
+            <tr>
+              <th>Part Name</th>
+              <th>Image</th>
+                <th>Required Qty.</th>
+              <th>Used Qty.</th>
+              <th>Current Stock</th>
+              <th>Target Stock</th>
+              <th>Replenishment</th>
+              <th>Virtual stock</th>
+                <th>Allotted Qty</th>
+              <th>Total Reserved Qty</th>
+              <th>Used Part S. No.</th>
+              <th>Replaced Part S. No.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let part of IR_Parts_Array">
+              <td valign="center" *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.PM_Part_Name}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">
+                <img src="{{FileBaseUrl}}assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}"
+                     alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+              </td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.TRPD_Required_Qty}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">
+                {{part.TRPD_Used_Part_Qty}}
+              </td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Target_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Replenishment}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Shipped_Virtual_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.TRPD_Shipment_Reserve_Qty}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Reserved_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.TRPD_Used_Part_SR_No}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.TRPD_Old_Part_SR_No}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <h3 *ngIf="NonHeroKitPartAvailable">Non-Hero Kit Parts</h3>
+          <table class="table" *ngIf="NonHeroKitPartAvailable">
+            <thead class="thead-inverse">
+            <tr>
+              <th>Part Name</th>
+              <th>Image</th>
+                <th>Required Qty.</th>
+              <th>Used Qty.</th>
+              <th>Current Stock</th>
+              <th>Target Stock</th>
+              <th>Replenishment</th>
+              <th>Virtual stock</th>
+                <th>Allotted Qty</th>
+              <th>Total Reserved Qty</th>
+              <th>Used Part S. No.</th>
+              <th>Replaced Part S. No.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let part of IR_Parts_Array">
+              <td valign="center" *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.PM_Part_Name}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">
+                <img src="{{FileBaseUrl}}assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}"
+                     alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+              </td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.TRPD_Required_Qty}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">
+                {{part.TRPD_Used_Part_Qty}}
+              </td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Target_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Replenishment}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Shipped_Virtual_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.TRPD_Shipment_Reserve_Qty}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Reserved_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.TRPD_Used_Part_SR_No}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.TRPD_Old_Part_SR_No}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <h1 *ngIf="NewPartAvailable">New Parts</h1>
+          <table class="table" *ngIf="NewPartAvailable">
+            <thead class="thead-inverse">
+            <tr>
+              <th>Part Name</th>
+              <th>Image</th>
+                <th>Required Qty.</th>
+              <th>Used Qty.</th>
+              <th>Current Stock</th>
+              <th>Target Stock</th>
+              <th>Replenishment</th>
+              <th>Virtual stock</th>
+                <th>Allotted Qty</th>
+              <th>Total Reserved Qty</th>
+              <th>Used Part S. No.</th>
+              <th>Replaced Part S. No.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let part of IR_Parts_Array">
+              <td valign="center" *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.PM_Part_Name}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">
+                <img src="{{FileBaseUrl}}assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}"
+                     alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+              </td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.TRPD_Required_Qty}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">
+                {{part.TRPD_Used_Part_Qty}}
+              </td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Target_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Replenishment}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Shipped_Virtual_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.TRPD_Shipment_Reserve_Qty}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Reserved_Stock}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.TRPD_Used_Part_SR_No}}</td>
+              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.TRPD_Old_Part_SR_No}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <hr>
+        </div>
+        <br>
+        <div class="margin-bottom-50">
+            <div *ngFor="let Check_List of IR_Check_List_Array; let i = index;">
+              <h3>{{i+1}}. {{Check_List.check_List_name}}</h3>
+              <hr>
+              <div class="form-check" *ngFor="let CL of Check_List.check_list; let no = index">
+                <label class="form-check-label" >
+                  {{no + 1}}. {{CL.IRCLM_Check_List_Description}}
+                </label>
+              </div>
+            </div>
+        </div>
+        <br>
+        <div class="margin-bottom-50">
+          <div class="col-lg-12">
+              <h3>On Site Note:</h3>
+            <p>{{IR_Array.IRM_Aditional_Info}}</p>
+          </div>
+        </div>
+        <br>
+        <div class="margin-bottom-50">
+          <div class="row">
+            <div class="col-lg-6">
+              <h3>Technician Details</h3>
+              <div class="margin-bottom-50">
+                <table class="table table-striped">
+                  <tbody>
+                  <tr>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Technician First Name:</span>
+                      <br>
+                      {{IR_Array.IRM_Technician_First_Name}}
+                    </td>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Technician Last Name:</span>
+                      <br>
+                      {{IR_Array.IRM_Technician_Last_Name}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Technician Email:</span>
+                      <br>
+                      {{IR_Array.IRM_Technician_Email}}
+                    </td>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Technician Branch:</span>
+                      <br>
+                      {{IR_Array.IRM_Technician_Branch}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Time:</span>
+                      <br>
+                      Arrived: {{IR_Array.IRM_Technician_Arrived_Time}} - Depart: {{IR_Array.IRM_Technician_Departed_Time}}
+                    </td>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Total Time:</span>
+                      <br>
+                      {{IR_Array.TotalTime}}
+                    </td>
+                  </tr>
+                  <tr>
+                      <td rowspan="2">
+                          <span class="font-size-10 text-uppercase color-default">On Site Date:</span>
+                          <br>
+                          {{IR_Array.IRM_OnSite_Date}}
+                      </td>
+                  </tr>
+                  <tr>
+                      <td colspan="2">
+                          <span class="font-size-10 text-uppercase color-default">Technician Signature:</span>
+                          <br>
+                          <img src="{{FileBaseUrl}}uploads/incident_report/{{IR_Array.IRM_KeyID}}/signature/{{IR_Array.IRM_Technician_Signature}}"
+                               alt="" height="70px" width="300px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                      </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <h3>Customer Details</h3>
+              <div class="margin-bottom-50">
+                <table class="table table-striped">
+                  <tbody>
+                  <tr>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Customer First Name:</span>
+                      <br>
+                      {{IR_Array.IRM_Customer_First_Name}}
+                    </td>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Customer Last Name:</span>
+                      <br>
+                      {{IR_Array.IRM_Customer_Last_Name}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Customer Email:</span>
+                      <br>
+                      {{IR_Array.IRM_Customer_Email}}
+                    </td>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Customer Mobile:</span>
+                      <br>
+                      {{IR_Array.IRM_Customer_Mobile}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Customer Signed Date:</span>
+                      <br>
+                      {{IR_Array.IRM_Customer_Signed_Date}}
+                    </td>
+                    <td>
+                      <span class="font-size-10 text-uppercase color-default">Customer Signed Time:</span>
+                      <br>
+                      {{IR_Array.IRM_Customer_Signed_Time}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <span class="font-size-10 text-uppercase color-default">Customer Signature:</span>
+                      <br>
+                      <img src="{{FileBaseUrl}}uploads/incident_report/{{IR_Array.IRM_KeyID}}/signature/{{IR_Array.IRM_Customer_Signature}}" alt="" height="70px" width="300px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="margin-bottom-50">
+          <div class="row">
+            <div class="col-lg-12">
+              <h3>Attachment</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+                      <div class="row">
+                        <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2" *ngIf="IR_Array.IRM_Attachment_One !== ''">
+                          <img *ngIf="IR_Array.IRM_Attachment_One !== ''" class="irimg" [src]="Attachment1">
+                          <a [href]="file1url" target="_blank"><button style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-success btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-eye"></i></button></a>
+                          <button *ngIf="userRole === '1'" (click)="openFileUploadModel(1)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-warning btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-pencil"></i></button>
+                          <button *ngIf="userRole === '1'" (click)="DeleteFile(1)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-danger btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2" *ngIf="IR_Array.IRM_Attachment_Two !== ''">
+                          <img *ngIf="IR_Array.IRM_Attachment_Two !== ''" class="irimg"[src]="Attachment2">
+                          <a [href]="file2url" target="_blank"><button style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-success btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-eye"></i></button></a>
+                          <button *ngIf="userRole === '1'" (click)="openFileUploadModel(2)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-warning btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-pencil"></i></button>
+                          <button *ngIf="userRole === '1'" (click)="DeleteFile(2)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-danger btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2" *ngIf="IR_Array.IRM_Attachment_Three !== ''">
+                          <img *ngIf="IR_Array.IRM_Attachment_Three !== ''" class="irimg" [src]="Attachment3">
+                          <a [href]="file3url" target="_blank"><button style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-success btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-eye"></i></button>
+                          </a>
+                          <button *ngIf="userRole === '1'" (click)="openFileUploadModel(3)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-warning btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-pencil"></i></button>
+                          <button *ngIf="userRole === '1'" (click)="DeleteFile(3)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-danger btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2" *ngIf="IR_Array.IRM_Attachment_Four !== ''">
+                          <img *ngIf="IR_Array.IRM_Attachment_Four !== ''" class="irimg" [src]="Attachment4">
+                          <a [href]="file4url" target="_blank"><button style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-success btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-eye"></i></button>
+                          </a>
+                          <button *ngIf="userRole === '1'" (click)="openFileUploadModel(4)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-warning btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-pencil"></i></button>
+                          <button *ngIf="userRole === '1'" (click)="DeleteFile(4)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-danger btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2" *ngIf="IR_Array.IRM_Attachment_Five !== ''">
+                          <img *ngIf="IR_Array.IRM_Attachment_Five !== ''" class="irimg" [src]="Attachment5">
+                          <a [href]="file5url" target="_blank"><button style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-success btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-eye"></i></button>
+                          </a>
+                          <button *ngIf="userRole === '1'" (click)="openFileUploadModel(5)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-warning btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-pencil"></i></button>
+                          <button *ngIf="userRole === '1'" (click)="DeleteFile(5)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-danger btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2" *ngIf="IR_Array.IRM_Attachment_Six !== ''">
+                         <img *ngIf="IR_Array.IRM_Attachment_Six !== ''" class="irimg" [src]="Attachment6">
+                          <a [href]="file6url" target="_blank"><button style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-success btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-eye"></i></button>
+                          </a>
+                          <button *ngIf="userRole === '1'" (click)="openFileUploadModel(6)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-warning btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-pencil"></i></button>
+                          <button *ngIf="userRole === '1'" (click)="DeleteFile(6)" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-danger btn-rounded margin-inline"  type="button"><i _ngcontent-c2="" aria-hidden="true" class="fa fa-trash"></i></button>
+                        </div>
+                      </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="Edit">
+            <div class="col-lg-12">
+              <form [formGroup]="FileUpdateForm" (ngSubmit)="UpdateFile(FileUpdateForm.value)">
+                <div class="form-group">
+                  <label class="form-label">Select File<span style="color: red">*</span></label>
+                  <input class="dropify form-control" type="file" #UploadFile formControlName="U_file">
+                  <div class="alert" *ngIf="!FileUpdateForm.controls['U_file'].valid">File required</div>
+                  <span>Please upload file less than 2 MB.</span>
+                </div>
+                <input type="submit" [value]="'Update'" class="btn btn-primary" [disabled]="!FileUpdateForm.valid" *ngIf="File_Upload_Button">
+              </form>
+              <div class="mb-5" *ngIf="File_Upload_Status">
+                <br>
+                <br>
+                <h4>Uploading -
+                  {{FileUploadProgress}}%</h4>
+                <div class="progress mb-2">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated"
+                       role="progressbar"
+                       attr.aria-valuenow="{{FileUploadProgress}}"
+                       aria-valuemin="0" aria-valuemax="100"
+                       [style]="getUploadProgress(FileUploadProgress)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-12">
+              <span class="pull-right">
+                <button class="btn btn-primary" (click)="print()">Print</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" #FileUpdate tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="image">Update Files</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>

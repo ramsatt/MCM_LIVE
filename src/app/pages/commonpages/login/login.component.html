@@ -1,0 +1,126 @@
+<!-- START: pages/login-alpha -->
+<div class="cat__pages__login">
+  <div class="single-page-block-header" style="padding: 0px;">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="logo">
+          <a href="javascript: history.back();">
+            <img src="{{logo_img}}" alt="MCM Corporation" />
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="single-page-block-header-menu">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="single-page-block">
+    <div class="single-page-block-inner effect-3d-element">
+      <div class="blur-placeholder"><!-- --></div>
+      <div class="single-page-block-form">
+        <h3 class="text-center">
+          <i class="icmn-enter margin-right-10"></i>
+          Login to start your session
+        </h3>
+        <br />
+        <form [formGroup]="LoginForm" (ngSubmit)="Login(LoginForm.value)" id="LoginForm">
+          <div class="form-group">
+            <input
+                    class="form-control"
+                    formControlName="UserName"
+                    placeholder="Username"
+                    type="text">
+            <div class="alert" *ngIf="!LoginForm.controls['UserName'].valid && (LoginForm.controls['UserName'].touched || LoginForm.controls['UserName'].dirty)">
+              <div [hidden]="!LoginForm.controls['UserName'].errors.required">
+                Username required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="form-control password"
+                   formControlName="Password"
+                   type="password"
+                   placeholder="Password">
+            <div class="alert" *ngIf="!LoginForm.controls['Password'].valid && (LoginForm.controls['Password'].touched || LoginForm.controls['Password'].dirty)">
+              <div [hidden]="!LoginForm.controls['Password'].errors.required">
+                Password required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <a href="javascript: void(0);" class="pull-right" (click)="formrefresh()" data-toggle="modal" data-target="#editholi">Forgot Password?</a>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="example6">
+                Remember me
+              </label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <input type="submit" [value]="'Sign In'" class="btn btn-primary width-150" [disabled]="!LoginForm.valid">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="single-page-block-footer text-center">
+    <ul class="list-unstyled list-inline">
+
+    </ul>
+  </div>
+
+
+</div>
+<!-- END: pages/login-alpha -->
+<div class="modal fade" id="editholi" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Reset Password</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+          <div [hidden]="submitted">
+            <form #UpdatesetUser="ngForm"  id="UpdateUser">
+              <div class="form-group">
+                <label>Please enter your email to reset the password </label>
+                <input class="form-control"  [(ngModel)]="email" placeholder="Enter the email"
+                       type="text" name="email"  #mailval="ngModel"
+                       autocomplete="off"
+                       pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*"
+                       required>
+                <div *ngIf="mailval.errors && (mailval.dirty || mailval.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!mailval.errors.required">
+                    Email required.
+                  </div>
+                  <div [hidden]="!mailval.errors.pattern">
+                    Please Enter Valid Email Address.
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="form-actions">
+                <div class="form-group row">
+                  <div class="col-md-9 offset-md-5">
+                    <button class="btn btn-primary" type="submit" data-dismiss="modal" [disabled]="!UpdatesetUser.form.valid" (click)="updateuser()" >Send</button>
+                    <button class="btn btn-default" type="button" data-dismiss="modal" >Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </form></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>

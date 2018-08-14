@@ -1,0 +1,165 @@
+
+<div class="row acc_header row_margin">
+
+  <div class="col-lg-12"><h5 class="acc_heading">Library<span>
+    <button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline "data-toggle="modal" [hidden]="b_add=='N'"  data-target="#addlib"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+
+</div>
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+    <input [(ngModel)]="libfil_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+  </div></div>
+</div>
+<table class="table table-hover nowrap"  width="100%">
+  <thead>
+  <tr>
+
+    <th>Name</th>
+    <th>Description</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let lib of alllibrary|library:libfil_name" >
+
+    <td>{{lib.LM_Name}}</td>
+    <td>{{lib.LM_Description}}</td>
+
+    <td><button (click)="open(lib.LM_KeyID)" [hidden]="edit=='N'" data-toggle="modal" data-target="#editlib" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline"></button>
+      <button  (click)="Delete(lib.LM_KeyID) " [hidden]="delete=='N'" class="btn btn-icon btn-danger fa fa-trash" ><i _ngcontent-mdt-28="" aria-hidden="true"></i></button></td>
+    <div class="modal fade" id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Delete</h4>
+          </div>
+          <div class="modal-body">
+            <p>Do you want to delete {{lib.LM_KeyID}}?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"  data-dismiss="modal"(click)="Delete(lib.LM_KeyID)">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tr>
+  </tbody>
+</table>
+
+<div class="modal fade"id="addlib" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Create</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+          <div [hidden]="submitted">
+            <form id="add"  #libForm="ngForm" name="form-validation-simple" method="POST">
+              <div class="form-group">
+                <label class="form-label">Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="libname" #lib="ngModel" name="libname"
+                       type="text"
+                       class="form-control"
+                       required>
+                <div *ngIf="lib.errors && (lib.dirty || lib.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!lib.errors.required">
+                    Library Name is required
+                  </div>
+
+                </div>       </div>
+              <div class="form-group">
+                <label class="form-label">Description <span style="color: red">*</span></label>
+                <textarea [(ngModel)]="desc" #lib_desc="ngModel"
+
+                          class="form-control"
+                          name="desc"
+                          required></textarea>
+
+                <div *ngIf="lib_desc.errors && (lib_desc.dirty || lib_desc.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!lib_desc.errors.required">
+                    Library Description is required
+                  </div>
+
+                </div>     </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  [disabled]="!libForm.form.valid"(click)="add()">Save</button>
+              </div>
+            </form></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editlib" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Update</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+          <div [hidden]="submitted">
+          <form id="form-validation-simple" #e_libForm="ngForm" name="form-validation-simple" method="POST">
+
+              <div class="form-group">
+                <label class="form-label">Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="e_libname" #e_lib="ngModel" name="libname"
+                       type="text"
+                       class="form-control"
+                       required>
+                <div *ngIf="e_lib.errors && (e_lib.dirty || e_lib.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!e_lib.errors.required">
+                    Library Name is required
+                  </div>
+
+                </div>  </div>
+              <div class="form-group">
+                <label class="form-label">Description <span style="color: red">*</span></label>
+                <textarea [(ngModel)]="e_desc" #e_lib_desc="ngModel"
+
+                          class="form-control"
+                          name="desc"
+                          required url></textarea>
+
+                <div *ngIf="e_lib_desc.errors && (e_lib_desc.dirty || e_lib_desc.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!e_lib_desc.errors.required">
+                    Library Description is required
+                  </div>
+
+                </div> </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  [disabled]="!e_libForm.form.valid"(click)="uplib()">Update</button>
+              </div>
+            </form></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>

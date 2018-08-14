@@ -1,0 +1,408 @@
+<div class="row">
+  <div class="col-lg-4" style="padding: 2px">
+
+  <div class="row acc_header row_margin">
+
+    <div class="col-lg-12"><h5 class="acc_heading">Technician Certifications<span>
+      <button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline "data-toggle="modal"  data-target="#addtech" [hidden]="b_add=='N'"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-lg-12 col-sm-12">
+      <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+        <input [(ngModel)]="tech_cername" type="text" class="form-control" name="Site_Search" placeholder="Search" id=""></div>
+    </div>
+  </div>
+
+
+
+
+
+    <table class="table table-fixed"  width="100%">
+
+      <tbody>
+      <tr *ngFor="let tc of alltechcer| techniciancertification:tech_cername;" >
+
+        <td class="col-xs-12 col-lg-12 col-sm-12">{{tc.TCM_Technician_Certifications_Name}}
+
+
+        <span class="pull-right"> <button (click)="open(tc.TCM_KeyID)" data-toggle="modal" data-target="#edittech" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" [hidden]="edit=='N'"></button>
+          <button  (click)="Delete(tc.TCM_KeyID) " class="btn btn-icon  btn-danger fa fa-trash" [hidden]="delete=='N'"><i _ngcontent-mdt-28="" aria-hidden="true"></i></button></span></td>
+        <div class="modal fade" id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header"><h4 class="modal-title" id="myModalLabel">Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+
+              </div>
+              <div class="modal-body">
+                <p>Do you want to delete {{tc.TCM_KeyID}}?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  data-dismiss="modal"(click)="Delete(tc.TCM_KeyID)">Yes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+    <div class="modal fade" id="addtech" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header"><h4 class="modal-title" id="myModalLabel">Create</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+          </div>
+          <div class="modal-body">
+            <div class="card-block">
+
+              <div [hidden]="submitted">
+                <form id="addtechcerform" #techcerForm="ngForm" name="form-validation-simple" method="POST">
+                  <div class="form-group">
+                    <label class="form-label">Name <span style="color: red">*</span></label>
+                    <input [(ngModel)]="tech_cer_name" #name="ngModel" name="techname"
+                           type="text"
+                           class="form-control"
+                           required>
+                    <div *ngIf="name.errors && (name.dirty || name.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!name.errors.required">
+                        Technician Certifications is required
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  [disabled]="!techcerForm.form.valid"  (click)="add()">Save</button>
+                  </div>
+                </form></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="edittech" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">  <h4 class="modal-title" id="myModalLabel">Update</h4>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+          <div class="modal-body">
+            <div class="card-block">
+
+              <div [hidden]="submitted">
+                <form id="form-validation-simple" #e_techcerForm="ngForm"name="form-validation-simple" method="POST">
+
+                  <div class="form-group">
+                    <label class="form-label">Name <span style="color: red">*</span></label>
+                    <input [(ngModel)]="e_techcer_name" #e_name="ngModel" name="e_name"
+                           type="text"
+                           class="form-control"
+                           required>
+                    <div *ngIf="e_name.errors && (e_name.dirty || e_name.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!e_name.errors.required">
+                        Technician Certifications is required
+                      </div>
+
+                    </div>   </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"   [disabled]="!e_techcerForm.form.valid" (click)="uptech()">Update</button>
+                  </div>
+                </form></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  <!-- /**************************** Technicians Experience div starts*****************/-->
+  <div class="col-lg-4" style="padding: 2px">
+    <div class="row acc_header row_margin">
+
+      <div class="col-lg-12"><h5 class="acc_heading">Technicians Experience<span>
+        <button data-toggle="modal" data-target="#addtechexp" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" [hidden]="b_add=='N'"><i class="icmn-plus" aria-hidden="true" ></i></button></span></h5></div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+          <input [(ngModel)]="techexp_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <table class="table table-fixed"  width="100%" >
+
+      <tbody>
+      <tr *ngFor="let te of alltechexp|techexp:techexp_name;" >
+
+        <td class="col-xs-12 col-lg-12 col-sm-12">{{te.TEM_Technician_Experiences_Name}}
+
+
+        <span class="pull-right" ><button (click)="openexp(te.TEM_KeyID)" data-toggle="modal" data-target="#editexp" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" [hidden]="edit=='N'" ></button>
+          <button  (click)="Deleteexp(te.TEM_KeyID) " class="btn btn-icon btn-danger fa fa-trash" [hidden]="delete=='N'"><i _ngcontent-mdt-28="" aria-hidden="true"></i></button></span></td>
+        <div class="modal fade" id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">  <h4 class="modal-title" id="myModalLabel">Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+
+              </div>
+              <div class="modal-body">
+                <p>Do you want to delete {{te.TEM_KeyID}}?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  data-dismiss="modal"(click)="Deletetexp(te.TEM_KeyID)">Yes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+    <div class="modal fade" id="addtechexp" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header"> <h4 class="modal-title" id="myModalLabel">Create</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+          </div>
+          <div class="modal-body">
+            <div class="card-block">
+
+              <div [hidden]="submitted">
+                <form id="addtechexpform" #techexpForm="ngForm" name="form-validation-simple" method="POST">
+                  <div class="form-group">
+                    <label class="form-label">Technicans Experience <span style="color: red">*</span></label>
+                    <input [(ngModel)]="tech_exp" #exp_name="ngModel" name="techexp"
+                           type="text"
+                           class="form-control"
+                           required>
+                    <div *ngIf="exp_name.errors && (exp_name.dirty || exp_name.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!exp_name.errors.required">
+                        Technicians Experience is required
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" [disabled]="!techexpForm.form.valid" (click)="addexp()">Save</button>
+                  </div>
+                </form></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editexp" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header"><h4 class="modal-title" id="myModalLabel">Update</h4>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+           </div>
+          <div class="modal-body">
+            <div class="card-block">
+
+              <div [hidden]="submitted">
+                <form id="form-validation-simple"  #e_techexpForm="ngForm" name="form-validation-simple" method="POST">
+
+                  <div class="form-group">
+                    <label class="form-label">Technician Experience <span style="color: red">*</span></label>
+                    <input [(ngModel)]="e_tech_exp" #e_exp="ngModel" name="e_ex_name"
+                           type="text"
+                           class="form-control"
+                           required>
+                    <div *ngIf="e_tech_exp.errors && (exp_name.dirty || e_tech_exp.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!e_tech_exp.errors.required">
+                        Technician Experience is required
+                      </div>
+
+                    </div>  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  [disabled]="!e_techexpForm.form.valid" (click)="upexp()">Update</button>
+                  </div>
+                </form></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  <!--**************************** Technician Security Clearences div starts**************-->
+  <div class="col-lg-4"  style="padding: 2px">
+    <div class="row acc_header row_margin">
+
+      <div class="col-lg-12"><h5 class="acc_heading">Technician Security Clearances<span>
+        <button data-toggle="modal" data-target="#addtechsec" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" [hidden]="b_add=='N'"><i class="icmn-plus" aria-hidden="true" ></i></button></span></h5></div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+          <input [(ngModel)]="tech_secfil" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <table class="table  table-fixed"  width="100%">
+
+      <tbody>
+      <tr *ngFor="let ts of alltechsec|techsec:tech_secfil" >
+
+        <td class="col-xs-12 col-lg-12 col-sm-12"> {{ts.TSCM_Technician_Security_Clearances_Name}}
+
+
+        <span class="pull-right" ><button (click)="opentechsec(ts.TSCM_KeyID)" data-toggle="modal" data-target="#edittechsec" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" [hidden]="edit=='N'"></button>
+          <button  (click)="Deletetechsec(ts.TSCM_KeyID) " class="btn btn-icon btn-danger fa fa-trash" [hidden]="delete=='N'"><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button></span></td>
+        <div class="modal fade" id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header"><h4 class="modal-title" id="myModalLabel">Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+
+              </div>
+              <div class="modal-body">
+                <p>Do you want to delete {{ts.TSCM_KeyID}}?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  data-dismiss="modal"(click)="Delete(ts.TSCM_KeyID)">Yes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+    <div class="modal fade" id="addtechsec" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header"><h4 class="modal-title" id="myModalLabel">Create</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+          </div>
+          <div class="modal-body">
+            <div class="card-block">
+
+              <div [hidden]="submitted">
+                <form id="addtechsecform" #techsecForm="ngForm" name="form-validation-simple" method="POST">
+                  <div class="form-group">
+                    <label class="form-label">Name <span style="color: red">*</span></label>
+                    <input [(ngModel)]="tech_sec" #secname="ngModel" name="techname"
+                           type="text"
+                           class="form-control"
+                           required>
+                    <div *ngIf="secname.errors && (secname.dirty || secname.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!secname.errors.required">
+                        Technician Security Clearances is required
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  [disabled]="!techsecForm.form.valid"  (click)="addtechsec()">Save</button>
+                  </div>
+                </form></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="edittechsec" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header"><h4 class="modal-title" id="myModalLabel">Update</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+          </div>
+          <div class="modal-body">
+            <div class="card-block">
+
+              <div [hidden]="submitted">
+                <form id="form-validation-simple" #e_techsecForm="ngForm" name="form-validation-simple" method="POST">
+
+                  <div class="form-group">
+                    <label class="form-label">Name <span style="color: red">*</span></label>
+                    <input [(ngModel)]="e_tech_sec" #e_secname="ngModel" name="e_secname"
+                           type="text"
+                           class="form-control"
+                           required>
+                    <div *ngIf="secname.errors && (secname.dirty || secname.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!secname.errors.required">
+                        Technician Security Clearances is required
+                      </div>
+
+                    </div>  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  [disabled]="!e_techsecForm.form.valid" (click)="uptechsec()">Update</button>
+                  </div>
+                </form></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div></div>

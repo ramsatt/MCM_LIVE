@@ -1,0 +1,22 @@
+.sebm-google-map-container {
+    height: 300px;
+}
+.padding1
+{
+    padding: 2px;
+}
+
+.p{
+    padding: 2px;
+    font-size: 14px;
+}
+.alert
+{
+    padding: 5px;
+}
+
+th
+{
+    background-color: #0b3e6f !important;
+    color: #ffffff !important;
+}

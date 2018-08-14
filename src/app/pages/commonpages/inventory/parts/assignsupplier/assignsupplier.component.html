@@ -1,0 +1,341 @@
+<div class="row acc_header row_margin">
+  <div class="col-lg-12 col-sm-12 col-xs-12">
+            <h2 class="acc_name">Suppliers
+  <span class="pull-right">
+  <button type="button" style="padding: 7px" class="btn btn-icon btn-warning btn-rounded margin-inline" data-toggle="modal" data-target="#showsup" (click)="viewassignsupplier(partid)" [hidden]="add=='N'"><i class="icmn-plus" aria-hidden="true"></i></button></span></h2>
+
+    </div></div>
+
+
+      <div class="row">
+        <div class="col-lg-12 ">
+          <input  type="text" class="form-control" name="Site_Search" [(ngModel)]="supplier_name" placeholder="Search" id=""/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 cover1">
+
+          <table class="table table-hover demo nowrap" id="branch" width="100%" [mfData]="asssup|supplier:supplier_name" #partsupplier="mfDataTable" [mfRowsOnPage]="10"
+                 [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead style="  background-color: #005374;;color: white;">
+            <tr>
+              <th><mfDefaultSorter by="SUM_Name"> Supplier Name<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+              <th><mfDefaultSorter by="SUM_Address2"> Address<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+              <th><mfDefaultSorter by="SUM_Phone"> Phone<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+              <th><mfDefaultSorter by="SUM_Email"> Email<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+              <th>Current Stock</th>
+            </tr>
+            </thead>
+            <tbody>
+
+             <tr *ngFor="let res of partsupplier.data;" >
+                <td>{{res.SUM_Name}}</td>
+                <td>{{res.SUM_Address2}}, {{res.SUM_State}}</td>
+                <td>{{res.SUM_Phone}}</td>
+                <td class="email_new_class">{{res.SUM_Email}}</td>
+               <td><input style="width: 80px;" class="form-control" #NHcrstock [value]="res.PSD_Current_Stock" (change)="updateRepl(NHcrstock.value,res.PSD_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+             </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="5">
+                <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+<div class="modal fade modal-size-large" id="showsup" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+<h3></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body">
+          <h3>Select Suppliers for {{partname}}<span class="pull-right" >
+                <button  type="button" style="padding: 5px" id="supplistbut"class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"  (click)="supplieraction()"><i class="icmn-plus" aria-hidden="true"></i></button></span>
+          </h3>
+          <div [ngSwitch]='status'>
+            <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+
+
+            <div class="row" >
+              <div class="col-lg-12">
+                <div class="margin-bottom-50">
+                  <div id="supplist">
+                  <form #partqty="ngForm" id="partform">
+                      <input type="hidden" name="partid" [(ngModel)]="partid">
+                    <div class="cover1">
+
+                      <table class="table demo1 table-condensed table-hover row-border hover" id="supplist"  width="100%" [mfData]="results" #rslts="mfDataTable" [mfRowsOnPage]="10"
+                             [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <thead style="  background-color: #005374;;color: white;">
+                        <tr>
+                          <th>Select</th>
+                          <th><mfDefaultSorter by="SUM_Name"> Supplier Name<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="SUM_Address2"> Address<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="SUM_Phone"> Phone<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="SUM_Email"> Email<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                          <th>Opening Balance</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let resu of rslts.data;let i=index" >
+                          <td style="text-align: center;"> <input type="checkbox" (change)="updateCheckedOptions(i,resu.SUM_KeyID, $event)" name="chkpart{{i}}" [(ngModel)]="results[i].chkpartqty"/>
+                              <input type="hidden" name="supplierid{{i}}" [(ngModel)]="results[i].SUM_KeyID">
+                          </td>
+                          <td>{{resu.SUM_Name}}</td>
+                          <td>{{resu.SUM_Address2}}, {{resu.SUM_State}}</td>
+                          <td>{{resu.SUM_Phone}}</td>
+                          <td class="email_new_class">{{resu.SUM_Email}}</td>
+                          <td><input type="text" style="width:100px;" class="form-control" [(ngModel)]="resu.qaty" id="qaty{{i}}" (ngModelChange)="viewqty(i,$event)" readonly=""  #efirst_name="ngModel" name="qaty{{i}}" (keyup)="textenable1(i,$event)" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                        </tr>
+                        </tbody>
+                          <tfoot>
+                          <tr>
+                              <td colspan="6">
+                                  <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+                              </td>
+                          </tr>
+                          </tfoot>
+                      </table></div>
+                  </form>
+                  </div>
+                  <div id="suppform" style="display: none;">
+                    <form #supplierForm="ngForm" id="supplierform"  *ngIf="active"  (ngSubmit)="onSubmit()">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-label">Supplier Name <span style="color: red">*</span></label>
+                            <input [(ngModel)]="suppliername" #supplier="ngModel" name="supplier_name"
+                                   type="text" placeholder="Enter Supplier Name"
+                                   class="form-control"
+                                   required minlength="2" maxlength="50">
+                            <div *ngIf="supplier.errors && (supplier.dirty || supplier.touched)"
+                                 class="alert alert-danger">
+                              <div [hidden]="!supplier.errors.required">
+                                Supplier Name is required
+                              </div>
+                              <div [hidden]="!supplier.errors.minlength">
+                                Supplier Name must be at least 2 characters long.
+                              </div>
+                              <div [hidden]="!supplier.errors.maxlength">
+                                Supplier Name cannot be more than 50 characters long.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Place</label>
+                            <input placeholder="Search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <input [(ngModel)]="address" name="validation-simple[address]"
+                                   type="text" placeholder="Enter Address"
+                                   class="form-control"
+                                   data-validation="[NOTEMPTY]" >
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">City <span style="color: red">*</span></label>
+                            <input [(ngModel)]="city" name="city"
+                                   type="text" id="city" placeholder="Enter City Name"
+                                   class="form-control"
+                                   #sup_city="ngModel" required minlength="2" maxlength="50"
+                                   (change)="GoogleAddress(sup_city.value)" >
+                            <div *ngIf="sup_city.errors && (sup_city.dirty || sup_city.touched)"
+                                 class="alert alert-danger">
+                              <div [hidden]="!sup_city.errors.required">
+                                City Name is required
+                              </div>
+                              <div [hidden]="!sup_city.errors.minlength">
+                                City Name must be at least 2 characters long.
+                              </div>
+                              <div [hidden]="!sup_city.errors.maxlength">
+                                City Name cannot be more than 50 characters long.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">State</label>
+                            <input [(ngModel)]="state" name="validation-simple[state]"
+                                   type="text" id="state"
+                                   class="form-control"
+                                   data-validation="[NOTEMPTY]" placeholder="Enter State Name">
+                          </div>
+
+                          <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <input [(ngModel)]="country" name="validation-simple[country]"
+                                   type="text" id="country"
+                                   class="form-control"
+                                   data-validation="[NOTEMPTY]" placeholder="Enter Country Name">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Zip <span style="color: red">*</span></label>
+                            <input [(ngModel)]="zip" name="validation-simple[zip]"
+                                   type="text" id="zip"
+                                   class="form-control" placeholder="Enter ZIP Code"
+                                   data-validation="[NOTEMPTY]"
+                                   #sup_zip="ngModel" required pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$" >
+                            <div *ngIf="sup_zip.errors && (sup_zip.dirty || sup_zip.touched)"
+                                 class="alert alert-danger">
+                              <div [hidden]="!sup_zip.errors.pattern">
+                                ZIP code not valid.
+                              </div>
+                              <div [hidden]="!sup_zip.errors.required">
+                                ZIP code must required
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-12">
+                              <div [hidden]="!showMap" id="hidemap">
+
+
+                                <sebm-google-map [latitude]="latitude" [longitude]="longitude" #myMap  [scrollwheel]="false" [zoom]="zoom">
+                                  <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
+                                </sebm-google-map> </div><br>
+                              <div class="row" [hidden]="showMap">
+                                <button (click)="showMap = true; myMap.triggerResize()" class="btn btn-primary" style="margin-right: 10px">Show Map</button></div>
+                            </div></div>
+                        </div>
+
+                        <div class="col-lg-6">
+
+                          <div class="form-group">
+                            <label class="form-label">Latitude</label>
+                            <input [(ngModel)]="latitude" #sup_lat="ngModel"name="validation-simple[latitude]"
+                                   type="text"
+                                   class="form-control"
+                                   data-validation="[NOTEMPTY]" pattern="^[0-9.*#+-]+$">
+                            <div *ngIf="sup_lat.errors && (sup_lat.dirty || sup_lat.touched)"
+                                 class="alert alert-danger">
+                              <div [hidden]="!sup_lat.errors.pattern">
+                                Latitude cannot be alphabetic value.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Longitude</label>
+                            <input [(ngModel)]="longitude" name="validation-simple[longitude]"
+                                   type="text" #sup_lan="ngModel"
+                                   class="form-control"
+                                   data-validation="[NOTEMPTY]"pattern="^[0-9.*#+-]+$">
+                            <div *ngIf="sup_lan.errors && (sup_lan.dirty || sup_lan.touched)"
+                                 class="alert alert-danger">
+                              <div [hidden]="!sup_lan.errors.pattern">
+                                Longitude cannot be alphabetic value.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Phone <span style="color: red">*</span></label>
+                            <input [(ngModel)]="phone" name="validation-simple[phone]" placeholder="(111)-11-12345" type="text" id="phone" class="form-control"
+                                   data-validation="[NOTEMPTY]"  pattern="^([(][0-9]{3}[)][ ][0-9]{3}[-][0-9]{4})$"
+                                   #sup_phone="ngModel" required id="us-phone-mask-input" minlength="14">
+                            <div *ngIf="sup_phone.errors && (sup_phone.dirty || sup_phone.touched)"
+                                 class="alert alert-danger">
+                              <div [hidden]="!sup_phone.errors.required">
+                                Phone Number must required
+                              </div>
+                              <div [hidden]="!sup_phone.errors.minlength">
+                                Phone Number must be 10 digits long.
+                            </div>
+                            <div [hidden]="!sup_phone.errors.pattern">
+                              Phone Number not valid.
+                            </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Mobile</label>
+                            <input [(ngModel)]="mobile" name="validation-simple[supphone]" placeholder="(111)-11-12345" type="text" class="form-control"
+
+                                   #sup_mobile="ngModel"   id="us-phone-mask-supmobile" minlength="14"  pattern="^([(][0-9]{3}[)][ ][0-9]{3}[-][0-9]{4})$">
+                            <div *ngIf="sup_mobile.errors && (sup_mobile.dirty || sup_mobile.touched)"
+                                 class="alert alert-danger">
+
+                              <div [hidden]="!sup_mobile.errors.minlength">
+                                Mobile Number must be 10 digits long.
+                              </div>
+                              <div [hidden]="!sup_mobile.errors.pattern">
+                                Mobile Number not valid.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Home</label>
+                            <input [(ngModel)]="home" name="validation-simple[suphome]" placeholder="(111)-11-12345" type="text" id="phone" class="form-control"
+
+                                   #sup_home="ngModel"   id="us-phone-mask-suphome" minlength="14"  pattern="^([(][0-9]{3}[)][ ][0-9]{3}[-][0-9]{4})$">
+                            <div *ngIf="sup_home.errors && (sup_home.dirty || sup_home.touched)"
+                                 class="alert alert-danger">
+
+                              <div [hidden]="!sup_home.errors.minlength">
+                                Phone Number must be 10 digits long.
+                              </div>
+                              <div [hidden]="!sup_home.errors.pattern">
+                                Phone Number not valid.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input [(ngModel)]="email"
+                                   type="text" id="email" #sup_email="ngModel" name="validation-simple[email]"
+                                   class="form-control" placeholder="Enter Email"pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*" >
+                            <div *ngIf="sup_email.errors && (sup_email.dirty || sup_email.touched)"
+                                 class="alert alert-danger">
+                              <div [hidden]="!sup_email.errors.required">
+                                 Email is required
+                              </div>
+                              <div [hidden]="!sup_email.errors.minlength">
+                                 Email must be at least 2 characters long.
+                              </div>
+
+                              <div [hidden]="!sup_email.errors.pattern">
+                                Please Enter Valid Email Address.
+                              </div>
+                            </div>
+
+                          </div>
+
+
+
+                          <div class="form-group">
+                            <label for="l38">Description</label>
+                            <textarea [(ngModel)]="description" name="desc" class="form-control" rows="5" id="l38"></textarea>
+                          </div>
+
+
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <button type="submit" class="btn btn-primary" style="margin-right: 10px"
+                                [disabled]="!supplierForm.form.valid" (click)="createSupplier()">Create</button>
+                        <button type="button" class="btn btn-secondary" (click)="supplieractionform()">Cancel</button>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+        <div class="modal-footer" id="footer">
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="updateOptions(partqty.value)"data-dismiss="modal" [disabled]="enable()">Assign</button>
+        </div>
+      </div>
+    </div>
+  </div></div> </div>
+</div>

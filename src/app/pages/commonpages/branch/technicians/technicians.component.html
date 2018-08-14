@@ -1,0 +1,618 @@
+<div class="row acc_header row_margin">
+    <div class="col-lg-12"><h5 class="acc_heading">Technicians<span>
+        <button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" [hidden]="add=='N'" (click)="checkuniquemail('','')"><i class="icmn-plus" aria-hidden="true" ></i></button></span></h5></div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="input-group">
+        <span class="input-group-addon">
+            <i class="icmn-search"></i>
+        </span>
+            <input  type="text" class="form-control" name="Site_Search" placeholder="Search" id="" [(ngModel)]="technicianName">
+        </div>
+    </div>
+</div>
+
+
+    <div class="cover1" style="height: 410px;">
+    <table class="table demo table-hover nowrap"  width="100%" [mfData]="alltechnicians|technician:technicianName" #tech="mfDataTable" [mfRowsOnPage]="10"
+           [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+        <thead class="th-color">
+        <tr>
+            <th><mfDefaultSorter by="UM_First_Name"> First Name<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+            <th><mfDefaultSorter by="UM_Login_Name"> User Name<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+            <th><mfDefaultSorter by="UM_EmailID"> Email<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+            <th><mfDefaultSorter by="TUD_Additional_EmailID"> Additonal Email<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+            <th><mfDefaultSorter by="TUD_Cell"> Mobile<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let all of tech.data;let i=index" (click)="findTecnicianskillsbyId(all.TUD_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+            <td>{{all.UM_First_Name}}</td>
+            <td>{{all.UM_Login_Name}}</td>
+            <td>{{all.UM_EmailID}}</td>
+            <td>{{all.TUD_Additional_EmailID}}</td>
+            <td>{{all.TUD_Cell}}</td>
+            <td align="center">
+                <span class="pull-right">
+                    <button [hidden]="edit=='N'" (click)="findTecnicianbyId(all.TUD_KeyID,all.UM_Active)"  class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" ></button>
+                    <button [hidden]="delete=='N'" (click)="deleteTecnicianbyId(all.TUD_UM_KeyID,all.TUD_KeyID,all.UM_Active)" class="btn btn-icon btn-danger fa fa-trash" ><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button>
+                <button type="button" class="btn btn-sm btn-success margin-inline" [hidden]="unassignbtn=='N'"(click)="Deactivate(all.TUD_KeyID,all.UM_URM_KeyID,all.TUD_UM_KeyID,all.UM_Active)" *ngIf="all.UM_Active=='N' && urmid==1">Activate</button></span>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="8">
+                <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+            </td>
+        </tr>
+        </tfoot>
+    </table></div>
+
+
+<div class="row">
+    <div class="col-lg-4 scroll">
+        <table class="table table-hover nowrap" id="model_service" width="100%">
+            <thead style="background: #4567B1;color: #FFF">
+            <tr>
+                <th>Certification</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let certifications of allcertificationsskills;let i=index">
+                <td>{{certifications.TCM_Technician_Certifications_Name}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-lg-4 scroll">
+        <table class="table table-hover nowrap" id="model_service" width="100%">
+            <thead style="background: #4567B1;color: #FFF">
+            <tr>
+                <th>Experience</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let experience of allexperiencesskills;let j=index">
+                <td>{{experience.TEM_Technician_Experiences_Name}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-lg-4 scroll">
+        <table class="table table-hover nowrap" id="model_service" width="100%">
+            <thead style="background: #4567B1;color: #FFF">
+            <tr>
+                <th>Security Clearance</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let security of allsecuritiesskills;let k=index">
+                <td>{{security.TSCM_Technician_Security_Clearances_Name}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="UpdateTechnician" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="UpdateUserModelTitle">Update Technician - <span class="text-primary">{{name}}</span></h5>
+                <button type="button" class="close" aria-label="Close" (click)="HideUpdateModel()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form #TechUpdateUser="ngForm" (ngSubmit)="FormSubmitupdate(TechUpdateUser.value)" id="TechUpdateUser" enctype="multipart/form-data" method="post">
+                            <input type="hidden" name="umkeyid" [(ngModel)]="umkeyid">
+                            <div class="row">
+                                <div class="col-lg-6">
+
+                                    <div class="form-group">
+                                        <label>First Name <span style="color: red">*</span></label>
+                                        <input class="form-control" #utechfirstname="ngModel" [(ngModel)]="UM_First_Name" placeholder="Enter the First Name" type="text" name="UM_First_Name" id="FirstName" required minlength="2" maxlength="50">
+                                        <div *ngIf="utechfirstname.errors && (utechfirstname.dirty || utechfirstname.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!utechfirstname.errors.required">
+                                                First Name is required
+                                            </div>
+                                            <div [hidden]="!utechfirstname.errors.minlength">
+                                                First Name must be at least 2 characters long.
+                                            </div>
+                                            <div [hidden]="!utechfirstname.errors.maxlength">
+                                                First Name cannot be more than 50 characters long.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input class="form-control" [(ngModel)]="UM_Last_Name" placeholder="Enter the Last Name" type="text" name="UM_Last_Name">
+                                    </div>
+
+                                        <input class="form-control" [(ngModel)]="UM_Login_Name" placeholder="Enter the User Name" type="hidden" name="UM_Login_Name" (input)="SearchUserName($event, SearchKey)" minlength="2" maxlength="50">
+
+
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <br><span style="color:#7a7a7a;font-size: 12px;">If you want to change password, enter new password</span>
+                                        <input class="form-control" #utechpassword="ngModel" [(ngModel)]="UM_Password" (ngModelChange)="editsetpassword(techpassword.value,$event)" placeholder="Enter the Password" type="password" name="UM_Password" pattern="^(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%])[0-9A-Za-z!@#$%]{6,150}$" >
+                                        <div *ngIf="utechpassword.errors && (utechpassword.dirty || utechpassword.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!utechpassword.errors.pattern">
+                                                Password must contain 6 characters of letters, numbers and at least one special character..
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirm Password </label>
+                                        <input class="form-control" #utechrepassword="ngModel" (ngModelChange)="edittechpasswordvalidation(techpassword.value,$event)" [(ngModel)]="techCnfPassword" placeholder="Enter the Confirm password" type="password" name="CnfPassword" validateEqual="utechpassword">
+                                        <div id="techexisterror1" class="alert alert-danger" style="display: none;">Password mismatch</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email <span style="color: red">*</span></label>
+                                        <input class="form-control" #utechemail="ngModel" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" (change)="checkuniquemail(utechemail.value,UM_KeyID)" [(ngModel)]="UM_EmailID" placeholder="Enter the Email" type="text"  name="UM_EmailID" required>
+                                        <div *ngIf="utechemail.errors && (utechemail.dirty || utechemail.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!utechemail.errors.required">
+                                                Email is required
+                                            </div>
+                                            <div [hidden]="!utechemail.errors.minlength">
+                                                Email must be at least 2 characters long.
+                                            </div>
+                                            <div [hidden]="!utechemail.errors.maxlength">
+                                                Email cannot be more than 50 characters long.
+                                            </div>
+                                            <div [hidden]="!utechemail.errors.pattern">
+                                                Please Enter Valid Email Address.
+                                            </div>
+                                        </div>
+                                        <div  class="alert alert-danger" id="existmailtechedit" style="display:none">Email already exists .</div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Additional Email</label>
+                                        <input class="form-control" [(ngModel)]="escltaltEmail" ngModel placeholder="Enter the Additional Email" type="text" name="EAltEmail" #euser_altemail="ngModel" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*" >
+                                        <div *ngIf="euser_altemail.errors && (euser_altemail.dirty || euser_altemail.touched)"
+                                             class="alert alert-danger">
+
+                                            <div [hidden]="!euser_altemail.errors.pattern">
+                                                Please Enter Valid Email Address.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Mobile <span style="color: red">*</span></label>
+                                        <input class="form-control" #utechphone="ngModel" id="emob_phone" [(ngModel)]="TUD_Cell" placeholder="Enter the Mobile Number" type="text"  name="TUD_Cell"  minlength="14"
+                                               pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}" required>
+                                        <div *ngIf="utechphone.errors && (utechphone.dirty || utechphone.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!utechphone.errors.required">
+                                                Mobile Required.
+                                            </div>
+                                            <div [hidden]="!utechphone.errors.minlength">
+                                                Mobile must be 10 digits long.
+                                            </div>
+                                            <div [hidden]="!utechphone.errors.pattern">
+                                                Mobile not valid.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input class="form-control" id="acc_phone" #acc_phone="ngModel" [(ngModel)]="TUD_Phone_Numberl" placeholder="Enter the Phone Number" type="text"  name="TUD_Phone_Numberl"  minlength="14"  pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                                        <div *ngIf="acc_phone.errors && (acc_phone.dirty || acc_phone.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!acc_phone.errors.required">
+                                                Phone Required.
+                                            </div>
+                                            <div [hidden]="!acc_phone.errors.minlength">
+                                                Phone must be 10 digits long.
+                                            </div>
+                                            <div [hidden]="!acc_phone.errors.pattern">
+                                                Phone not valid.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Home</label>
+                                        <input class="form-control" id="emg_phone" #emg_phone="ngModel" [(ngModel)]="TUD_Emergency_Phone_Number" placeholder="Enter the Home Phone Number" type="text"  name="TUD_Emergency_Phone_Number"  minlength="14"  pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                                        <div *ngIf="emg_phone.errors && (emg_phone.dirty || emg_phone.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!emg_phone.errors.required">
+                                                Home Required.
+                                            </div>
+                                            <div [hidden]="!emg_phone.errors.minlength">
+                                                Home must be 10 digits long.
+                                            </div>
+                                            <div [hidden]="!emg_phone.errors.pattern">
+                                                Home not valid.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fax</label>
+                                        <input class="form-control" id="acc_fax" #acc_fax="ngModel" [(ngModel)]="TUD_TUD_Fax_Number" placeholder="Enter the Fax Number" type="text" name="TUD_TUD_Fax_Number"  pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                                        <div *ngIf="acc_fax.errors && (acc_fax.dirty || acc_fax.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!acc_fax.errors.pattern">
+                                                FAX must be in digits.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+
+                                    <div class="form-group">
+                                        <label>Shirt Size</label>
+                                        <select [(ngModel)]="TUD_Shirt_Size"  name="TUD_Shirt_Size" class="form-control col-lg-10">
+                                            <option value="0">Select</option>
+                                            <option value="1">S (Small)</option>
+                                            <option value="2">M (Medium)</option>
+                                            <option value="3">L (Large)</option>
+                                            <option value="4">XL (Extra Large)</option>
+                                            <option value="5">XXL (Double Extra Large)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Technician Image </label>
+                                        <template [ngIf]="techImagechk!=''">
+                                            <div ><img src="{{techImage}}" class="drp-cls"></div>
+                                        </template>
+                                        <input class="dropify form-control" type="file" ngModel #UserImageup id="UserImageup" name="TUD_Technician_Image" data-allowed-file-extensions="jpg png bmp jpeg">
+
+                                        <br> <span style="color:#7a7a7a;font-size: 12px;">Please Upload image less than 1.5 MB (.jpg, .jpeg, .png, .bmp)</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Shot Records </label>
+                                        <template [ngIf]="shotRecordchk!=''">
+                                            <img src="{{shotRecord}}" class="drp-cls">
+                                        </template>
+                                        <input class="dropify form-control" type="file" ngModel #UserRecordup id="UserRecordup" name="TUD_Shot_Records" data-allowed-file-extensions="jpg png bmp jpeg">
+                                        <br> <span style="color:#7a7a7a;font-size: 12px;">Please Upload image less than 1.5 MB (.jpg, .jpeg, .png, .bmp)</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Most Recent Background Check </label>
+                                        <template [ngIf]="bgCheckchk!=''">
+                                            <img src="{{bgCheck}}" class="drp-cls">
+                                        </template>
+                                        <input class="dropify form-control" type="file" ngModel #UserBCup id="UserBCup" name="TUD_Most_Recent_Background_Check" data-allowed-file-extensions="jpg png bmp jpeg">
+                                        <br> <span style="color:#7a7a7a;font-size: 12px;">Please Upload image less than 1.5 MB (.jpg, .jpeg, .png, .bmp)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 scroll">
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th></th>
+                                            <th>Certification</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let certifications of allcertificationsid;let i=index">
+                                            <td><input type="checkbox" [checked]="certifications.checked"  name="TCM_KeyID{{i}}" (change)="updateCertificationsu(certifications.TCM_KeyID, $event)" ></td>
+                                            <td>{{certifications.TCM_Technician_Certifications_Name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-lg-4 scroll">
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th></th>
+                                            <th>Experience</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let experience of allexperiencesid;let j=index">
+                                            <td><input type="checkbox" [checked]="experience.checked"  name="TEM_KeyID{{j}}" (change)="updateExperiencesu(experience.TEM_KeyID, $event)" >
+                                            </td>
+                                            <td>{{experience.TEM_Technician_Experiences_Name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-lg-4 scroll">
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th></th>
+                                            <th>Security Clearance</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let security of allsecuritiesid;let k=index">
+                                            <td><input type="checkbox" [checked]="security.checked"  name="TSCM_KeyID{{i}}" (change)="updateSecuritiesu(security.TSCM_KeyID, $event)"></td>
+                                            <td>{{security.TSCM_Technician_Security_Clearances_Name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="form-group row">
+                                    <div class="col-md-9 offset-md-5">
+                                        <button class="btn btn-primary" type="submit" [disabled]="!TechUpdateUser.form.valid || enableval1==1 || loaduniqueemaillen!=0">Update Technician</button>
+                                        <button class="btn btn-default" type="button" (click)="HideUpdateModel()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade modal-size-large" id="CreateTechnician" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateUserModelTitle">Add New Technician - <span class="text-primary">{{name}}</span></h5>
+                <button type="button" class="close" aria-label="Close" (click)="HideCreateUserModel()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form #TechCreateUser="ngForm" (ngSubmit)="FormSubmit(TechCreateUser.value)" id="TechCreateUser" enctype="multipart/form-data" method="post">
+                            <input type="hidden" name="umkeyid" [(ngModel)]="umkeyid">
+                            <div class="row">
+                                <div class="col-lg-6">
+
+                                    <div class="form-group">
+                                        <label>First Name <span style="color: red">*</span></label>
+                                        <input class="form-control" #techfirstname="ngModel" [(ngModel)]="UM_First_Name" placeholder="Enter the First Name" type="text" name="UM_First_Name" id="FirstName" required minlength="2" maxlength="50">
+                                        <div *ngIf="techfirstname.errors && (techfirstname.dirty || techfirstname.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!techfirstname.errors.required">
+                                                First Name is required
+                                            </div>
+                                            <div [hidden]="!techfirstname.errors.minlength">
+                                                First Name must be at least 2 characters long.
+                                            </div>
+                                            <div [hidden]="!techfirstname.errors.maxlength">
+                                                First Name cannot be more than 50 characters long.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input class="form-control" [(ngModel)]="UM_Last_Name" placeholder="Enter the Last Name" type="text" name="UM_Last_Name">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>User Name </label>
+                                        <input class="form-control" #techloginname="ngModel" [(ngModel)]="UM_Login_Name" placeholder="Enter the User Name" type="text" name="UM_Login_Name" (input)="SearchUserName($event, SearchKey)" minlength="2" maxlength="50">
+                                        <div *ngIf="techloginname.errors && (techloginname.dirty || techloginname.touched)"
+                                             class="alert alert-danger">
+
+                                            <div [hidden]="!techloginname.errors.minlength">
+                                                User Name must be at least 2 characters long.
+                                            </div>
+                                            <div [hidden]="!techloginname.errors.maxlength">
+                                                User Name cannot be more than 50 characters long.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password </label>
+                                        <input class="form-control" #techpassword="ngModel" [(ngModel)]="UM_Password" (ngModelChange)="setpassword(techpassword.value,$event)" placeholder="Enter the Password" type="password" name="UM_Password" pattern="^(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%])[0-9A-Za-z!@#$%]{6,15}$">
+                                        <div *ngIf="techpassword.errors && (techpassword.dirty || techpassword.touched)"
+                                             class="alert alert-danger">
+
+                                            <div [hidden]="!techpassword.errors.pattern">
+                                                Password must contain 6 characters of letters, numbers and at least one special character..
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirm Password </label>
+                                        <input class="form-control" #techrepassword="ngModel" (ngModelChange)="techpasswordvalidation(techpassword.value,$event)" [(ngModel)]="techCnfPassword" placeholder="Enter the Confirm password" type="password" name="CnfPassword" validateEqual="techpassword">
+                                        <div id="techexisterror" style="display: none;" class="alert alert-danger">Password mismatch</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email <span style="color: red">*</span></label>
+                                        <input class="form-control" #techemail="ngModel" (change)="checkuniquemail(techemail.value,'')" [(ngModel)]="UM_EmailID" placeholder="Enter the Email" type="text"  name="UM_EmailID" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" required>
+                                        <div *ngIf="techemail.errors && (techemail.dirty || techemail.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!techemail.errors.required">
+                                                Email is required
+                                            </div>
+
+                                            <div [hidden]="!techemail.errors.pattern">
+                                                Please Enter Valid Email Address.
+                                            </div>
+                                        </div>
+                                        <div  class="alert alert-danger" id="existmailtech" style="display:none">Email already exists .</div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Additional Email</label>
+                                        <input class="form-control" ngModel placeholder="Enter the Additional Email" type="text" name="AltEmail" #user_altemail="ngModel" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*" >
+                                        <div *ngIf="user_altemail.errors && (user_altemail.dirty || user_altemail.touched)"
+                                             class="alert alert-danger">
+
+                                            <div [hidden]="!user_altemail.errors.pattern">
+                                                Please Enter Valid Email Address.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Mobile <span style="color: red">*</span></label>
+                                        <input class="form-control" id="techphoneid" #tech_phone="ngModel" [(ngModel)]="TUD_Cell" placeholder="Enter the Mobile Number" type="text"  name="TUD_Cell"  minlength="14"   pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}" required>
+                                        <div *ngIf="tech_phone.errors && (tech_phone.dirty || tech_phone.touched)" class="alert alert-danger">
+                                            <div [hidden]="!tech_phone.errors.required">
+                                                Mobile Required.
+                                            </div>
+                                            <div [hidden]="!tech_phone.errors.minlength">
+                                                Mobile must be 10 digits long.
+                                            </div>
+                                            <div [hidden]="!tech_phone.errors.pattern">
+                                                Mobile not valid.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input class="form-control" id="techacc_phone" #techacc_phone="ngModel" [(ngModel)]="TUD_Phone_Numberl" placeholder="Enter the Phone Number" type="text"  name="TUD_Phone_Numberl"  minlength="14"  pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                                        <div *ngIf="techacc_phone.errors && (techacc_phone.dirty || techacc_phone.touched)"
+                                             class="alert alert-danger">
+
+                                            <div [hidden]="!techacc_phone.errors.minlength">
+                                                Phone must be 10 digits long.
+                                            </div>
+                                            <div [hidden]="!techacc_phone.errors.pattern">
+                                                Phone not valid.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Home</label>
+                                        <input class="form-control" id="techemg_phone" #techemg_phone="ngModel" [(ngModel)]="TUD_Emergency_Phone_Number" placeholder="Enter the Home Phone Number" type="text"  name="TUD_Emergency_Phone_Number"  minlength="14"  pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                                        <div *ngIf="techemg_phone.errors && (techemg_phone.dirty || techemg_phone.touched)"
+                                             class="alert alert-danger">
+
+                                            <div [hidden]="!techemg_phone.errors.minlength">
+                                                Home must be 10 digits long.
+                                            </div>
+                                            <div [hidden]="!techemg_phone.errors.pattern">
+                                                Home not valid.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fax</label>
+                                        <input class="form-control" id="techacc_fax" #techacc_fax="ngModel" [(ngModel)]="TUD_TUD_Fax_Number" type="text" name="TUD_TUD_Fax_Number" placeholder="Enter the Fax Number" minlength="14"  pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                                        <div *ngIf="techacc_fax.errors && (techacc_fax.dirty || acc_fax.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!techacc_fax.errors.pattern">
+                                                FAX must be in digits.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+
+                                    <div class="form-group">
+                                        <label>Shirt Size</label>
+                                        <select [(ngModel)]="TUD_Shirt_Size"  name="TUD_Shirt_Size" class="form-control col-lg-10">
+                                            <option value="0">Select</option>
+                                            <option value="1">S (Small)</option>
+                                            <option value="2">M (Medium)</option>
+                                            <option value="3">L (Large)</option>
+                                            <option value="4">XL (Extra Large)</option>
+                                            <option value="5">XXL (Double Extra Large)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Technician Image </label>
+                                        <input class="dropify form-control" type="file" ngModel #UserImage id="UserImage" name="TUD_Technician_Image" data-allowed-file-extensions="jpg png jpeg bmp">
+                                        <br> <span style="color:#7a7a7a;font-size: 12px;">Please Upload image less than 1.5 MB (.jpg, .jpeg, .png, .bmp)</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Shot Records </label>
+                                        <input class="dropify form-control" type="file" ngModel #UserRecord id="UserRecord" name="TUD_Shot_Records" data-allowed-file-extensions="jpg png jpeg bmp">
+                                        <br> <span style="color:#7a7a7a;font-size: 12px;">Please Upload image less than 1.5 MB (.jpg, .jpeg, .png, .bmp)</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Most Recent Background Check </label>
+                                        <input class="dropify form-control" type="file" ngModel #UserBC id="UserBC" name="TUD_Most_Recent_Background_Check" data-allowed-file-extensions="jpg png jpeg bmp">
+                                        <br> <span style="color:#7a7a7a;font-size: 12px;">Please Upload image less than 1.5 MB (.jpg, .jpeg, .png, .bmp)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 scroll">
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th></th>
+                                            <th>Certification</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let certifications of allcertifications;let i=index">
+                                            <td><input type="checkbox"  name="TCM_KeyID{{i}}" (change)="updateCertifications(certifications.TCM_KeyID, $event)" ></td>
+                                            <td>{{certifications.TCM_Technician_Certifications_Name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-lg-4 scroll">
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th></th>
+                                            <th>Experience</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let experience of allexperiences;let j=index">
+                                            <td><input type="checkbox"  name="TEM_KeyID{{j}}" (change)="updateExperiences(experience.TEM_KeyID, $event)" >
+                                            </td>
+                                            <td>{{experience.TEM_Technician_Experiences_Name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-lg-4 scroll">
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th></th>
+                                            <th>Security Clearance</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let security of allsecurities;let k=index">
+                                            <td><input type="checkbox"  name="TSCM_KeyID{{i}}" (change)="updateSecurities(security.TSCM_KeyID, $event)"></td>
+                                            <td>{{security.TSCM_Technician_Security_Clearances_Name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="form-group row">
+                                    <div class="col-md-9 offset-md-5">
+                                        <button class="btn btn-primary" type="submit" [disabled]="!TechCreateUser.form.valid || enableval==0 || loaduniqueemaillen!=0">Add Technician</button>
+                                        <button class="btn btn-default" type="button" (click)="HideCreateUserModel()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

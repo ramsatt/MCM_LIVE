@@ -1,0 +1,1230 @@
+<div *ngIf="TicketID != ''; else elseBlock;">
+  <div class="row" *ngIf="TicketDetailsLoading">
+    <div class="col-lg-12">
+      <app-shimmer></app-shimmer>
+    </div>
+  </div>
+  <div class="row" id="overviewshow" style="display: none">
+    <div class="table-responsive" *ngIf="TicketDetailsLoading === false">
+      <table class="table table-hover" style="font-size: 12px">
+        <tbody>
+        <tr class="border_top">
+          <td class="color_blue border_left">Status: </td>
+          <td class="color_blue"><b>{{Status_Text}}</b></td>
+          <td class="border_left">Priority: </td>
+          <td><b>-</b></td>
+        </tr>
+        <tr class="border_bottom" style="border: 1px solid">
+          <td>Created On:</td>
+          <td class="border_right"><b>{{Ticket_Cteated_Date|dateconvert | date:'yMMMdjms'}}</b></td>
+          <td>Created By: </td>
+          <td><b>{{Ticket_Cteated_by_name}} </b></td>
+        </tr>
+
+        <tr><td colspan="4" class="border_0" style="border:0 !important"></td></tr>
+        <tr><td colspan="4" class="border_0" style="border:0 !important"></td></tr>
+        <tr style="border: 1px solid">
+          <td>Ticket #: </td>
+          <td><b>{{Ticket_ID}}</b></td>
+          <td>Model: </td>
+          <td><b>{{Model_Name}}</b></td>
+        </tr>
+        <tr style="border: 1px solid">
+          <td>Reference #: </td>
+          <td><b>{{AccountRefferenceumber}}</b></td>
+          <td>S/N: </td>
+          <td><b>{{Asset_Serial_Number}}</b></td>
+        </tr>
+        <tr style="border: 1px solid">
+          <td>Service Request: </td>
+          <td style="cursor: pointer;"><b>{{Service_Request_Name}}</b></td>
+          <td>Asset Name: </td>
+          <td (click)="ShowAssetModal()" style="cursor: pointer;"><b><u>{{Asset_Name}}</u></b></td>
+        </tr>
+        <tr><td colspan="4" class="border_0" style="border:0 !important"></td></tr>
+        <tr><td colspan="4" class="border_0" style="border:0 !important"></td></tr>
+
+        <tr class="border_top">
+          <td class="border_left">Account: </td>
+          <td (click)="ShowAccountModal()" style="cursor: pointer;"><b><u>{{Account_Name}}</u></b></td>
+          <td>Site: </td>
+          <td class="border_right" (click)="ShowSiteModal()" style="cursor: pointer;"><b><u>{{Site_Name}}</u></b></td>
+        </tr>
+        <tr style="border: 1px solid !important;">
+          <td>Branch: </td>
+          <td (click)="ShowBranchModal()" style="cursor: pointer;"><b><u>{{Branch_Name}}</u></b></td>
+          <td></td>
+          <td></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<div id="tripshow" style="display: none">
+  <div   class="row" *ngIf="TicketDetailsLoading === false">
+    <div class="col-lg-12 padding_0">
+      <main class="">
+        <header class="height_37">
+          <h3>{{Trip_Count}} Trips</h3>
+          <div class="task-indicators pull-right" >
+            <button data-toggle="tooltip" data-placement="top"  title="New Trip" _ngcontent-c2="" style="padding: 5px;
+    margin-bottom: 5px;"class="btn btn-icon btn-warning btn-rounded margin-inline"  type="button" [hidden]="addtrips=='N'"(click)="CreateTrip()"><i _ngcontent-c2="" aria-hidden="true" class="icmn-plus"></i></button>
+          </div>
+        </header>
+        <section class="task-list current new_typetd">
+          <ul>
+            <li *ngFor="let trip of TripArray">
+              <table class="table table-striped">
+                <tr>
+                  <td>Trip #: <b>{{trip.Trip_New_Code}}</b></td>
+                  <td>Branch: <b>{{Branch_Name}}</b></td>
+                  <td>Service Request: <b>{{trip.TSRM_Name}}</b></td>
+                  <td style="width:96px">
+                    <span class="pull-right">
+                     <button  [hidden]="viewbtntrips=='N'"class="btn btn-icon btn-secondary btn-rounded margin-inline" style="padding: 5px;
+    margin-bottom: 5px;" type="button" data-placement="top" data-toggle="tooltip" title="Preview" type="button" data-original-title="View Details" (click)="Preview_Ticket_Info(trip.TRIP_KeyID)" ><i _ngcontent-c2="" aria-hidden="true" class="icmn-eye"></i></button>
+                      <button [hidden]="edittrips=='N'" class="btn btn-icon btn-warning btn-rounded margin-inline"
+                              style="padding: 5px;
+    margin-bottom: 5px;" type="button" data-placement="top" data-toggle="tooltip" title="Edit Trip" type="button" data-original-title="View Details" (click)="Edit_Ticket(trip.TRIP_KeyID)"><i _ngcontent-c2="" aria-hidden="true" class="icmn-pencil"></i></button>
+                    <button [hidden]="deletetrips=='N'" (click)="DeleteTrip(trip.TRIP_KeyID)" class="btn btn-icon btn-danger btn-rounded margin-inline" style="padding: 5px;
+    margin-bottom: 5px;" type="button" data-placement="top" data-toggle="tooltip" title="Delete Trip" type="button" data-original-title="Delete Trip"><i _ngcontent-c2="" aria-hidden="true" class="icmn-cross"></i></button>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="1">Status: <b>{{trip.TTD_Status_Text}}</b></td>
+                  <td colspan="3">
+                      <table class="table table-striped">
+                      <tbody>
+                      <tr *ngFor="let schedule of trip.scheduleArray">
+                        <td style="width: 65px;">
+                              Trip ETA
+                          </td>
+                        <td>
+                            {{schedule.TTSD_Date}} {{schedule.TTSD_Time}}
+                        </td>
+                          <td>Scheduled By: {{schedule.UM_First_Name}} {{schedule.UM_Last_Name}}</td>
+                          <td scope="row">With: {{schedule.TTSD_Schedule_With}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">Resolution: {{trip.TRIP_Resolution}}</td>
+                  <td colspan="2">Incident Report: <button style="padding: 3px !important; font-size: 11px;" *ngIf="trip.TRIP_Insident_Report === 'YES'; else notCompled" type="button" class="btn btn-rounded btn-warning margin-inline" (click)="GetIR_ID(trip.TRIP_KeyID);">View IR</button>
+                    <button style="padding: 3px !important; font-size: 11px;" *ngIf="trip.TRIP_Insident_Report === 'YES' && trip.TRIP_IR_Status !=='C' && userRole === '1'" type="button" class="btn btn-rounded btn-primary margin-inline" (click)="Navigation('tickets/edit_ir/' + Ticket_ID + '/' + trip.TRIP_KeyID)">Edit IR</button>
+                    <button style="padding: 3px !important; font-size: 11px;"
+                            *ngIf="trip.TRIP_Insident_Report === 'YES' && trip.TRIP_IR_Status !=='C' && userRole === '7'"
+                            type="button" class="btn btn-rounded btn-info margin-inline"
+                            (click)="Navigation('tickets/resubmit_ir/' + Ticket_ID + '/' + trip.TRIP_KeyID + '/YES')">
+                        Edit IR
+                    </button>
+                    <ng-template #notCompled>
+                      <button *ngIf="trip.TRIP_Status === '12' || trip.TRIP_Status === '13'" style="padding: 3px !important; font-size: 11px;" (click)="Navigation('tickets/incident_report/' + TicketID + '/' + trip.TRIP_KeyID)" type="button" class="btn btn-rounded btn-danger margin-inline">Submit IR</button>
+                    </ng-template> </td>
+                </tr>
+                <tr>
+                  <td>Created On:</td>
+                  <td>{{trip.TRIP_TimeStamp|dateconvert | date:'yMMMdjms'}}</td>
+                  <td>Updated On:</td>
+                  <td>{{trip.TRIP_ModTimeStamp|dateconvert | date:'yMMMdjms'}}</td>
+                </tr>
+                <tr>
+                  <td>Created By:</td>
+                  <td>{{trip.Createdby}}</td>
+                  <td>Updated By:</td>
+                  <td>{{trip.Updatedby}}</td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                    <button [disabled]=" DispatchButtonStatus === false" *ngIf="trip.TTD_Ticket_Status === '1'"
+                            (click)="Dispatch(trip.TTD_KeyID, trip.TRIP_KeyID)"
+                            style="padding: 3px !important; font-size: 11px;"
+                            type="button" class="btn btn-rounded btn-success margin-inline">Dispatch
+                    </button>
+                    <button [disabled]="ScheduleButtonStatus === false" *ngIf="trip.TTD_Ticket_Status === '2'"
+                            (click)="CreateSchedule(trip.TRIP_KeyID, trip.TTD_KeyID)"
+                            style="padding: 3px !important; font-size: 11px;" type="button"
+                            class="btn btn-rounded btn-warning margin-inline">Schedule
+                    </button>
+                    <button [disabled]="RescheduleButtonStatus === false"
+                            (click)="ReScheduleTrip(trip.TRIP_KeyID, trip.TTD_KeyID)"
+                            *ngIf="trip.TTD_Ticket_Status === '3' || trip.TTD_Ticket_Status === '46'"
+                            style="padding: 3px !important; font-size: 11px;" type="button"
+                            class="btn btn-rounded btn-secondary margin-inline">Re-Schedule
+                    </button>
+                    <button [disabled]="ConfirmArivalButtonStatus === false"
+                            (click)="Tech_Reached(trip.TRIP_KeyID, trip.TTD_KeyID)"
+                            *ngIf="trip.TTD_Ticket_Status === '3' || trip.TTD_Ticket_Status === '46'"
+                            style="padding: 3px !important; font-size: 11px;" type="button"
+                            class="btn btn-rounded btn-success margin-inline">Confirm Arrival
+                    </button>
+                    <button [disabled]="WorkCompletedButtonStatus === false"
+                            (click)="WorkCompleted(trip.TRIP_KeyID, trip.TTD_KeyID)"
+                            *ngIf="trip.TTD_Ticket_Status === '5'" style="padding: 3px !important; font-size: 11px;"
+                            type="button" class="btn btn-rounded btn-success margin-inline">Work Completed
+                    </button>
+                    <button [disabled]="WorkNotCompeletedButtonStatus === false"
+                            (click)="WorkNotCompleted(trip.TRIP_KeyID, trip.TTD_KeyID)"
+                            *ngIf="trip.TTD_Ticket_Status === '5'" style="padding: 3px !important; font-size: 11px;"
+                            type="button" class="btn btn-rounded btn-danger margin-inline">Work not Completed
+                    </button>
+                    <button (click)="UpdateTicketStatusModal(trip.TTD_KeyID)" *ngIf="trip.TTD_Ticket_Status !== '11' && userRole === '1'"
+                            style="padding: 3px !important; font-size: 11px;" type="button"
+                            class="btn btn-rounded btn-primary margin-inline">Update Status
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </div></div>
+
+  <div id="noteshow" style="display: none">
+  <div class="row" *ngIf="TicketDetailsLoading === false">
+    <div class="col-lg-12 padding_0">
+      <main class="">
+        <header class="height_37">
+          <h3>{{TicketNotesCount}} Notes</h3>
+          <div class="task-indicators pull-right">
+            <button data-toggle="tooltip" data-placement="top" title="New Note" _ngcontent-c2="" style="padding: 5px;
+    margin-bottom: 5px;" class="btn btn-icon btn-warning btn-rounded margin-inline" type="button"
+                    [hidden]="addnotes=='N'" (click)="CreateTicketNoteModal()"><i _ngcontent-c2="" aria-hidden="true"
+                                                                                  class="icmn-plus"></i></button>
+            <button data-toggle="tooltip" data-placement="top" title="Expand" _ngcontent-c2="" style="padding: 3px;
+    margin-bottom: 5px; font-size: 1.4rem !important;" class="btn btn-icon btn-warning btn-rounded margin-inline"
+                    type="button" (click)="CollapseNotes()">
+              <i *ngIf="!TIC_ACON_Open" aria-hidden="true" class="icmn-circle-down"></i>
+              <i *ngIf="TIC_ACON_Open" aria-hidden="true" class="icmn-circle-up"></i></button>
+          </div>
+        </header>
+        <section class="task-list current" *ngIf="TIC_ACON_Open">
+          <ul>
+            <li *ngFor="let note of TicketNotesArray">
+              <table class="table table-striped">
+                <tr>
+                  <td>Subject</td>
+                  <td colspan="2">{{note.TN_Subject}}</td>
+                  <td>
+                    <span class="pull-right">
+                     <button data-toggle="tooltip" data-placement="top" title="Edit Note" [hidden]="editnotes=='N'"
+                             class="btn btn-icon btn-warning btn-rounded margin-inline" style="padding: 5px;
+    margin-bottom: 5px;" type="button" (click)="UpdateTicketNoteModal(note.TN_KeyID)"><i aria-hidden="true"
+                                                                                         class="icmn-pencil"></i></button>
+                     <button data-toggle="tooltip" data-placement="top" title="Delete Note" [hidden]="deletenotes=='N'"
+                             class="btn btn-icon btn-danger btn-rounded" style="padding: 5px;
+    margin-bottom: 5px;" type="button" (click)="Delete_Ticket_Note(note.TN_KeyID,this.TicketID)"><i aria-hidden="true"
+                                                                                                    class="icmn-bin"></i></button>
+
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Description</td>
+                  <td colspan="3">
+                    <div class="yscroll">{{note.TN_Notes}}</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Attachment</td>
+                  <td colspan="3"><a target="_blank"
+                                     href="{{FileBasePath}}uploads/ticket_notes/{{TicketID}}/{{note.TN_Attachment}}">{{note.TN_Attachment}}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Private?</td>
+                  <td colspan="3"><span style="color:#ff0000;" *ngIf="note.TN_Notes_User_Role != 1">YES</span><span
+                          *ngIf="note.TN_Notes_User_Role == 1">NO</span></td>
+                </tr>
+                <tr>
+                  <td>Created ON</td>
+                  <td>{{note.TN_TimeStamp|dateconvert | date:'yMMMdjms'}}</td>
+                  <td>Created By</td>
+                  <td>{{note.Createdby}}</td>
+                </tr>
+                <tr>
+                  <td>Updated ON</td>
+                  <td>{{note.TN_ModTimeStamp|dateconvert | date:'yMMMdjms'}}</td>
+                  <td>Updated By</td>
+                  <td>{{note.Updatedby}}</td>
+                </tr>
+              </table>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12 padding_0">
+      <main class="">
+        <header class="height_37">
+          <h3>Ticket History</h3>
+          <div class="task-indicators pull-right">
+            <button data-toggle="tooltip" data-placement="top" title="Expand" _ngcontent-c2=""
+                    style="padding: 3px; margin-bottom: 5px; font-size: 1.4rem !important;"
+                    class="btn btn-icon btn-warning btn-rounded margin-inline" type="button"
+                    (click)="CollapseHistory()">
+              <i *ngIf="!TIC_HISTORY_ACON_Open" _ngcontent-c2="" aria-hidden="true" class="icmn-circle-down"></i>
+              <i *ngIf="TIC_HISTORY_ACON_Open" _ngcontent-c2="" aria-hidden="true" class="icmn-circle-up"></i>
+            </button>
+          </div>
+        </header>
+        <section class="task-list current new_typetd">
+          <div class="row" *ngIf="TIC_HISTORY_ACON_Open">
+            <div class="col-lg-12">
+
+              <table class="table table-hover" id="Log">
+                <thead>
+                <tr>
+                  <th>Trip ID</th>
+                    <th></th>
+                </tr>
+                </thead>
+                  <tbody>
+                  <tr *ngFor="let log of TicketLogsArray; let i=index;">
+                    <td>{{log.TLD_TRIP_KeyID}}</td>
+                    <td>
+                      <table>
+                        <thead>
+                        <tr>
+                          <th>Status</th>
+                          <th>Updated On</th>
+                          <th>Updated By</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let loginfo of log.details; let i=index;">
+                          <td>{{loginfo.LMM_Message}}</td>
+                          <td>{{loginfo.TLD_Timestamp|dateconvert | date:'yMMMdjms'}}</td>
+                          <td>{{loginfo.UM_First_Name}} {{loginfo.UM_Last_Name}}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <div class="alert alert-warning" role="alert">
+    <strong>Warning!</strong>Please Select a ticket to view details here.
+  </div>
+</ng-template>
+
+<!--ticket preview-->
+<div class="modal fade modal-size-large" id="Preview" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ticket Preview</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" id="print-section">
+          <div class="row col-lg-12">
+            <table class="table table-bordered">
+              <tr>
+                <td width="150px">
+                  <img src="assets/modules/dummy-assets/common/img/logo.png" alt="logo" width="150px" height="80px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                </td>
+                <td width="570px">
+                  <h1 align="center">Ticket No: {{Ticket_ID}}</h1>
+                  <h2 align="center">Account Ref. No: {{TripDetailsArray.TTD_Account_Ref_Number}}</h2>
+                </td>
+                <td width="300px">
+                  <b>MCM Resource Command Center</b><br>
+                  Email : service@mcmservice.com <br>
+                  Dispatch: (800) 274-1626 <br>
+                  After Hours: (210) 468-9744 <br>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="row col-lg-12">
+            <div class="col-lg-4">
+              <div class="asign_space">
+                <div class="row acc_header row_margin" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading" align="center">Account</h5></div>
+                </div>
+                <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
+                      <div class="panel-wrapper collapse in">
+                        <div class="panel-body pa-0">
+                          <div class="sm-data-box bg-red">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                  <span class="txt-light block counter"><span class="counter-anim">{{Account_Array.AM_Name}}</span></span>
+                                  <span class="weight-500 uppercase-font txt-light block font-13">{{Account_Array.AM_City}}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="asign_space">
+                <div class="row acc_header row_margin" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading" align="center">Site</h5></div>
+                </div>
+                <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
+                      <div class="panel-wrapper collapse in">
+                        <div class="panel-body pa-0">
+                          <div class="sm-data-box bg-green">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                  <span class="txt-light block counter"><span class="counter-anim">{{Site_Array.SM_SiteName}}</span></span>
+                                  <span class="weight-500 uppercase-font txt-light block font-13">{{Site_Array.SM_Address}},{{Site_Array.SM_City}}, {{Site_Array.SM_State}} - {{Site_Array.SM_Zip}}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="asign_space">
+                <div class="row acc_header row_margin" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading" align="center">Branch</h5></div>
+                </div>
+                <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
+                      <div class="panel-wrapper collapse in">
+                        <div class="panel-body pa-0">
+                          <div class="sm-data-box bg-blue">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                  <span class="txt-light block counter"><span class="counter-anim">{{Branch_Array.BM_Branch_Name}}</span></span>
+                                  <span class="weight-500 uppercase-font txt-light block font-13">{{Branch_Array.BM_City}}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row col-lg-12">
+            <div [ngClass]="GetContactColClass(userRole)"
+                 *ngIf="userRole === '1' || userRole === '2' || userRole === '3'">
+              <div class="asign_space">
+                <div class="row acc_header row_margin" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading">Account Contact</h5></div>
+                </div>
+                <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-md-12 bg-white p-1">
+
+                    <div class="mail-list ps ps--theme_default ps--active-y" perfect-scrollbar=""
+                         style="position: relative;" data-ps-id="37d79086-d3b8-6a25-6b6b-b3579064194d">
+
+                      <div class="mail-list-item pb-2 pt-2 pl-1 pr-2 transititon unread"
+                           *ngFor="let A_C of SelectedAccountContactArray">
+                        <div class="media">
+                          <!----><img class="d-flex mr-3 w-50p"
+                                      src="{{FileBasePath}}uploads/user_images/{{A_C.AUD_AM_KeyID}}/avatars/{{A_C.AUD_User_Image}}" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                          <!---->
+                          <div class="media-body overflow-hidden">
+                            <div class="d-flex justify-content-between">
+                              <h6 class="text-truncate mail-sender">{{A_C.UM_First_Name}}</h6>
+                            </div>
+                            <p class="mail-subject mb-0 text-truncate">{{A_C.UM_EmailID}}</p>
+                            <p class="mail-subject mb-0 text-truncate">{{A_C.AUD_Cell}}</p>
+                            <p class="mail-subject mb-0">{{A_C.AUD_Additional_EmailID}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div [ngClass]="GetContactColClass(userRole)"
+                 *ngIf="userRole === '1' || userRole === '2' || userRole ==='4' || userRole === '7'">
+              <div class="asign_space">
+                <div class="row acc_header row_margin" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading">Site Contact</h5></div>
+                </div>
+                <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-md-12 bg-white p-1">
+                    <div class="mail-list ps ps--theme_default ps--active-y" perfect-scrollbar=""
+                         style="position: relative;" data-ps-id="37d79086-d3b8-6a25-6b6b-b3579064194d">
+                      <div class="mail-list-item pb-2 pt-2 pl-1 pr-2 transititon unread"
+                           *ngFor="let S_User of SelectedSiteContactArray">
+                        <div class="media">
+                          <!----><img class="d-flex mr-3 w-50p"
+                                      src="{{FileBasePath}}uploads/user_images/siteuser/{{S_User.SUD_SM_KeyID}}/avatars/{{S_User.SUD_User_image}}" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                          <!---->
+                          <div class="media-body overflow-hidden">
+                            <div class="d-flex justify-content-between">
+                              <h6 class="text-truncate mail-sender">{{S_User.UM_First_Name}}</h6>
+                            </div>
+                            <p class="mail-subject mb-0 text-truncate">{{S_User.UM_EmailID}}</p>
+                            <p class="mail-subject mb-0 text-truncate">{{S_User.SUD_Cell}}</p>
+                            <p class="mail-subject mb-0">{{S_User.SUD_Additional_EmailID}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div [ngClass]="GetContactColClass(userRole)" *ngIf="userRole === '1'">
+              <div class="asign_space">
+                <div class="row acc_header row_margin" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading">Branch Contact</h5></div>
+                </div>
+                <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-md-12 bg-white p-1">
+                    <div class="mail-list ps ps--theme_default ps--active-y" perfect-scrollbar=""
+                         style="position: relative;" data-ps-id="37d79086-d3b8-6a25-6b6b-b3579064194d">
+                      <div class="mail-list-item pb-2 pt-2 pl-1 pr-2 transititon unread"
+                           *ngFor="let B_User of SelectedBranchContactArray">
+                        <div class="media">
+                          <img *ngIf="B_User.UM_URM_KeyID === '4'" class="d-flex mr-3 w-50p"
+                               src="{{FileBasePath}}uploads/user_images/branch/{{B_User.BUD_BM_KeyID}}/avatars/{{B_User.BUD_User_image}}" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                          <img *ngIf="B_User.UM_URM_KeyID === '7'" class="d-flex mr-3 w-50p"
+                               src="{{FileBasePath}}{{B_User.TUD_Technician_Image}}">
+                          <div class="media-body overflow-hidden">
+                            <div class="d-flex justify-content-between">
+                              <h6 class="text-truncate mail-sender">{{B_User.UM_First_Name}}</h6>
+                            </div>
+                            <p class="mail-subject mb-0 text-truncate">{{B_User.UM_EmailID}}</p>
+                            <p class="mail-subject mb-0 text-truncate" *ngIf="B_User.UM_URM_KeyID === '4'">
+                              {{B_User.BUD_Cell}}</p>
+                            <p class="mail-subject mb-0 text-truncate" *ngIf="B_User.UM_URM_KeyID === '7'">
+                              {{B_User.TUD_Cell}}</p>
+                            <p class="mail-subject mb-0" *ngIf="B_User.UM_URM_KeyID === '4'">
+                              {{B_User.BUD_Additional_EmailID}}</p>
+                            <p class="mail-subject mb-0" *ngIf="B_User.UM_URM_KeyID === '7'">
+                              {{B_User.TUD_Additional_EmailID}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row col-lg-12">
+
+            <div class="col-lg-6">
+              <div class="asign_space">
+                <div class="row acc_header row_margin" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading">Asset</h5></div>
+                </div>
+                <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
+                      <div class="panel-wrapper collapse in">
+                        <div class="panel-body pa-0">
+                          <div class="sm-data-box bg-pink">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                  <span class="txt-light block counter"><span class="counter-anim">{{S_Asset.ASM_Asset_Name}}</span></span>
+                                  <span class="weight-500 uppercase-font txt-light block font-13">Model: {{S_Asset.MM_Model_Name}}</span>
+                                  <span class="weight-500 uppercase-font txt-light block font-13">Serial No.: {{S_Asset.ASM_Serial_No}}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="asign_space">
+                <div class="row acc_header row_margin" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading">Service Request</h5></div>
+                </div>
+                <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default card-view pa-0">
+                      <div class="panel-wrapper collapse in">
+                        <div class="panel-body pa-0">
+                          <div class="sm-data-box bg-yellow">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                  <span class="txt-light block counter"><span class="counter-anim">{{ServiceRequestArray.TSRM_Name}}</span></span>
+                                  <span class="weight-500 uppercase-font txt-light block font-13">{{ServiceRequestArray.TSRM_Description}}</span>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row col-lg-12">
+            <div class="margin-bottom-50 col-lg-12">
+              <table class="table" *ngFor="let KI of SR_Details_Array; let i = index">
+                <thead class="thead-inverse">
+                <tr>
+                  <th>#Known Issue</th>
+                  <th>Parts</th>
+                  <th>Documents</th>
+                  <th>Images</th>
+                  <th>Videos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <th>
+                    {{i+1}} . {{KI.TKIM_Known_Issue}}
+                    <br>
+                    <span class="label label-primary">Troubleshooting List:</span>
+
+                    <ol type="a">
+                      <li *ngFor="let sol of KI.Solution;">{{sol.TSOM_Solution}}</li>
+                    </ol>
+                  </th>
+                  <td>
+                    <div *ngFor="let sol of KI.Solution">
+                      <ol type="1">
+                        <li *ngFor="let SP of sol.Part_Details;">
+                          {{SP.PM_Part_Name}}
+                        </li>
+                      </ol>
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngFor="let sol of KI.Solution">
+                      <ol type="1">
+                        <li *ngFor="let SI of sol.Instruction_Details">
+                          <a href="{{FileBasePath}}uploads/service_request/instructions/{{SI.TIM_PDF_File}}" TARGET="_blank">{{SI.TIM_Name}}</a>
+                        </li>
+                      </ol>
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngFor="let sol of KI.Solution">
+                      <ol type="1">
+                        <li *ngFor="let SIM of sol.Image_Details">
+                          <a href="{{FileBasePath}}uploads/service_request/ins_list/{{SIM.TIPDFM_PDF_PATH}}" TARGET="_blank">{{SIM.TIPDFM_Name}}</a>
+                        </li>
+                      </ol>
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngFor="let sol of KI.Solution">
+                      <ol type="1">
+                        <li *ngFor="let SV of sol.Video_Details">
+                          <a href="{{FileBasePath}}uploads/service_request/Gen_ins/{{SV.TGGIPDF_PDF_PATH}}" TARGET="_blank">{{SV.TGGIPDF_Name}}</a>
+                        </li>
+                      </ol>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row col-lg-12">
+            <div class="col-lg-12">
+              <div class="asign_space">
+                  <div class="row acc_header" style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                  <div class="col-lg-12"><h5 class="acc_heading" style="margin-bottom: 12px">Problem
+                    Description<span></span></h5></div>
+                </div>
+                <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <div class="col-lg-12">
+                    <div class="form-group" [innerHTML]="TripDetailsArray.TTD_Problem_Description">
+                      <div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row col-lg-12">
+            <div class="col-lg-12">
+              <div class="asign_space">
+                <div class="row acc_header row_margin">
+                  <div class="col-lg-12">
+                    <h5 class="acc_heading">Allotted Parts</h5>
+                  </div>
+                </div>
+                <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                  <h2 *ngIf="HeroKitPartAvailable">Hero Kit Parts</h2>
+                  <table class="table table-hover" id="All_Hero_Part_List" *ngIf="HeroKitPartAvailable">
+                    <thead>
+                    <tr>
+                      <th>Part Name</th>
+                      <th>Image</th>
+                        <th>Required Qty.</th>
+                      <th>Current Stock</th>
+                      <th>Target Stock</th>
+                        <th>Replenishment</th>
+                      <th>Virtual Stock</th>
+                        <th>Allotted Qty.</th>
+                      <th>Total Reserved Qty.</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let RP of Assigned_Part_Details_Aarray">
+                      <td *ngIf="RP.HeroKit === 'Y'">{{RP.PM_Part_Name}}</td>
+                      <td *ngIf="RP.HeroKit === 'Y'"><img *ngIf="RP.PM_Part_Image_Path !== ''"
+                                                          src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}"
+                                                          alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                        <img *ngIf="RP.PM_Part_Image_Path === ''" src="assets/images/No-image-found.jpg"
+                             alt="" height="50px" width="70px">
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'Y'">
+                        {{RP.TRPD_Required_Qty}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'Y'">
+                        {{RP.Stock}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'Y'">
+                        {{RP.Target_Stock}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'Y'">
+                          {{RP.Replenishment}}
+                      </td>
+                        <td *ngIf="RP.HeroKit === 'Y'">
+                            {{RP.Shipped_Virtual_Stock}}
+                        </td>
+                      <td *ngIf="RP.HeroKit === 'Y'">
+                        {{RP.TRPD_VS_Taken_Qty}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'Y'">
+                        {{RP.Reserved_Stock}}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+
+                  <h2 *ngIf="NonHeroKitPartAavailable">Non Hero Kit Parts</h2>
+                  <table class="table table-hover" id="All_non_Hero_Part_List" *ngIf="NonHeroKitPartAavailable">
+                    <thead>
+                    <tr>
+                      <th>Part Name</th>
+                      <th>Image</th>
+                        <th>Required Qty.</th>
+                      <th>Current Stock</th>
+                      <th>Target Stock</th>
+                        <th>Replenishment</th>
+                      <th>Virtual Stock</th>
+                        <th>Allotted Qty.</th>
+                      <th>Total Reserved Qty.</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let RP of Assigned_Part_Details_Aarray">
+                      <td *ngIf="RP.HeroKit === 'N'">{{RP.PM_Part_Name}}</td>
+                      <td *ngIf="RP.HeroKit === 'N'"><img *ngIf="RP.PM_Part_Image_Path !== ''"
+                                                          src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}"
+                                                          alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                        <img *ngIf="RP.PM_Part_Image_Path === ''" src="assets/images/No-image-found.jpg"
+                             alt="" height="50px" width="70px">
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'N'">
+                        {{RP.TRPD_Required_Qty}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'N'">
+                        {{RP.Stock}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'N'">
+                        {{RP.Target_Stock}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'N'">
+                          {{RP.Replenishment}}
+                      </td>
+                        <td *ngIf="RP.HeroKit === 'N'">
+                            {{RP.Shipped_Virtual_Stock}}
+                        </td>
+                      <td *ngIf="RP.HeroKit === 'N'">
+                        {{RP.TRPD_VS_Taken_Qty}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'N'">
+                        {{RP.Reserved_Stock}}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <h2 *ngIf="NewPartAvailable">Branch New Parts</h2>
+                  <table class="table table-hover" id="All_New_List" *ngIf="NewPartAvailable">
+                    <thead>
+                    <tr>
+                      <th>Part Name</th>
+                      <th>Image</th>
+                        <th>Required Qty.</th>
+                      <th>Current Stock</th>
+                      <th>Target Stock</th>
+                        <th>Replenishment</th>
+                      <th>Virtual Stock</th>
+                        <th>Allotted Qty.</th>
+                      <th>Total Reserved Qty.</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let RP of Assigned_Part_Details_Aarray">
+                      <td *ngIf="RP.HeroKit === 'NIL'">{{RP.PM_Part_Name}}</td>
+                      <td *ngIf="RP.HeroKit === 'NIL'"><img *ngIf="RP.PM_Part_Image_Path !== ''"
+                                                            src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}"
+                                                            alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                        <img *ngIf="RP.PM_Part_Image_Path === ''" src="assets/images/No-image-found.jpg"
+                             alt="" height="50px" width="70px">
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'NIL'">
+                        {{RP.TRPD_Required_Qty}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'NIL'">
+                        {{RP.Stock}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'NIL'">
+                        {{RP.Target_Stock}}
+                      </td>
+                        <td *ngIf="RP.HeroKit === 'NIL'">
+                            {{RP.Replenishment}}
+                        </td>
+                      <td *ngIf="RP.HeroKit === 'NIL'">
+                        {{RP.Shipped_Virtual_Stock}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'NIL'">
+                        {{RP.TRPD_VS_Taken_Qty}}
+                      </td>
+                      <td *ngIf="RP.HeroKit === 'NIL'">
+                        {{RP.Reserved_Stock}}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <br>
+            <button class="btn btn-primary" (click)="print()">Print</button>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Status_Update" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ticket Status Update</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" *ngIf="ExceptionListLength !== 0;  else noStatus">
+          <form [formGroup]="StatusUpdateForm" id="Status_Update_Form" (ngSubmit)="Status_Submit(StatusUpdateForm.value)">
+              <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" formControlName="StatusCode">
+                  <option [value]="'43'">Pending</option>
+                </select>
+                <div class="alert" *ngIf="!StatusUpdateForm.controls['StatusCode'].valid && StatusUpdateForm.controls['StatusCode'].touched">Status Required</div>
+              </div>
+            <input type="submit" [value]="'Submit'" class="btn btn-primary" [disabled]="!StatusUpdateForm.valid">
+          </form>
+          </div>
+          <ng-template #noStatus><span style="color: red">No Status Available. Please assign status for this service request in agreement section.</span> </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Ticket_Note" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{TicketNoteTitle}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <form [formGroup]="AddNotes" id="Add_Notes" (ngSubmit)="SaveTicketNotes(AddNotes.value)">
+              <div class="form-group">
+                <label>Type <span style="color: red">*</span></label>
+                <select class="form-control" formControlName="NoteType">
+                  <option *ngFor="let type of NoteType" [value]="type.value">{{type.title}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Subject <span style="color: red">*</span></label>
+                <input class="form-control" placeholder="Enter subject" type="text" formControlName="Subject">
+                  <div class="alert" *ngIf="!AddNotes.controls['Subject'].valid && AddNotes.controls['Subject'].touched">Subject Required</div>
+              </div>
+              <div class="form-group">
+                <label >Description <span style="color: red">*</span></label>
+                <textarea class="form-control" id="ticket_note_text" rows="3" formControlName="Notes"></textarea>
+                <div class="alert" *ngIf="!AddNotes.controls['Notes'].valid && AddNotes.controls['Notes'].touched">Description Required</div>
+              </div>
+              <div class="form-group">
+                <label>Attachment</label>
+
+                <template [ngIf]="techImagechk!=''">
+                  <div ><img src="{{techImage}}" class="drp-cls"></div>
+                </template>
+                  <input class="form-control" placeholder="Email Address" type="file" class="dropify" formControlName="Attachment" #Attachment>
+
+              </div>
+              <input type="submit" [value]="TicketNoteBtn" class="btn btn-primary" [disabled]="!AddNotes.valid || buttonSubmit">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="AccountModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Account Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-accountdetails [AccountID]="Acc_ID"></app-accountdetails>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="SiteModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Site Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-sitedetails [SiteID]="Site_ID"></app-sitedetails>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="BranchModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Branch Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-branchdetails [Branch_ID]="BranchID"></app-branchdetails>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="AssetModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Asset Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-assetdetails [Asset_ID]="Asset_ID"></app-assetdetails>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ScheduleModalBox" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">{{SheduleModelBoxTitle}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="Schedule_Form" (ngSubmit)="SaveSchedule(Schedule_Form.value)" id="ModelForm">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                  <label>Technician <span style="color: red">*</span></label>
+                <select class="form-control" formControlName="Technician">
+                  <option value="" selected >Select</option>
+                  <option *ngFor="let tech of TechniciansArray" [value]="tech.TUD_KeyID">{{tech.UM_First_Name}}</option>
+                </select>
+                  <div *ngIf="Schedule_Form.controls['Technician'].errors && (Schedule_Form.controls['Technician'].dirty || Schedule_Form.controls['Technician'].touched)"
+                       class="alert alert-danger">
+                      <div [hidden]="!Schedule_Form.controls['Technician'].errors.required">
+                          Technician required
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label>Date <span style="color: red">*</span></label>
+                <label class="input-group datepicker-only-init">
+                  <input class="form-control" placeholder="Select Date" type="text" formControlName="Schedule_Date" #schedule_date [(ngModel)]="Date" (blur)="Date = schedule_date.value">
+                  <span class="input-group-addon">
+                    <i class="icmn-calendar"></i>
+                  </span>
+                </label>
+                  <div *ngIf="Schedule_Form.controls['Schedule_Date'].errors && (Schedule_Form.controls['Schedule_Date'].dirty || Schedule_Form.controls['Schedule_Date'].touched)"
+                       class="alert alert-danger">
+                      <div [hidden]="!Schedule_Form.controls['Schedule_Date'].errors.required">
+                          Date required
+                      </div>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label>Time <span style="color: red">*</span></label>
+                <label class="input-group timepicker-init">
+                  <input class="form-control" placeholder="Select Time" type="text" formControlName="Schedule_Time" #schedule_time [(ngModel)]="Time" (blur)="Time = schedule_time.value">
+                  <span class="input-group-addon">
+                    <i class="icmn-clock"></i>
+                  </span>
+                </label>
+                  <div *ngIf="Schedule_Form.controls['Schedule_Time'].errors && (Schedule_Form.controls['Schedule_Time'].dirty || Schedule_Form.controls['Schedule_Time'].touched)"
+                       class="alert alert-danger">
+                      <div [hidden]="!Schedule_Form.controls['Schedule_Time'].errors.required">
+                          Time required
+                      </div>
+                  </div>
+              </div>
+                <div class="form-group">
+                    <label>Who did you speak with to schedule? <span style="color: red">*</span></label>
+                    <input class="form-control" placeholder="Enter Name" type="text" formControlName="Schedule_With">
+                    <div *ngIf="Schedule_Form.controls['Schedule_With'].errors && (Schedule_Form.controls['Schedule_With'].dirty || Schedule_Form.controls['Schedule_With'].touched)"
+                         class="alert alert-danger">
+                        <div [hidden]="!Schedule_Form.controls['Schedule_With'].errors.required">
+                            Name required
+                        </div>
+                    </div>
+                </div>
+              <input type="submit" [value]="SheduleModelBoxBtn" class="btn btn-primary" [disabled]="!Schedule_Form.valid || CreateScheduleButton === false">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="IRModalBox" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="IR_Form" (ngSubmit)="Save_Incident_Report(IR_Form.value)" id="IR_Form">
+          <div class="form-group">
+            <label>Ticket Service Request Status</label>
+            <select class="form-control" formControlName="Ticket_SR_Status">
+              <option value="C">Closed</option>
+              <option value="P">Pending</option>
+              <option value="PN">Part Needed</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select class="form-control" formControlName="Ticket_Status">
+              <option value="C">Closed</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Notes</label>
+            <textarea class="form-control" rows="4" formControlName="Ticket_Reason"></textarea>
+          </div>
+
+          <div class="sig-container" #sigContainer>
+            <div fxLayout="row">
+              <button type="button" class="btn btn-danger pull-right" style="padding: 1px" (click)="sigs.first.clear()">Clear</button>
+            </div>
+            <div fxLayout="row">
+              <app-signature-field formControlName="Sign"></app-signature-field>
+            </div>
+          </div>
+          <input type="submit" [value]="'Submit'" class="btn btn-primary" [disabled]="!IR_Form.valid">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Work_Status_Modal_Box" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Work Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="WorkStatusFrom" (ngSubmit)="Update_Work_Status(WorkStatusFrom.value)" id="Delay_Reason">
+          <div class="form-group">
+            <label>Reason</label>
+            <select class="form-control" formControlName="WorkStatusCode">
+              <option value="6">Checked in with tech support</option>
+              <option value="7">Work completed</option>
+              <option value="8">Checked out with tech support</option>
+              <option value="12">2nd Trip Required</option>
+            </select>
+          </div>
+          <input type="submit" [value]="'Submit'" class="btn btn-primary" [disabled]="!WorkStatusFrom.valid">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="IR_List" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Incident Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <!-- <div class="row">
+          <div class="col-lg-12">
+            <button class="btn btn-primary pull-right" (click)="Edit_Trip_IR(IR_ID)">Edit</button>
+          </div>
+        </div>-->
+        <app-irview [IR_ID]="IR_ID"></app-irview>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="Service_Request_Modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Service Request</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover" id="Service_Request_Table">
+          <thead>
+          <tr>
+            <th>Service request</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let A_S_R of AllServiceRequestArray">
+            <td>{{A_S_R.ASRM_Name}}</td>
+            <td><button class="btn btn-sm btn-success btn-rounded" type="button" (click)="AssignServiceRequest(A_S_R)">CHANGE</button></td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="Service_Request_Details_Modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div *ngIf="NewServiceRequestID !== ''"></div>
+        <app-srdetails [TicketID]="TicketID" [AccountID]="Acc_ID" [ServiceRequestID]="NewServiceRequestID" [ModelID]="modelID"></app-srdetails>
+        <br>
+        <div class="pull-right">
+          <button class="btn btn-primary" (click)="Close_SR_Details_Model()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="Log_Modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Log</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div>

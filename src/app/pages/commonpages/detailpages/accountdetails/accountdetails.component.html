@@ -1,0 +1,118 @@
+<div class="col-lg-12">
+  <div class="row acc_header row_margin">
+    <div class="col-lg-2 col-sm-2 col-xs-2">
+      <img *ngIf="Account_Logo_Path !== ''" class="acc_logo hvr-pulse" [src]="Account_Logo_Path" height="128"
+           width="128" (click)="Navication('account/logo/'+AccountID)"/>
+    </div>
+    <div class="col-lg-10 col-sm-10 col-xs-10">
+      <h2 class="acc_name">{{AccountName}}</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="table-responsive mb-5">
+        <table class="table table-hover">
+          <tbody>
+          <tr>
+            <td>
+              Account ID:
+            </td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountID}}</span>
+              </b>
+            </td>
+            <td>Account Name:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountName}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>Address:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountAddress}}</span>
+              </b>
+            </td>
+            <td>City:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountCity}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountState}}</span>
+              </b>
+            </td>
+            <td>Country:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountCountry}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>ZIP:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountZIP}}</span>
+              </b>
+            </td>
+            <td>Fax:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountFax}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>Phone:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountPhone}}</span>
+              </b>
+            </td>
+            <td>Mobile:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountMobile}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>Home Phone:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{AccountHomePhone}}</span>
+              </b>
+            </td>
+            <td>Location:</td>
+            <td>
+              <b>
+                <span class="text-primary1">Lat:{{lat}}<br>Lon:{{lng}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">Description:<br>
+              <span class="text-primary1">{{AccountDescription}}</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div id="map">
+
+      </div>
+    </div>
+  </div>
+</div>

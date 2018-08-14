@@ -1,0 +1,269 @@
+<div class="row acc_header row_margin" >
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <h2 class="acc_name">Parts <span class="pull-right">
+  <button  [hidden]="add=='N'" type="button" style="padding: 5px"class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" data-toggle="modal" data-target="#showpart" (click)="viewassignparts(id)" >
+      <i class="icmn-plus" aria-hidden="true"></i></button></span></h2></div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12" >
+        <div class='cover1'>
+            <table class="table demo table-bordered table-striped nowrap" id="accpartlist" >
+                <thead style="font-size: 12px !important;" class="th-color">
+                <tr>
+                    <th>Part</th>
+                    <th>Herokit/Non Herokit</th>
+                    <th>Unit cost</th>
+                    <th>Opening Balance</th>
+                    <th>Current Stock</th>
+                    <th>Replenishment</th>
+                    <th>Virtual Stock</th>
+                    <th>Target Stock</th>
+                    <!--<th>Added Stock</th>
+                    <th>Shipped Qty</th>
+                    <th>Delivered Qty</th>
+                    <th>Ordered Qty</th>-->
+                    <th>Stock Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let all of viewasspart">
+                    <td>{{all.PM_Part_Name}}</td>
+                    <td >
+                        <span *ngIf="all.APD_HeroKit_Yes_No==1">Non Herokit</span>
+                        <span *ngIf="all.APD_HeroKit_Yes_No!=1"> Herokit</span>
+                    </td>
+                    <td>{{all.PM_Price}}</td>
+                    <td>{{all.APD_Opening_Balance}}</td>
+                    <td><input style="width: 80px;" class="form-control" #NHcrstock [value]="all.APD_Current_Stock" (change)="updateReplAcc(NHcrstock.value,all.APD_KeyID,'N','cr',all.APD_HeroKit_Yes_No,all.APD_PM_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                    <td><input style="width: 80px;" class="form-control" #NHrplQuantity [value]="all.APD_Replenishment" (change)="updateReplAcc(NHrplQuantity.value,all.APD_KeyID,'N','rp',all.APD_HeroKit_Yes_No,all.APD_PM_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                    <td>{{all.APD_Virtual_Stock}}</td>
+                    <td><input style="width: 80px;" class="form-control" #NHtrQuantity [value]="all.APD_Target_Stock" (change)="updateReplAcc(NHtrQuantity.value,all.APD_KeyID,'N','tr',all.APD_HeroKit_Yes_No,all.APD_PM_KeyID)" type="text" name="Bill_To_ST" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                    <!-- <td>   </td>
+                     <td>{{all.APD_Shipped_Qty}}</td>
+                     <td>{{all.APD_Delivered_Qty}}</td>
+                     <td>{{all.APD_Ordered_Qty}}</td>-->
+                    <td>{{all.PS_Status}}</td>
+                    <td><button type="button"  class="btn btn-icon btn-danger fa fa-trash" style="margin-bottom: 7px; padding: 6px;" (click)="Delete(id,all.APD_PM_KeyID)"><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button> </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade modal-size-large" id="showpart" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+                    <h3><span style="width:85%">Select Parts for {{name}}</span><span style="width:15%" class="pull-right" id="partlistbut1">
+  <button  type="button" style="padding: 5px"class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"  (click)="partaction()" [hidden]="edit=='N'"><i class="icmn-plus" aria-hidden="true"></i></button></span>
+                    </h3>
+                    <div [ngSwitch]='status'>
+                        <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+
+
+                        <div  class="row" >
+
+                            <div class="col-lg-12">
+
+                                <div class="margin-bottom-50">
+
+                                    <div id="partlistshow" >
+                                        <form #acclist="ngForm" id="muleqpartform">
+                                            <div class="cover1">
+
+                                                <table class="table demo1 table-condensed table-hover row-border hover" id="accpart" width="100%" >
+                                                    <thead class="th-color">
+                                                    <tr>
+                                                        <th>Select</th>
+                                                        <th>Part</th>
+                                                        <th>MFG.Part.No</th>
+                                                        <th>Model</th>
+                                                        <th>Herokit/Non Herokit</th>
+                                                        <th>Opening Balance</th>
+                                                        <th>Replenishment</th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    <tr *ngFor="let all of results;let i=index;" >
+                                                        <td [ngClass]="normal">
+                                                            <input type="checkbox" name="chkpartquty{{i}}" [(ngModel)]="results[i].chkpartquty" (change)="updateCheckedOptions(i,all.PM_KeyID, $event)"/>
+                                                            <input type="hidden" name="id{{i}}" [(ngModel)]="results[i].PM_KeyID">
+                                                            <input type="hidden" name="accid" [(ngModel)]="id">
+
+                                                        </td>
+                                                        <!--<td [ngClass]="normal"> <input type="checkbox"
+                                                                    (change)="updateCheckedOptions(all.PM_KeyID, $event)"/>
+                                                        </td>-->
+                                                        <td [ngClass]="normal">{{all.PM_Part_Name}}</td>
+                                                        <td>{{all.PM_MFG_Part_No}}</td>
+                                                        <td>{{all.PM_Model}}</td>
+                                                        <td><input type="radio" name="hero{{i}}" [attr.disabled]="true"  value="0" [(ngModel)]="results[i].hero" (change)="handleChange(0)" (click)="setButton(i,$event,'0')" id="hero{{i}}"> Herokit&nbsp;
+                                                            <input type="radio" name="hero{{i}}"  [attr.disabled]="true"  value="1" [(ngModel)]="results[i].hero" [checked]="idx === 0" (change)="handleChange(1)" id="nonhero{{i}}" (click)="setButton(i,$event,'1')">Non Herokit
+                                                        </td>
+                                                        <td><input type="text" style="width: 55px" class="form-control" [(ngModel)]="results[i].qaty" (keyup)="textenable1(i,$event)" id="qaty{{i}}" readonly=""  #qaty="ngModel" name="qaty{{i}}" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                                                        <td><input type="text" style="width: 55px" class="form-control" [(ngModel)]="results[i].repl" (keyup)="textenable2(i,$event)" id="repl{{i}}" readonly=""  #repl="ngModel" name="repl{{i}}" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } "></td>
+                                                        <!-- <td><button type="button" class="btn btn-primary" id="assign{{i}}" data-dismiss="modal" data-toggle="modal" (click)="updateOptions(id,all.PM_KeyID,qaty.value,repl.value)" [hidden]="edit=='N'" [disabled]="enable(i)">Assign</button></td>-->
+
+                                                        <!-- <td><input type="radio" value="Herokit">Herokit<br><input type="radio" value="Non Herokit">Non Herokit</td>
+                                                         <td>
+
+                                                           <select class="form-control" #acc name="account" [(ngModel)]="Supplier_ID" >
+                                                             <option *ngFor="let sup of supplier" [value]="sup.SM_KeyID">{{sup.SM_Name}} </option>
+                                                           </select></td>-->
+                                                    </tr>
+                                                    </tbody>
+                                                </table></div>
+                                            <button type="button" class="btn btn-primary" id="asign{{i}}" (click)="updateOptions(acclist.value)"  data-toggle="modal"  [disabled]="enable(i)">Assign</button>
+                                        </form></div>
+                                    <div style="display: none;" id="partform">
+                                        <form #partForm="ngForm" id="addpartform"  *ngIf="active"  (ngSubmit)="onSubmit()">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-sm-6 col-xs-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Part Name <span style="color: red">*</span></label>
+                                                        <input  [(ngModel)]="partname" name="validation-simple[partname]"
+                                                                type="text" placeholder="Enter Part Name"
+                                                                class="form-control" #partName="ngModel" required minlength="3" maxlength="50">
+                                                        <div *ngIf="partName.errors && (partName.dirty || partName.touched)"
+                                                             class="alert alert-danger">
+                                                            <div [hidden]="!partName.errors.required">
+                                                                Part Name is required
+                                                            </div>
+                                                            <div [hidden]="!partName.errors.minlength">
+                                                                Part Name must be at least 3 characters long.
+                                                            </div>
+                                                            <div [hidden]="!partName.errors.maxlength">
+                                                                Part Name cannot be more than 50 characters long.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">MFG Part Number</label>
+                                                        <input  name="validation-simple[mfgpartnumber]"
+                                                                [(ngModel)]="mfgpartnumber"
+                                                                type="text" placeholder="Enter MFG Part Number"
+                                                                class="form-control"
+                                                                data-validation="[NOTEMPTY]">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Model</label>
+                                                        <input  name="validation-simple[model]"
+                                                                [(ngModel)]="part_model"
+                                                                type="text" placeholder="Enter Model Name"
+                                                                class="form-control"
+                                                                data-validation="[NOTEMPTY]">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Internal Cost <span style="color: red">*</span></label>
+
+                                                        <div class="form-input-icon form-input-icon-left">
+                                                            <i class="fa fa-dollar " style="color: #85bb65;font-size: 15px"></i>
+                                                            <input  name="validation-simple[cost]"
+                                                                    [(ngModel)]="internalcost"
+                                                                    type="text" placeholder="Enter Internal Cost"
+                                                                    class="form-control" pattern="^\d{0,8}(\.\d{1,4})?$" #partCost="ngModel" required>
+                                                        </div>
+                                                        <div *ngIf="partCost.errors && (partCost.dirty || partCost.touched)"
+                                                             class="alert alert-danger">
+                                                            <div [hidden]="!partCost.errors.required">
+                                                                Internal Cost is required
+                                                            </div>
+                                                            <div [hidden]="!partCost.errors.pattern">
+                                                                Internal Cost must be digits
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-sm-6 col-xs-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Price <span style="color: red">*</span></label>
+                                                        <div class="form-input-icon form-input-icon-left">
+                                                            <i class="fa fa-dollar " style="color: #85bb65;font-size: 15px"></i>
+                                                            <input  name="validation-simple[price]"
+                                                                    [(ngModel)]="part_price"
+                                                                    type="text" placeholder="Enter Price"
+                                                                    class="form-control" pattern="^\d{0,8}(\.\d{1,4})?$" #partPrice="ngModel" required>
+                                                            <div *ngIf="partPrice.errors && (partPrice.dirty || partPrice.touched)"
+                                                                 class="alert alert-danger">
+                                                                <div [hidden]="!partPrice.errors.required">
+                                                                    Price is required
+                                                                </div>
+                                                                <div [hidden]="!partPrice.errors.pattern">
+                                                                    Price must be digits
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Internal Notes</label>
+                                                        <input  name="validation-simple[internalnotes]"
+                                                                type="text" placeholder="Enter Internal Notes"
+                                                                [(ngModel)]="internalnotes"
+                                                                class="form-control"
+                                                                data-validation="[NOTEMPTY]">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="l38">Description</label>
+                                                        <textarea [(ngModel)]="part_description" name="desc" class="form-control" rows="6" id="l38" placeholder="Enter account description here"></textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <button type="submit" class="btn btn-primary" style="margin-right: 10px"
+                                                        [disabled]="!partForm.form.valid" (click)="createParts()">Create</button>
+                                                <button type="button" id="partformbut" class="btn btn-secondary" (click)="partdislist() " [hidden]="delete=='N'">Cancel</button>
+                                            </div>
+                                        </form></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!--
+                <span class="pull-right"id="partformbut" style="display:none" >
+          <button  type="button" style="padding: 5px;"class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"  (click)="partdislist()"><i class="icmn-plus" aria-hidden="true"></i></button></span><div class="modal-footer">
+                  <button type="button" class="btn" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" (click)="updateOptions(id)"data-dismiss="modal">Save changes</button>
+                </div>-->
+            </div>
+        </div>
+    </div></div>
+
+
+<!---Supplier form----->
+<div class="modal fade large" id="showsupform" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+                    <h3>Select Supplier for Parts {{suppartid}}</h3>
+                    <div [ngSwitch]='status'>
+                        <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div></div>

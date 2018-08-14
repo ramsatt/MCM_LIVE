@@ -1,0 +1,767 @@
+<app-leftmenu></app-leftmenu>
+<app-topmenu></app-topmenu>
+<div class="cat__content">
+    <section class="card">
+        <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Update Agreement</strong>
+        </span>
+        </div>
+
+        <div class="card-block">
+
+            <div class="row">
+
+                <div class="col-lg-7 col-sm-6 col-xs-6">
+                    <form #formAgreement="ngForm"   (ngSubmit)="onSubmit()">
+                        <input type="hidden" name="umkeyid" [(ngModel)]="umkeyid">
+                        <input type="hidden" name="AACGD_AGM_KeyID" [(ngModel)]="AGM_KeyID">
+                        <input type="hidden" name="agm_id" [(ngModel)]="agreementid">
+
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-xs-6">
+
+                                <div class="row clspad col-lg-12">
+                            <span class="cat__core__title">
+                                  <strong>Agreement</strong>
+                             </span>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">Agreement Name <span style="color: #ff1425">*</span></label>
+                                        <input [(ngModel)]="AGM_KeyID" type="hidden" name="AGM_KeyID" >
+                                        <input placeholder="Agreement Name" [(ngModel)]="AGM_Agreement_Name" name="AGM_Agreement_Name"
+                                               type="text"
+                                               class="form-control col-lg-12" #aggName="ngModel" required minlength="3" maxlength="50">
+                                        <div *ngIf="aggName.errors && (aggName.dirty || aggName.touched)"
+                                             class="alert alert-danger col-lg-12">
+                                            <div [hidden]="!aggName.errors.required">
+                                                Agreement Name is required
+                                            </div>
+                                            <div [hidden]="!aggName.errors.minlength">
+                                                Agreement Name must be at least 3 characters long.
+                                            </div>
+                                            <div [hidden]="!aggName.errors.maxlength">
+                                                Agreement Name cannot be more than 50 characters long.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">Effective Date <span style="color: #ff1425">*</span></label>
+                                        <input placeholder="Effective Date" [(ngModel)]="AGM_EffectiveDate" name="AGM_EffectiveDate" #EffectiveDate (ngModelChange)="changedate(EffectiveDate.value)"  type="text"
+                                               class="form-control col-lg-12 datepicker-only-init display-inline-block margin-inline" onkeypress=" return String.fromCharCode(event.charCode).match(/[]/g) != null">
+                                        <div *ngIf="EffectiveDate.errors && (EffectiveDate.dirty || EffectiveDate.touched)"
+                                             class="alert alert-danger col-lg-12">
+                                            <div [hidden]="!EffectiveDate.errors.required">
+                                                Effective Date is required
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <div  class="row">
+                                            <div class="col-lg-6">
+                                                <label class="form-label">Renewal Years</label>
+                                                <select [(ngModel)]="AGM_Renewal_Years"  name="AGM_Renewal_Years" class="form-control col-lg-10" (change)="changedate()">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="form-label"></label><br/><br/>
+                                                <input class="form-check-input" [(ngModel)]="AGM_Auto_Renewal" type="checkbox" name="AGM_Auto_Renewal" value="Y" >
+                                                Auto Renewal
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">End Date</label>
+                                        <input placeholder="End Date" name="AGM_EndDate" #EndDate [value]="END_Date"
+                                               [(ngModel)]="AGM_EndDate"
+                                               type="text"
+                                               class="form-control datepicker-only-init col-lg-12"
+                                               readonly>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">Renewal Date</label>
+                                        <input placeholder="Renewal Date" name="AGM_Renewal_AlertDate" #Renewal_AlertDate [value]="Alert_Date"
+                                               [(ngModel)]="AGM_Renewal_AlertDate"
+                                               type="text"
+                                               class="form-control datepicker-only-init col-lg-12"
+                                               readonly>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" [(ngModel)]="AGM_Holiday_Include" type="checkbox" name="AGM_Holiday_Include" value="1" >
+                                            Including Holidays
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <h5 class="text-black"><strong>Working Hours</strong></h5>
+                                        <label class="form-label">Start Time <span style="color: #ff1425">*</span></label>
+                                        <div  class="row">
+
+                                            <div class="col-lg-4">
+                                                <select [(ngModel)]="AGM_WorkingHours_StartTime_Hours"  name="AGM_WorkingHours_StartTime_Hours" class="form-control col-lg-12" (change)="responseTime(this.AGM_SameDay_Service_Request)" >
+                                                    <option *ngFor="let st_hr of hoursArray" value="{{st_hr}}" > {{ st_hr }}</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <select [(ngModel)]="AGM_WorkingHours_StartTime_Minutes"  name="AGM_WorkingHours_StartTime_Minutes" class="form-control col-lg-12" (change)="responseTime(this.AGM_SameDay_Service_Request)">
+                                                    <option *ngFor="let st_mn of minutesArray" value="{{st_mn}}" > {{ st_mn }}</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <select (change)="responseTime(this.AGM_SameDay_Service_Request)"  [(ngModel)]="AGM_WorkingHours_StartTime_Sessions"  name="AGM_WorkingHours_StartTime_Sessions" class="form-control">
+                                                    <option value="AM">AM</option>
+                                                    <option value="PM">PM</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">End Time <span style="color: #ff1425">*</span></label>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <select [(ngModel)]="AGM_WorkingHours_EndTime_Hours"  name="AGM_WorkingHours_EndTime_Hours" class="form-control col-lg-12" (change)="responseTime(this.AGM_SameDay_Service_Request)" >
+                                                    <option *ngFor="let en_hr of hoursArray" value="{{en_hr}}"  > {{ en_hr }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <select [(ngModel)]="AGM_WorkingHours_EndTime_Minutes"  name="AGM_WorkingHours_EndTime_Minutes" class="form-control col-lg-12" (change)="responseTime(this.AGM_SameDay_Service_Request)">
+                                                    <option *ngFor="let en_mn of minutesArray" value="{{en_mn}}" > {{ en_mn }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <select (change)="responseTime(this.AGM_SameDay_Service_Request)" [(ngModel)]="AGM_WorkingHours_EndTime_Sessions" name="AGM_WorkingHours_EndTime_Sessions" class="form-control">
+                                                    <option value="AM" selected>AM</option>
+                                                    <option value="PM">PM</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-12">
+                                    <strong>One Week Response Service</strong>
+                                    <div class="mb-5 col-lg-12">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input checked="" class="form-check-input" id="exampleRadios1" [(ngModel)]="AGM_OneWeek_Response_Service" name="AGM_OneWeek_Response_Service" value="5" type="radio">
+                                                5 Days per week
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" id="exampleRadios2" [(ngModel)]="AGM_OneWeek_Response_Service" name="AGM_OneWeek_Response_Service" value="7" type="radio">
+                                                7 Days per week
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-xs-6">
+
+                                <div class="row clspad">
+                            <span class="cat__core__title">
+                                  <strong><br/></strong>
+                             </span>
+                                </div>
+
+                                <div class="">
+
+                                    <strong>Premium Service</strong>
+                                    <div class="mb-5 col-lg-12">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input checked="" class="form-check-input" (click)="responseTime('1')" [(ngModel)]="AGM_SameDay_Service_Request" name="AGM_SameDay_Service_Request" value="1" type="radio">
+                                                Same Day Service Request
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" (click)="responseTime('2')" [(ngModel)]="AGM_SameDay_Service_Request" name="AGM_SameDay_Service_Request" value="2" type="radio">
+                                                Next Day Service Request
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" (click)="responseTime('3')" [(ngModel)]="AGM_SameDay_Service_Request" name="AGM_SameDay_Service_Request" value="3" type="radio">
+                                                Service Request in Days
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">Response Time</label>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <select [(ngModel)]="AGM_Response_Time_Hours"  name="AGM_Response_Time_Hours" class="form-control col-lg-12" [disabled]="buttonState()">
+                                                    <option *ngFor="let en_mn of tfhoursArray" value="{{en_mn}}" > {{ en_mn }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <select  [(ngModel)]="AGM_Response_Time_Minutes"  name="AGM_Response_Time_Minutes" class="form-control col-lg-12" [disabled]="buttonState()">
+                                                    <option *ngFor="let en_mn of minutesArray" value="{{en_mn}}" > {{ en_mn }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">Service Request Days</label>
+                                        <div class="row col-lg-6">
+                                            <input class="form-control col-lg-8" id="reqdays" type="text" [readonly]="requestDaysstatus()" [(ngModel)]="AGM_Service_Request"  name="AGM_Service_Request" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">Status</label>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <select [(ngModel)]="AGM_IsActive" name="AGM_IsActive" class="form-control">
+                                                    <option value="Y">Active</option>
+                                                    <option value="N">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group col-lg-12">
+
+                                    <div class="row" style="padding-top: 10px;">
+                                    <span class="">
+                                          <strong>Calculates exact miles to site</strong>
+                                     </span>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                                <table class="nowrap table-xs " id="tickets" style="width: 100%; font-size: 14px;">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 85px;" class="padleft"> Per mile charge</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-input-icon form-input-icon-left">
+                                                                <i class="fa fa-dollar dollar"></i>
+                                                                <input style="width: 100px;padding-left: 20px;" [(ngModel)]="permilecharge" name="permilecharge" class="form-control">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="padding-top: 10px;">
+                                    <span class="">
+                                        <strong> If travel fee is Portal to portal then Round Trip Charge will be applicable in travel fee. </strong>
+                                        <strong><br/></strong>
+                                        <strong>Calculates based on flat fee(only one fee will apply, it is not cumulative)</strong>
+                                     </span>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="row" >
+                                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                                <table class="nowrap table-xs " id="tickets" style="width: 100%; font-size: 14px;">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="padleft"> Miles</th>
+                                                        <th style="width: 85px;" class="padleft"> Miles</th>
+                                                        <th class="padleft" style="width: 75px;"> Fee</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><input [(ngModel)]="ffmilesfrom1" name="ffmilesfrom1" type="text" class="form-control col-lg-12" style="padding-left: 0;text-align: center;padding-right: 0"></td>
+                                                        <td><input [(ngModel)]="ffmilesto1" name="ffmilesto1" type="text" class="form-control col-lg-12" style="padding-left: 0;text-align: center;padding-right: 0"></td>
+                                                        <td><div class="form-input-icon form-input-icon-left">
+                                                            <i class="fa fa-dollar dollar"></i>
+                                                            <input style="width: 100px;padding-left: 20px;" [(ngModel)]="fffee1" name="fffee1" class="form-control">
+                                                        </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input [(ngModel)]="ffmilesfrom2" name="ffmilesfrom2" type="text" class="form-control col-lg-12" style="padding-left: 0;text-align: center;padding-right: 0"></td>
+                                                        <td><input [(ngModel)]="ffmilesto2" name="ffmilesto2" type="text" class="form-control col-lg-12" style="padding-left: 0;text-align: center;padding-right: 0"></td>
+                                                        <td><div class="form-input-icon form-input-icon-left">
+                                                            <i class="fa fa-dollar dollar"></i>
+                                                            <input style="width: 100px;padding-left: 20px;" [(ngModel)]="fffee2" name="fffee2" class="form-control">
+                                                        </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input [(ngModel)]="ffmilesfrom3" name="ffmilesfrom3" type="text" class="form-control col-lg-12" style="padding-left: 0;text-align: center;padding-right: 0"></td>
+                                                        <td><input [(ngModel)]="ffmilesto3" name="ffmilesto3" type="text" class="form-control col-lg-12" style="padding-left: 0;text-align: center;padding-right: 0"></td>
+                                                        <td><div class="form-input-icon form-input-icon-left">
+                                                            <i class="fa fa-dollar dollar"></i>
+                                                            <input [value]="50" style="width: 100px;padding-left: 20px;" [(ngModel)]="fffee3" name="fffee3" class="form-control">
+                                                        </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input [(ngModel)]="ffmilesfrom4" name="ffmilesfrom4" type="text" class="form-control col-lg-12" style="padding-left: 0;text-align: center;padding-right: 0"></td>
+                                                        <td><input [(ngModel)]="ffmilesto4" name="ffmilesto4" type="text" class="form-control col-lg-12" style="padding-left: 0;text-align: center;padding-right: 0"></td>
+                                                        <td><div class="form-input-icon form-input-icon-left">
+                                                            <i class="fa fa-dollar dollar"></i>
+                                                            <input style="width: 100px;padding-left: 20px;" [(ngModel)]="fffee4" name="fffee4" class="form-control">
+                                                        </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><input type="text" style="padding-left: 20px;" [(ngModel)]="AACGD_Beyond_Miles" name="AACGD_Beyond_Miles" class="form-control"></td>
+                                                        <td><div class="form-input-icon form-input-icon-left">
+                                                            <i class="fa fa-dollar dollar"></i>
+                                                            <input type="text" style="width: 100px;padding-left: 20px;" [(ngModel)]="fffee5" name="fffee5" class="form-control">
+                                                        </div></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row col-lg-7">
+                            <button type="submit" class="btn btn-primary" style="margin-right: 10px" [disabled]="!formAgreement.form.valid" (click)="updateAgreement(formAgreement.value,formServiceCharge.value,formTicketsupdate.value)">Update</button>
+                            <button type="button" class="btn btn-secondary" (click)="Navigation('account/overview')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-lg-5 col-sm-6 col-xs-6">
+
+                    <div class="row clspad paddown">
+                        <div class="col-lg-9 col-sm-9 col-xs-9">
+                <span class="cat__core__title">
+                      <strong>Service Request</strong>
+                 </span>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-xs-3">
+                            <button (click)="ViewSerivce()" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" type="button" >
+                                <i _ngcontent-c1="" aria-hidden="true" class="icmn-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <form #formServiceCharge="ngForm" width="100%" style="width: 100%;">
+                            <input type="hidden" name="umkeyid" [(ngModel)]="umkeyid">
+                            <div class="col-lg-12 col-sm-12 col-xs-12" style="over">
+                                <table class="table table-hover nowrap table-xs fixed_headers" id="model_service" style="width: 100%">
+                                    <thead>
+                                    <tr>
+                                        <th class="padleft">Model</th>
+                                        <th class="padleft">Service Requested</th>
+                                        <th class="" style="text-align: center;">Service Charges</th>
+                                        <th class="padleft">Add Ticket Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let sc of allservicecharge;let i=index" (click)="viewtickets(sc.AASCD_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+                                        <td class="padleft" [ngClass]="normal">{{sc.MM_Model_Name}}</td>
+                                        <td class="padleft">{{sc.ASRM_Name}}</td>
+                                        <td class="padleft" style="padding: 0px;">
+                                            <table class="table table-hover nowrap" id="model_service" style="width:255px !important;">
+
+                                                <input [(ngModel)]="allservicecharge[i].AASCD_KeyID" type="hidden" name="AASCD_KeyID{{i}}" >
+                                                <tbody>
+                                                <tr>
+                                                    <td><input checked="true" name="AASCD_Fee_Type{{i}}" [(ngModel)]="allservicecharge[i].AASCD_Fee_Type"  id="flat_fee" value="1" type="radio" #type1 (click)="checkfeeType(i,type1.value)"> Flat Fee</td>
+                                                    <td><input name="AASCD_Fee_Type{{i}}" [(ngModel)]="allservicecharge[i].AASCD_Fee_Type" id="hourly_fee" value="2" type="radio" #type2 (click)="checkfeeType(i,type2.value)"> Hourly Fee</td>
+                                                    <td><input name="AASCD_Fee_Type{{i}}" [(ngModel)]="allservicecharge[i].AASCD_Fee_Type" id="portal_fee" value="3" type="radio" #type3 (click)="checkfeeType(i,type3.value)"> MMC</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>Labor Fee</td>
+                                                    <td colspan="2">
+                                                        <div class="form-input-icon form-input-icon-left">
+                                                            <i class="fa fa-dollar dollar"></i>
+                                                            <input id="fid{{i}}" class="form-control col-lg-6" style="float:left;width: 161px;padding-left: 20px;" [(ngModel)]="allservicecharge[i].AASCD_Labour_Fees" name="AASCD_Rate{{i}}" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                                                            <span style="display: inline-block;font-size: 16px;" class="pad-top" id="Feetype{{i}}">/Trip </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Travel Fee</td>
+                                                    <td colspan="2">
+                                                        <input (click)="settravelFee('0',i)" class="form-check-input2" id="travelFee{{i}}" [(ngModel)]="allservicecharge[i].AASCD_Travel_Fees_Type" name="travelFee{{i}}" value="0" type="radio"> Portal to Portal
+                                                        <div class="form-input-icon form-input-icon-left" id="travelFeediv{{i}}">
+                                                            <input style="margin-top: 12px;" (click)="settravelFee('1',i)" class="pull-left form-check-input2" id="travelFee{{i}}" [(ngModel)]="allservicecharge[i].AASCD_Travel_Fees_Type" name="travelFee{{i}}" value="1" type="radio">
+                                                            <span class="pull-left pad-top">&nbsp;Flat Fee </span><i class="fa fa-dollar dollar2" ></i>
+                                                            <input id="tid{{i}}" [ngClass]= "((sc.AASCD_Travel_Fees_Type==0 ? 'form-control col-lg-6 clsdisabled pull-right' : ' form-control col-lg-6 pull-left'))" style="width: 161px;padding-left: 20px;float: right;" name="AASCD_Travel_Fees{{i}}" [(ngModel)]="allservicecharge[i].AASCD_Travel_Fees" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Parking Fee</td>
+                                                    <td colspan="2">
+                                                        <div class="form-input-icon form-input-icon-left" id="parkingFeediv{{i}}">
+                                                            <span class="pull-left pad-top">&nbsp;Flat Fee &nbsp;</span> <i class="fa fa-dollar dollar2" ></i>
+                                                            <input id="pid{{i}}" [ngClass]= "((sc.AASCD_Fee_Type!=3 ? ' form-control col-lg-6 pull-right' : 'pull-right form-control col-lg-6'))"  style="width: 161px;padding-left: 20px;" [(ngModel)]="allservicecharge[i].AASCD_Parking_Fees"  name="AASCD_Parking_Fees{{i}}" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Misc.Fee</td>
+                                                    <td colspan="2">
+                                                        <div class="form-input-icon form-input-icon-left" id="miscFeediv{{i}}">
+                                                            <span class="pull-left pad-top">&nbsp;Flat Fee &nbsp;</span> <i class="fa fa-dollar dollar2" ></i>
+                                                            <input id="mid{{i}}" [ngClass]= "((sc.AASCD_Fee_Type==1 ? 'pull-right form-control col-lg-6' : 'pull-right form-control col-lg-6'))" style="width: 161px;padding-left: 20px;"  [(ngModel)]="allservicecharge[i].AASCD_Miscellaneous" name="AASCD_Miscellaneous{{i}}" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="text-align: center; padding: 9px;">
+
+                                            <button (click)="ViewTicketsList(sc.AASCD_KeyID)" data-toggle="modal" data-target="#TicketStatus" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" type="button" >
+                                                <i _ngcontent-c1="" aria-hidden="true" class="icmn-plus"></i></button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="row" *ngIf="!allservicecharge">
+                        There is no Service Request & Model configured for the selected Account. Please assign Model & Service Request for the selected Manufacturer Under Instruction List.
+                    </div>
+
+                    <div class="row clspad" style="padding-top: 10px;">
+                <span class="cat__core__title">
+                      <strong>Ticket Status List for Service Request {{serviceRequestid}}</strong>
+                 </span>
+                    </div>
+
+                    <div class="row">
+                        <form #formTicketsupdate="ngForm" style="width: 100%;">
+                            <input type="hidden" name="umkeyid" [(ngModel)]="umkeyid">
+                            <input type="hidden" name="serviceRequestid" [(ngModel)]="serviceRequestid">
+                            <div class="row" *ngIf="alltickets">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 scroll">
+                                    <table class="table-hover nowrap table-xs " id="tickets" style="width: 100%">
+                                        <thead>
+                                        <tr>
+                                            <th class="padleft"> Sl No</th>
+                                            <th class="padleft"> Status</th>
+                                            <th style="width: 85px;" class="padleft"> Hours</th>
+                                            <th class="padleft" style="width: 75px;"> Minutes</th>
+                                            <th class="padleft"> Delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let ticket of alltickets;let j = index" [class.active]="ticket.AATSD_AASCD_KeyID == serviceRequestid">
+                                            <td class="padleft">{{j+1}}</td>
+                                            <td class="padleft"> {{ticket.TSM_Status}}</td>
+                                            <input [(ngModel)]="alltickets[j].AATSD_KeyID" type="hidden" name="AATSD_KeyID{{j}}" >
+                                            <td class="padleft">
+                                                <select name="AATSD_Hours{{j}}" [(ngModel)]="alltickets[j].AATSD_Hours" class="form-control">
+                                                    <option value="0">00</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                    <option value="6">06</option>
+                                                    <option value="7">07</option>
+                                                    <option value="8">08</option>
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                            <td>
+                                                <select name="AATSD_Minutes{{j}}" [(ngModel)]="alltickets[j].AATSD_Minutes" class="form-control">
+                                                    <option value="00">00</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                    <option value="6">06</option>
+                                                    <option value="7">07</option>
+                                                    <option value="8">08</option>
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                    <option value="24">24</option>
+                                                    <option value="25">25</option>
+                                                    <option value="26">26</option>
+                                                    <option value="27">27</option>
+                                                    <option value="28">28</option>
+                                                    <option value="29">29</option>
+                                                    <option value="30">30</option>
+                                                    <option value="31">31</option>
+                                                    <option value="32">32</option>
+                                                    <option value="33">33</option>
+                                                    <option value="34">34</option>
+                                                    <option value="35">35</option>
+                                                    <option value="36">36</option>
+                                                    <option value="37">37</option>
+                                                    <option value="38">38</option>
+                                                    <option value="39">39</option>
+                                                    <option value="40">40</option>
+                                                    <option value="41">41</option>
+                                                    <option value="42">42</option>
+                                                    <option value="43">43</option>
+                                                    <option value="44">44</option>
+                                                    <option value="45">45</option>
+                                                    <option value="46">46</option>
+                                                    <option value="47">47</option>
+                                                    <option value="48">48</option>
+                                                    <option value="49">49</option>
+                                                    <option value="50">50</option>
+                                                    <option value="51">51</option>
+                                                    <option value="52">52</option>
+                                                    <option value="53">53</option>
+                                                    <option value="54">54</option>
+                                                    <option value="55">55</option>
+                                                    <option value="56">56</option>
+                                                    <option value="57">57</option>
+                                                    <option value="58">58</option>
+                                                    <option value="59">59</option>
+                                                </select></td>
+                                            <td style="text-align: center; padding: 9px;">
+                                                <button [hidden]="delete=='N'" (click)="DeleteTicketStatus(ticket.AATSD_KeyID,ticket.AATSD_AASCD_KeyID)" class="btn btn-icon btn-danger fa fa-trash" ><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="!alltickets">
+                                There is no Tickets configured for the selected Service Request. Please add Tickets for the selected Service Request.
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <app-footer></app-footer>
+
+</div>
+
+<div class="modal fade" id="CreateModel" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Instruction">Add Agreement Service Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div [hidden]="submitted">
+                    <form #formModel="ngForm">
+                        <div class="row" *ngIf="servicecharegeidexist">
+                            <div class="col-lg-12" >
+                                <table class="table table-hover nowrap " id="model_service" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Sl No</th>
+                                        <th>Model</th>
+                                        <th>Service Requested</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let modelservice of allmodelservice; let j = index">
+                                        <td><input type="checkbox"  (change)="updateCheckedOptions(modelservice.AMSRD_KeyID, $event)" ></td>
+                                        <td>{{modelservice.MM_Model_Name}}</td>
+                                        <td>{{modelservice.ASRM_Name}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-primary" [disabled]="checkService()"  (click)="CreateServicecharge()">Add</button>
+                                &nbsp;
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="row text-center" *ngIf="!servicecharegeidexist">
+                            There is no Service Request & Model configured for the selected Account. Please assign Model & Service Request for the selected Manufacturer Under Instruction List.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="TicketStatus" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Instruction">Add Tickets</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearTickets()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" style="padding-top: 10px;">
+                    <form #formTicketsnew="ngForm">
+                        <input type="hidden" name="serviceRequestid" [(ngModel)]="serviceRequestid">
+                        <div class="row" *ngIf="allticketslist">
+                            <div class="col-lg-12" >
+                                <table class="table table-hover nowrap " id="model_service" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Sl No</th>
+                                        <th>Ticket Status</th>
+                                        <th>Hours</th>
+                                        <th>Minutes</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let tickets of allticketslist|tickets:ticketStatus; let j = index">
+                                        <input type="hidden" name="TSM_KeyID{{j}}" [(ngModel)]="allticketslist[j].TSM_KeyID">
+                                        <td><input type="checkbox" name="idval{{j}}" [(ngModel)]="allticketslist[j].idval" value="allticketslist[j].TSM_Key_ID" (change)="updateTickedChecked(j,tickets.TSM_KeyID, $event)"></td>
+                                        <td>{{tickets.TSM_Status}}</td>
+                                        <td class="padleft">
+                                            <select style="width:85px !important;" name="Hours{{j}}" [(ngModel)]="allticketslist[j].Hours" class="form-control" id="hr{{j}}" #hr (change)="textenable(j,$event)" readonly>
+                                                <option value="">Select</option>
+                                                <option value="0">00</option>
+                                                <option value="1">01</option>
+                                                <option value="2">02</option>
+                                                <option value="3">03</option>
+                                                <option value="4">04</option>
+                                                <option value="5">05</option>
+                                                <option value="6">06</option>
+                                                <option value="7">07</option>
+                                                <option value="8">08</option>
+                                                <option value="9">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select style="width:85px !important;" name="Minutes{{j}}" [(ngModel)]="allticketslist[j].Minutes" class="form-control" id="min{{j}}" #min (change)="textenable2(j,$event)" readonly>
+                                                <option value="">Select</option>
+                                                <option value="00">00</option>
+                                                <option value="1">01</option>
+                                                <option value="2">02</option>
+                                                <option value="3">03</option>
+                                                <option value="4">04</option>
+                                                <option value="5">05</option>
+                                                <option value="6">06</option>
+                                                <option value="7">07</option>
+                                                <option value="8">08</option>
+                                                <option value="9">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="17">17</option>
+                                                <option value="18">18</option>
+                                                <option value="19">19</option>
+                                                <option value="20">20</option>
+                                                <option value="21">21</option>
+                                                <option value="22">22</option>
+                                                <option value="23">23</option>
+                                                <option value="24">24</option>
+                                                <option value="25">25</option>
+                                                <option value="26">26</option>
+                                                <option value="27">27</option>
+                                                <option value="28">28</option>
+                                                <option value="29">29</option>
+                                                <option value="30">30</option>
+                                                <option value="31">31</option>
+                                                <option value="32">32</option>
+                                                <option value="33">33</option>
+                                                <option value="34">34</option>
+                                                <option value="35">35</option>
+                                                <option value="36">36</option>
+                                                <option value="37">37</option>
+                                                <option value="38">38</option>
+                                                <option value="39">39</option>
+                                                <option value="40">40</option>
+                                                <option value="41">41</option>
+                                                <option value="42">42</option>
+                                                <option value="43">43</option>
+                                                <option value="44">44</option>
+                                                <option value="45">45</option>
+                                                <option value="46">46</option>
+                                                <option value="47">47</option>
+                                                <option value="48">48</option>
+                                                <option value="49">49</option>
+                                                <option value="50">50</option>
+                                                <option value="51">51</option>
+                                                <option value="52">52</option>
+                                                <option value="53">53</option>
+                                                <option value="54">54</option>
+                                                <option value="55">55</option>
+                                                <option value="56">56</option>
+                                                <option value="57">57</option>
+                                                <option value="58">58</option>
+                                                <option value="59">59</option>
+                                            </select></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-primary" [disabled]="checkTickets()"  (click)="addTickets(formTicketsnew.value)">Add Tickets</button>
+                                &nbsp;
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearTickets()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

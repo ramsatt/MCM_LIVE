@@ -1,0 +1,345 @@
+
+<div class="cat__content">
+  <section class="card">
+
+
+
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Assets -  <span style="color: #0b58a2">{{AssName}}</span></strong>
+        </span>
+    </div>
+    <div class="card-block">
+      <div class="margin-bottom-50">
+        <div class="nav-tabs-horizontal">
+            <ul class="nav nav-tabs" role="tablist" >
+                <li class="nav-item" *ngFor="let sub of Asssubmenu ">
+                    <a  attr.data-target="{{sub.SUB_URL}}" class="nav-link  {{sub.SUB_Active}}" href="javascript: void(0);" data-toggle="tab"  role="tab" >
+                        <i class="{{sub.SUB_Icon}}"></i>
+                        <span class="hide">{{sub.SUB_Name}}</span>
+                    </a>
+                </li>
+
+
+            </ul>
+          <!--<ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#parts" role="tab">
+                <i class="icmn-newspaper"></i>
+                <span class="hide">Overview</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#Asset_Map" role="tab">
+                <i class="icmn-map"></i>
+                <span class="hide">Map</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#moveassets" role="tab">
+                <i class="icmn-truck"></i>
+                <span class="hide">Move Asset</span>
+              </a>
+            </li>
+
+          </ul>-->
+
+          <div class="tab-content padding-vertical-20">
+            <div class="tab-pane active" id="parts" role="tabpanel">
+              <div class="row">
+                <div class="col-lg-4" style="padding-right: 10px;">
+                  <div class="row acc_header row_margin">
+                    <div class="col-lg-12"><h5 class="acc_heading">Assets<span><button (click)="Navication('assets/create')" type="button"  [hidden]="add=='N'" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+                  </div>
+                  <div class="row"><div class="col-lg-12">
+                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                      <input type="text" class="form-control"[(ngModel)]="asset_name"   id="l34" name="Site_Search" placeholder="Search" id="">
+                    </div></div></div>
+
+
+
+                  <table class="table table-fixed" id="accounts" width="100%">
+                    <tbody>
+                    <tr *ngFor="let ass of AssArray|assets:asset_name;let i=index" (click)="Selectedasset(ass.ASM_KeyID);setClickedRow(i)" [class.active]="ass.ASM_KeyID==AssID">
+                        <td  class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal">
+                            <b>{{ass.ASM_Asset_Name}}</b>
+                            <span *ngIf="ass.ASM_IsActive=='N'" [hidden]="unassignbtn=='N'"><small  class="cat__apps__messaging__tab__time"><button type="button" class="btn btn-sm btn-success margin-inline" (click)="Updatestatus(ass.ASM_KeyID,'Y')">Activate</button></small></span>
+                            <span *ngIf="ass.ASM_IsActive=='Y'" [hidden]="unassignbtn=='N'"><small  class="cat__apps__messaging__tab__time"><button type="button" class="btn btn-sm btn-danger margin-inline" (click)="Updatestatus(ass.ASM_KeyID,'N')">Deactivate</button></small></span>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-8">
+                  <div class="row acc_header row_margin">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                      <h2 class="acc_name"> {{AssName}}<span class="pull-right"><button  type="button" style="padding: 7px" class="btn btn-icon btn-warning btn-rounded margin-inline"  (click)="editass(AssID)" [hidden]="edit=='N' || AssID==''"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+                          <button (click)="Delete(AssID)" type="button" style="padding: 7px" class="btn btn-icon btn-danger btn-rounded margin-inline" [hidden]="delete=='N' || AssID=='' "><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </span></h2>
+                    </div>
+                  </div>
+
+
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="table-responsive mb-5">
+                        <table class="table table-hover">
+                          <tbody>
+                          <tr>
+                              <td>ID:</td>
+                              <td >{{AssID}}</td>
+                              <td >Name:</td>
+                              <td >{{AssName}}</td>
+                          <tr>
+                              <td >Model:</td>
+                              <td >{{ass_model}}</td>
+                              <td >Serial Number:</td>
+                              <td>{{ass_sno}}</td>
+                          </tr>
+                          <tr>
+                              <td>From Date:</td>
+                              <td>{{ass_from}}</td>
+                              <td>To Date:</td>
+                              <td>{{ass_to}}</td>
+                          </tr>
+                          <tr>
+                              <td>Site Name:</td>
+                              <td>{{siteov_name}}</td>
+                              <td>Identifier:</td>
+                              <td>{{ass_iden}}</td>
+                          </tr>
+                          <tr>
+                              <td>Agreement Name:</td>
+                              <td>{{AgreementName}}</td>
+                              <td>Account Name:</td>
+                              <td>{{AM_Name}}</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+              </div></div>
+
+            <div class="tab-pane" id="Asset_Map" role="tabpanel">
+                <app-map [Lat]="SiteLat" [Lan]="SiteLng"></app-map>
+            </div>
+            <div class="tab-pane" id="messages2" role="tabpanel">
+
+            </div>
+            <div class="tab-pane" id="settings2" role="tabpanel">
+
+            </div>
+            <div class="tab-pane" id="models" role="tabpanel">
+
+            </div>
+            <div class="tab-pane" id="moveassets" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-4" style="padding-right: 10px;">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12"><h5 class="acc_heading">Assets<span><button (click)="Navication('assets/create')" [hidden]="add=='N'" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="icmn-search"></i>
+                                </span>
+                                <input type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+                            </div>
+                        </div>
+
+                        <table class="table table-fixed" id="accounts" width="100%">
+                            <tbody>
+                                <tr *ngFor="let ass of AssArray|assets:asset_name;let i=index" (click)="Selectedasset(ass.ASM_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+                                    <td  class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal">
+                                        <b>{{ass.ASM_Asset_Name}}</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <app-moveassets [id]="AssID" [asStatus]="asStatus"></app-moveassets>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="asst-aggrement" role="tabpanel">
+                  <div class="row">
+                      <div class="col-lg-4" style="padding-right: 10px;">
+                          <div class="row acc_header row_margin">
+                              <div class="col-lg-12"><h5 class="acc_heading">Assets<span><button (click)="Navication('assets/create')" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+                          </div>
+                          <div class="row">
+                              <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="icmn-search"></i>
+                                </span>
+                                  <input type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+                              </div>
+                          </div>
+
+                          <table class="table table-fixed" id="accounts" width="100%">
+                              <tbody>
+                              <tr *ngFor="let ass of AssArray|assets:asset_name;let i=index" (click)="Selectedasset(ass.ASM_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+                                  <td  class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal">
+                                      <b>{{ass.ASM_Asset_Name}}</b>
+                                  </td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+
+                      <div class="col-lg-8">
+                          <app-listagreement [id]="AssID" [AMID]="AM_KeyID" [AGMStatus]="AGMStatus" [AssName]="AssName"></app-listagreement>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div></div></div></section>
+  <app-footer></app-footer></div>
+
+
+<div class="modal fade modal-size-large" id="editpart" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Update Asset</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+
+                    <div [ngSwitch]='status'>
+                        <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+
+
+                        <div  class="row" >
+
+                            <div class="col-lg-12">
+
+                                <div class="margin-bottom-50">
+                                    <form #partForm="ngForm" id="assetform" *ngIf="active"  (ngSubmit)="onSubmit()">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-6 col-xs-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Asset Name <span style="color: red">*</span></label>
+                                                    <input  [(ngModel)]="eass_name" name="validation-simple[partname]"
+                                                            type="text" placeholder="Enter Asset Name"
+                                                            class="form-control" #assName="ngModel" required minlength="3" maxlength="50">
+                                                    <div *ngIf="assName.errors && (assName.dirty || assName.touched)"
+                                                         class="alert alert-danger">
+                                                        <div [hidden]="!assName.errors.required">
+                                                            Asset Name is required
+                                                        </div>
+                                                        <div [hidden]="!assName.errors.minlength">
+                                                            Asset Name must be at least 3 characters long.
+                                                        </div>
+                                                        <div [hidden]="!assName.errors.maxlength">
+                                                            Asset Name cannot be more than 50 characters long.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label">Agreement <span style="color: red">*</span></label>
+
+                                                    <select class="form-control" #agr required name="agreement" #asset_vname="ngModel" id="agm" [(ngModel)]="AGMID">
+                                                        <option *ngFor="let agm of agreementarray" [value]="agm.AGM_KeyID">{{agm.AGM_Agreement_Name}}</option>
+                                                    </select>
+                                                    <div *ngIf="agr.errors && agr.touched" class="alert alert-danger">
+                                                        <div [hidden]="!agr.errors.required">Agreement is required</div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label">Identifier </label>
+                                                    <input name="validation-simple[cost]"[(ngModel)]="eass_iden"
+                                                           type="text" placeholder="Enter ID"
+                                                           class="form-control"  #eass_id="ngModel" autocomplete="off">
+
+
+
+                                                </div>
+                                              <!--  <div class="form-group">
+                                                    <label class="form-label">Serial no <span style="color: red">*</span></label>
+
+
+
+                                                    <input name="validation-simple[cost]"[(ngModel)]="eass_sno"
+                                                           type="text" placeholder="Enter Serial no"
+                                                           class="form-control"  #ass_no="ngModel" required pattern="^[0-9]*$">
+                                                    <div *ngIf="ass_no.errors && (ass_no.dirty || ass_no.touched)"
+                                                         class="alert alert-danger">
+                                                        <div [hidden]="!ass_no.errors.required">
+                                                            Serial No is required
+                                                        </div>
+                                                        <div [hidden]="!ass_no.errors.pattern">
+                                                            Serial No code must be a digits
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>-->
+                                                <div class="form-group">
+                                                    <label class="form-label">
+                                                        Dates this Model Supported
+                                                        <span style="color: red">*</span></label>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <input [(ngModel)]="eass_from" class="form-control datepicker-only-init display-inline-block margin-inline" name="fesdate" placeholder="From"  #assfromdate="ngModel" (blur)="ass_from = assf_date.value"  #assf_date type="text" required onkeydown="return false" value="">
+                                                            <div *ngIf="assfromdate.errors && (assfromdate.dirty || assfromdate.touched)"
+                                                                 class="alert alert-danger">
+                                                                <div [hidden]="!assfromdate.errors.required">
+                                                                    From Date is required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <input [(ngModel)]="eass_to" class="form-control datepicker-only-init display-inline-block margin-inline" name="festodate" placeholder="To"  #asmto_date="ngModel" (blur)="asm_to = dfesto_date.value"  #dfesto_date type="text" required onkeydown="return false">
+                                                            <div *ngIf="asmto_date.errors && (asmto_date.dirty || asmto_date.touched)"
+                                                                 class="alert alert-danger">
+                                                                <div [hidden]="!asmto_date.errors.required">
+                                                                    To Date is required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <button type="button" class="btn btn-primary" style="margin-right: 10px"
+                                                    [disabled]="!partForm.form.valid" (click)="updateAss(AssID)">Update</button>
+                                            <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div></div>

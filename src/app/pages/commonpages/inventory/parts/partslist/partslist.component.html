@@ -1,0 +1,81 @@
+<app-leftmenu></app-leftmenu>
+<app-topmenu></app-topmenu>
+<div class="cat__content">
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Parts <span class="pull-right">
+  <button (click)="open('part/create')" type="button" style="padding: 5px" class="btn btn-icon btn-primary btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></strong>
+        </span>
+    </div>
+
+    <div class="card-block">
+      <div class="row">
+      <div class="col-lg-12 col-sm-12 col-xs-12">
+        <input [(ngModel)]="partfil_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+          <table class="table table-hover nowrap" id="branch" width="100%">
+            <thead>
+            <tr>
+              <th>Image</th>
+              <th>Part ID</th>
+              <th>Part Name</th>
+              <th>MFG Part No</th>
+              <th>Model</th>
+              <th>Internal Cost</th>
+              <th>Actions</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let part of allparts|partfilter:partfil_name;" >
+              <td>     <div class="s1">
+                <img style="height: 57px; width: 100px" src="assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}" alt="No Image" (click)="imgpopup(part.PM_KeyID)" onError="this.src='assets/modules/dummy-assets/common/img/noimagefound.jpg';">
+                <br />
+              </div></td>
+              <td>{{part.PM_KeyID}}</td>
+              <td>{{part.PM_Part_Name}}</td>
+              <td>{{part.PM_MFG_Part_No}}</td>
+              <td>{{part.PM_Model}}</td>
+              <td>{{part.PM_Internal_Cost}}</td>
+              <td align="center">
+                <div class="row">
+                  <button (click)="open('part/edit/'+part.PM_KeyID)"class="btn btn-icon btn-warning margin-inline"><i _ngcontent-cli-28="" aria-hidden="true" class="fa fa-pencil-square"></i></button>
+                  &nbsp;
+                  <button data-target="#example1" (click)="Delete(part.PM_KeyID) " class="btn btn-icon btn-danger margin-inline" ><i _ngcontent-mdt-28="" aria-hidden="true" class="fa fa-trash"></i></button>
+                </div>
+                </td>
+              <div class="modal fade" id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <h4 class="modal-title" id="myModalLabel">Delete</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>Do you want to delete {{part.PM_KeyID}}?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary"  data-dismiss="modal"(click)="Delete(part.PM_KeyID)">Yes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+  <app-footer></app-footer>
+</div>
+

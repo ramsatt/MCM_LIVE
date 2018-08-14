@@ -1,0 +1,775 @@
+
+<div class="cat__content">
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Sites-{{SiteName}}</strong>
+        </span>
+    </div>
+
+    <div class="card-block">
+      <div class="margin-bottom-50">
+        <div class="nav-tabs-horizontal">
+          <ul class="nav nav-tabs" role="tablist" >
+            <li class="nav-item" *ngFor="let sub of Asssubmenu ">
+              <a  attr.data-target="{{sub.SUB_URL}}" class="nav-link  {{sub.SUB_Active}}" href="javascript: void(0);" data-toggle="tab" (click)="refresh()" role="tab" >
+                <i class="{{sub.SUB_Icon}}"></i>
+                <span class="hide">{{sub.SUB_Name}}</span>
+              </a>
+            </li>
+
+
+          </ul>
+          <div class="tab-content padding-vertical-20">
+            <div class="tab-pane active" id="sites" role="tabpanel">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="row acc_header row_margin">
+                    <div class="col-lg-12"><h5 class="acc_heading">Sites<span><button [hidden]="add=='N'" (click)="Navication('site/create','add')" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" [(ngModel)]="site_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table table-fixed" width="100%">
+                    <tbody>
+                    <tr *ngFor="let site of SitesArray | site: site_name; let i=index" (click)="SelectedSite(site.SM_KeyID);setClickedRow(i)" [class.active]="site.SM_KeyID == SiteID">
+                      <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+                        <b>{{site.SM_SiteName}}</b>
+                        <span *ngIf="site.SM_IsActive=='N'" [hidden]="unassignbtn=='N'"><small  class="cat__apps__messaging__tab__time"><button type="button" class="btn btn-sm btn-success margin-inline" (click)="Updatestatus(site.SM_KeyID,'Y')">Activate</button></small></span>
+                        <span *ngIf="site.SM_IsActive=='Y'" [hidden]="unassignbtn=='N'"><small  class="cat__apps__messaging__tab__time"><button type="button" class="btn btn-sm btn-danger margin-inline" (click)="Updatestatus(site.SM_KeyID,'N')">Deactivate</button></small></span>
+                        <br>
+
+                        {{site.SM_City}}
+                      </td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-8">
+                  <div class="row acc_header row_margin">
+                    <div class="col-lg-8 col-sm-8 col-xs-8">
+                      <h2 class="acc_name">{{SiteName}}</h2>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-4">
+                                       <span class="pull-right"><button [hidden]="edit=='N'" (click)="Navication('site/edit/'+SiteID,'edit')" type="button" style="padding: 10px" class="btn btn-icon btn-warning btn-rounded margin-inline hvr-pulse"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+                              <button [hidden]="delete=='N'" (click)="DeleteSite(SiteID)" type="button" style="padding: 10px" class="btn btn-icon btn-danger btn-rounded margin-inline hvr-pulse"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="table-responsive mb-5">
+                        <table class="table table-hover">
+                          <tbody>
+                          <tr>
+                            <td>
+                              Site ID:
+                            </td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteID}}</span>
+                              </b>
+                            </td>
+                            <td>Site Name:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteName}}</span>
+                              </b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Address:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteAddress}}</span>
+                              </b>
+                            </td>
+                            <td>City:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteCity}}</span>
+                              </b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>State:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteState}}</span>
+                              </b>
+                            </td>
+                            <td>Country:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteCountry}}</span>
+                              </b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>ZIP:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteZIP}}</span>
+                              </b>
+                            </td>
+                            <td>Fax:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteFax}}</span>
+                              </b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Phone:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SitePhone}}</span>
+                              </b>
+                            </td>
+                            <td>Mobile:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteMobile}}</span>
+                              </b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Other Phone:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">{{SiteHomePhone}}</span>
+                              </b>
+                            </td>
+                            <td>Location:</td>
+                            <td>
+                              <b>
+                                <span class="text-primary1">Lat:{{lat}}<br>Lon:{{lng}}</span>
+                              </b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Account Number:</td>
+                            <td colspan="3">
+                              <b>
+                                <span class="text-primary1">{{SiteAccountNumber}}</span>
+                              </b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="4">Description:<br>
+                              <span class="text-primary1">
+                                {{SiteDescription}}
+                              </span>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div id="map">
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3" style="padding: 2px">
+                  <div class="row acc_header row_margin">
+
+                    <div class="col-lg-12"><h5 class="acc_heading">Accounts</h5></div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" [(ngModel)]="acc_name" type="text" class="form-control" name="Site_Search" placeholder="Search">
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table table-fixed" id="sites" width="100%">
+                    <tbody>
+                    <tr *ngFor="let acc of SiteAaccoutsArray | accountfilter: acc_name">
+                      <td class="col-xs-12 col-lg-12 col-sm-12">
+                        <b>{{acc.AM_Name}}</b>
+                        <br>
+                        {{acc.AM_City}}
+                        <!-- <span class="pull-right">
+                           <button  (click)="deleteSiteAcc(acc.SAD_KeyID,acc.AM_KeyID,SiteID)" class="btn btn-sm btn-warning" >Unassign</button>
+                         </span>-->
+                      </td>
+
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-3" style="padding: 2px">
+                  <div class="row acc_header row_margin">
+
+                    <div class="col-lg-12"><h5 class="acc_heading">Branches</h5></div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text" [(ngModel)]="branch_name" type="text" class="form-control" name="Site_Search" placeholder="Search">
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table table-fixed" id="sites" width="100%">
+                    <tbody>
+                    <tr *ngFor="let branch of SiteBranchsArray | branchfilter: branch_name">
+                      <td *ngIf="branch.BM_IsActive === 'N'; else elsesitebranch"  class="col-xs-12 col-lg-12 col-sm-12">
+                        <b>{{branch.BM_Branch_Name}}</b>
+                        <br>
+                        {{branch.BM_City}}
+                        <span class="pull-right">
+                          <button  (click)="deleteSiteBrn(branch.SBD_KeyID,SiteID,branch.BM_KeyID)" class="btn btn-sm btn-warning" [hidden]="unassign=='N'" >Unassign</button>
+                        </span>
+                        <br><span  style="color: red;font-size:13px">
+                                                    Deactivated</span>
+                      </td>
+
+                      <ng-template #elsesitebranch>
+                        <td class="col-xs-12 col-lg-12 col-sm-12">
+                          <b>{{branch.BM_Branch_Name}}</b>
+                          <br>
+                          {{branch.BM_City}}
+                          <span class="pull-right">
+                          <button  (click)="deleteSiteBrn(branch.SBD_KeyID,SiteID,branch.BM_KeyID)" class="btn btn-sm btn-warning" [hidden]="unassign=='N'" >Unassign</button>
+                        </span>
+                        </td>
+                      </ng-template>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-3" style="padding: 2px">
+                  <div class="row acc_header row_margin">
+
+                    <div class="col-lg-12"><h5 class="acc_heading">ASSETS</h5></div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xs-12 col-lg-12 col-sm-12">
+                      <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" value="" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <!--Ticket List Here-->
+                  <table class="table table-fixed" width="100%">
+                    <tbody>
+                    <tr *ngFor="let ass of AssSite|assets:assname;">
+                      <td *ngIf="ass.ASM_IsActive === 'N'; else elsesiteasset"  class="col-xs-12 col-lg-12 col-sm-12">
+                        <b>{{ass.ASM_Asset_Name}}</b>
+                        <br>
+                        {{ass.ASM_Datefrom}} - {{ass.ASM_Dateto}}
+                        <br><span  style="color: red;font-size:13px">
+                                                    Deactivated</span>
+                      </td>
+                      <ng-template #elsesiteasset>
+                        <td class="col-xs-12 col-lg-12 col-sm-12">
+                          <b>{{ass.ASM_Asset_Name}}</b>
+                          <br>
+                          {{ass.ASM_Datefrom}} - {{ass.ASM_Dateto}}
+
+                        </td>
+                      </ng-template>
+                    </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-3" style="padding: 2px">
+                  <div class="row acc_header row_margin">
+
+                    <div class="col-lg-12"><h5 class="acc_heading">TICKETS</h5></div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                        <input class="input-error form-control" id="l34" value="" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="btn-group btn-group-justified margin-inline">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-secondary">All</button>
+                        </div>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-secondary">Week</button>
+                        </div>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-secondary">Month</button>
+                        </div>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-secondary">Year</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-5">
+                      <input [(ngModel)]="date_from" name="datefrom" type="text" class="form-control datepicker-only-init display-inline-block margin-inline" placeholder="From" />
+                    </div>
+                    <div class="col-lg-5">
+                      <input [(ngModel)]="date_to" name="datetp" type="text" class="form-control datepicker-only-init display-inline-block margin-inline" placeholder="To" />
+                    </div>
+                    <div class="col-lg-2 margin_zero">
+                      <button type="button" class="btn btn-icon btn-primary btn-rounded margin-inline"><i class="icmn-search" aria-hidden="true"></i></button>
+                    </div>
+
+                  </div>
+                  <table class="table table-fixed" id="accounts" width="100%">
+                    <tbody style="height: 300px">
+                    <tr>
+                      <td class="col-xs-12 col-lg-12 col-sm-12">
+                        <b>ABC Corporation</b>
+                        <br>
+                        01/01/2017 - 01/01/2020
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-xs-12 col-lg-12 col-sm-12">
+                        <b>ABC Corporation</b>
+                        <br>
+                        01/01/2017 - 01/01/2020
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-xs-12 col-lg-12 col-sm-12">
+                        <b>ABC Corporation</b>
+                        <br>
+                        01/01/2017 - 01/01/2020
+                      </td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+
+            </div>
+            <div class="tab-pane" id="primary" role="tabpanel">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="row acc_header row_margin">
+                    <div class="col-lg-12">
+                      <h5 class="acc_heading">Sites</h5></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                      <input [(ngModel)]="site_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+                    </div>
+                  </div>
+
+
+                  <table class="table table-fixed" width="100%">
+                    <tbody>
+                    <tr *ngFor="let site of SitesArray | site:site_name; let i=index" (click)="SelectedSite(site.SM_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+
+                      <td class="col-lg-12 col-sm-12 col-xs-12">
+                        <b>{{site.SM_SiteName}}</b>
+                        <br>
+                        {{site.SM_City}}
+                      </td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-8">
+                  <div class="widget widget-one">
+
+                    <div class="widget-body clearfix pad-15">
+
+                      <div class="s2">
+
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <h3 class="mar-btm-12">Primary Branch <span class="pull-right"><button type="button" class="btn btn-icon btn-danger pull-right btn-rounded margin-inline hvr-pulse" (click)="deleteprimary(SiteID)"><i class="fa fa-trash" aria-hidden="true"></i></button></span></h3>
+
+                          <div class="table-responsive">
+                            <table class="table table-hover">
+                              <tbody>
+                              <tr>
+                                <td width="15%">Branch Name:</td>
+                                <td width="35%">{{brnBranchName}}</td>
+
+                                <td width="15%">Branch Address:</td>
+                                <td width="35%">{{brnaddress}}</td>
+                              <tr>
+                                <td width="15%">Branch City:</td>
+                                <td width="35%">{{brncity}}</td>
+                                <td width="15%">Branch State:</td>
+                                <td width="35%">{{brnstate}}</td>
+
+                              </tr>
+                              <tr>
+
+                                <td width="15%">Branch Country:</td>
+                                <td width="35%">{{brncountry}}</td>
+                                <td width="15%">Fax:</td>
+                                <td width="35%">{{brnfax}}</td>
+
+                              </tr>
+                              <tr>
+                                <td width="15%">Phone:</td>
+                                <td width="35%">{{brnphone}}</td>
+                                <td width="15%"></td>
+                                <td width="35%"></td>
+
+                              </tr>
+                              <tr>
+                                <td colspan="4">Description:<br>
+                                  {{brndescription}}
+                                </td>
+
+                              </tr>
+                              </tbody>
+                            </table>
+                            <div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-12">
+                          <h3 class="mar-btm-12">Secondary Branch <span class="pull-right"><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse" (click)="viewallbranch(SiteID)"><i class="fa fa-plus" aria-hidden="true"></i></button></span></h3>
+                          <div class="table-scrolly">
+                            <table class="table table-hover nowrap" id="sec_branch">
+                              <thead>
+                              <tr>
+                                <th>Branch Name</th>
+                                <th>Street</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Zip</th>
+                                <th>Action</th>
+
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr *ngFor="let bnc of secbranch" >
+                                <td>{{bnc.BM_Branch_Name}}</td>
+                                <td>{{bnc.BM_Address}}</td>
+                                <td>{{bnc.BM_City}}</td>
+                                <td>{{bnc.BM_State}}</td>
+                                <td>{{bnc.BM_Zip}}</td>
+
+
+                                <td><button class="btn btn-info mr-2 mb-2" (click)="makeprimary(SiteID,bnc.BM_KeyID)">Make as primary</button></td>
+
+                              </tr>
+                              </tbody>
+                            </table>
+                            <div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                          <h3 class="mar-btm-12">Branches in same zip code</h3>
+                          <div class="row">
+                            <div class="col-lg-8">
+                              <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="icmn-search"></i>
+                  </span>
+                                <input [(ngModel)]="zipbranch_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="">
+
+                              </div>
+                            </div>
+                            <div class="col-lg-4">
+                              <div class="input-group">
+
+
+
+
+                                <input [(ngModel)]="dissearch"  type="text" class="form-control"  placeholder="10" (ngModelChange)="distance1(SiteID,$event)">
+
+                                <span class="input-group-addon">
+                    <i class="icmn-search" (click)="viewbranch(SiteID)"></i>
+                  </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="margin-bottom-50">
+                            <table class="table table-hover nowrap" id="zip" width="100%">
+                              <thead>
+                              <tr>
+                                <th>Branch Name</th>
+                                <th>Street</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Zip</th>
+                                <th>Phone</th>
+                                <th>KM</th>
+
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr *ngFor="let zip of loadkm| zipbranch:zipbranch_name; ">
+                                <td>{{zip.BM_Branch_Name}}</td>
+                                <td>{{zip.BM_Address}}</td>
+                                <td>{{zip.BM_City}}</td>
+                                <td>{{zip.BM_State}}</td>
+                                <td>{{zip.BM_Zip}}</td>
+                                <td>{{zip.BM_Phone}}</td>
+                                <td>{{zip.dist}}</td>
+
+
+
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div></div>
+                        <div class="col-lg-4">
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="contact" role="tabpanel"><app-siteuser [SiteID]="SiteID" [sitename]="SiteName" [stStatus]="stStatus"></app-siteuser></div>
+            <!--<div class="tab-pane" id="contact" role="tabpanel">
+              <div class="col-lg-12">
+                <div class="mb-5">
+                  <div class="nav-tabs-horizontal">
+                    <ul class="nav nav-tabs" role="tablist" >
+                      <li class="nav-item" *ngFor="let child of Chilmenu ">
+                        <a  attr.data-target="{{child.SUB_URL}}" class="nav-link  {{child.SUB_Active}}" href="javascript: void(0);" data-toggle="tab"  role="tab" >
+                          <i class="{{child.SUB_Icon}}"></i>
+                          <span class="hide">{{child.SUB_Name}}</span>
+                        </a>
+                      </li>
+
+
+                    </ul>
+                    <!--<ul class="nav nav-tabs mb-4" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#partlist" role="tab">
+                          <i class="icmn-books"></i>
+                          Account Contact
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link " href="javascript: void(0);" data-toggle="tab" data-target="#herokit" role="tab">
+                          <i class="icmn-library"></i>
+                          Site Contact
+                        </a>
+                      </li>
+
+
+
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="partlist" role="tabcard">
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <div class="row acc_header row_margin">
+                              <div class="col-lg-12"><h5 class="acc_heading">Sites<span><button (click)="Navication('site/create')" [hidden]="add=='N'" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+                            </div>
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                                  <input class="input-error form-control" value="" type="text" [(ngModel)]="site_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+                                </div>
+                              </div>
+
+                            </div>
+
+                            <table class="table table-fixed" id="" width="100%">
+                              <tbody>
+                              <tr *ngFor="let site of SitesArray | site: site_name; let i=index" (click)="SelectedSite(site.SM_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+                                <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+                                  <b>{{site.SM_SiteName}}</b>
+                                  <br>
+                                  {{site.SM_City}}
+                                </td>
+                              </tr>
+
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col-lg-8">
+                            <app-accuser [SiteID]="SiteID"></app-accuser></div>
+                        </div>
+
+                      </div>
+                      <div class="tab-pane" id="herokit" role="tabcard">
+
+
+
+                        <app-siteuser [SiteID]="SiteID" [sitename]="SiteName"></app-siteuser></div>
+
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+            <div class="tab-pane" id="sitemap" role="tabpanel">
+              <app-sitemapdetails [SiteID]="SiteID">
+
+              </app-sitemapdetails>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <app-footer></app-footer>
+</div>
+<div class="modal fade modal-size-large" id="showbranch" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Select Branches for {{SiteName}}</h3>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body">
+          <div [ngSwitch]='status'>
+            <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="icmn-search"></i>
+                  </span>
+                  <input [(ngModel)]="branch_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="search2">
+
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="input-group">
+
+
+
+
+                  <input [(ngModel)]="search"  type="text" id="search1" class="form-control" (ngModelChange)="viewbranch(SiteID,$event)" placeholder="10" id="kmsearch">
+
+                  <span class="input-group-addon">
+                    <i class="icmn-search" (click)="viewbranch(SiteID)"></i>
+                  </span>
+                  <br>
+
+                </div><span style="text-align: center;color:#0190fe">Type No. of Miles to list branch</span>
+              </div>
+            </div>
+
+            <div *ngSwitchCase="'active'" class="row" >
+              <div class="col-lg-12">
+                <div class="margin-bottom-50">
+                  <table class="table table-condensed table-hover" id="allbnch" width="100%">
+                    <thead>
+                    <tr>
+                      <th>Select</th>
+
+                      <th>Branch Name</th>
+                      <th>Street</th>
+                      <th>City</th>
+                      <th>State</th>
+                      <th>Zip</th>
+                      <th>Phone</th>
+                      <th>Miles</th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let bnch of allbranch| branchfilter:branch_name;" >
+                      <td style="text-align: center"> <input type="checkbox"
+                                                             (change)="updateCheckedOptions(bnch.BM_KeyID, $event)"/>
+                      </td>
+
+
+                      <td>{{bnch.BM_Branch_Name}}</td>
+                      <td>{{bnch.BM_Address}}</td>
+                      <td>{{bnch.BM_City}}</td>
+                      <td>{{bnch.BM_State}}</td>
+                      <td>{{bnch.BM_Zip}}</td>
+                      <td>{{bnch.BM_Phone}}</td>
+
+                      <td>{{bnch.dist}}</td>
+
+
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" [disabled]="enable()" (click)="updateOptions(SiteID)"data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div></div>
+<div class="modal fade" id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to delete ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"  data-dismiss="modal" >Yes</button>
+
+      </div>
+    </div>
+  </div>
+</div>

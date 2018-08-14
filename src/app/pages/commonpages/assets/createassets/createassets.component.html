@@ -1,0 +1,267 @@
+<app-topmenu></app-topmenu>
+<div class="cat__content">
+    <section class="card">
+        <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Site List <span class="pull-right">
+  <button  type="button" (click)="opensite(siteaccid)"style="padding: 5px;display: none" data-toggle="modal" data-target="#showsite"class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse" id="createsite"><i class="icmn-plus" aria-hidden="true"></i></button></span></strong>
+        </span>
+        </div>
+
+        <div class="card-block">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Select Account</label>
+                        <select class="form-control" #acc name="account" [(ngModel)]="AccountID" (change)="viewassignsite(acc.value)">
+                            <option *ngFor="let account of AccountArray" [value]="account.AM_KeyID">{{account.AM_Name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <input type="text"  [(ngModel)]="site_name"class="form-control" name="Site_Search" placeholder="Search" id="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12" *ngIf="siteexist">
+                    <table class="table table-hover nowrap" id="branch" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th>State</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+<tr *ngFor="let all of results| site: site_name">
+    <td>{{all.SM_SiteName}}</td>
+    <td>  {{all.SM_Address}}  </td>
+    <td> {{all.SM_City}}</td>
+    <td> {{all.SM_State}}</td>
+    <td> <button type="button" class="btn btn-primary" (click)="Addassets(all.SM_KeyID,AccountID,all.SAD_KeyID)"data-toggle="modal" data-target="#showpart">Assign/Create Asset</button></td>
+</tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-xs-12" style="text-align: center" *ngIf="!siteexist"><br>
+                   <b> There is no site for the selected Account.Please create/assign site for the selected Account!</b>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <app-footer></app-footer>
+</div>
+
+<div class="modal fade modal-size-large" id="showpart" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Create Assets for {{sitename}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+                    <h3>Assets List
+                        </h3>
+                    <div [ngSwitch]='status'>
+                        <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+
+
+                        <div  class="row" >
+                            <div class="col-lg-6">
+
+                                <div class="margin-bottom-50">
+                                    <div id="partlist" class="scroll">
+                                        <table class="table table-condensed table-hover" id="part" width="100%">
+                                            <thead>
+                                            <tr >
+
+
+                                                <th>Asset Name</th>
+                                                <th>Model Name</th>
+                                                <th>Serial Number</th>
+
+
+
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+<tr *ngFor="let siteass of siteassresults"  >
+    <td>{{siteass.ASM_Asset_Name}}</td>
+    <td>{{siteass.MM_Model_Name}}</td>
+    <td>{{siteass.ASM_Serial_No}}</td>
+</tr>
+                                            </tbody>
+                                        </table></div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+
+                                <div class="margin-bottom-50">
+                                    <form #partForm="ngForm" id="assetform" *ngIf="active"  (ngSubmit)="onSubmit()">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-6 col-xs-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Asset Name <span style="color: red">*</span></label>
+                                                    <input [(ngModel)]="ass_name" name="validation-simple[partname]"
+                                                            type="text" placeholder="Enter Asset Name"
+                                                            class="form-control" #assName="ngModel" required minlength="3" maxlength="50">
+                                                    <div *ngIf="assName.errors && (assName.dirty || assName.touched)"
+                                                         class="alert alert-danger">
+                                                        <div [hidden]="!assName.errors.required">
+                                                            Asset Name is required
+                                                        </div>
+                                                        <div [hidden]="!assName.errors.minlength">
+                                                            Asset Name must be at least 3 characters long.
+                                                        </div>
+                                                        <div [hidden]="!assName.errors.maxlength">
+                                                            Asset Name cannot be more than 50 characters long.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group" *ngIf="modelexist">
+                                                    <label class="form-label">Model <span style="color: red">*</span></label>
+
+
+                                                        <select class="form-control" #acc name="account" #asset_vname="ngModel" id="model" required [(ngModel)]="ModelID" (change)="viewid(acc.value)">
+                                                            <option value="" selected >Select</option><option *ngFor="let model of modelarray" [value]="model.MM_KeyID">{{model.MM_Model_Name}}</option>
+                                                        </select>
+                                                    <div *ngIf="asset_vname.errors && asset_vname.touched" class="alert alert-danger">
+                                                        <div [hidden]="!asset_vname.errors.required">Model is required</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group" *ngIf="!modelexist">
+                                                    <label class="form-label">Model <span style="color: red">*</span></label>
+
+
+                                                    <select class="form-control" #acc name="account" #asset_vname="ngModel" data-placeholder="no" required [(ngModel)]="ModelID" ><option value="" disabled selected >No Models Found</option>
+                                                                                                            </select>
+                                                    <div *ngIf="asset_vname.errors && asset_vname.touched" class="alert alert-danger">
+                                                        <div [hidden]="!asset_vname.errors.required">Model is required</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label">Agreement <span style="color: red">*</span></label>
+
+                                                    <select class="form-control" #agr="ngModel" required name="agreement" id="agm" [(ngModel)]="AGMID">
+                                                        <option value="" selected >Select</option>
+                                                        <option *ngFor="let agm of agreementarray" [value]="agm.AGM_KeyID">{{agm.AGM_Agreement_Name}}</option>
+                                                    </select>
+                                                    <div *ngIf="agr.errors && agr.touched" class="alert alert-danger">
+                                                        <div [hidden]="!agr.errors.required">Agreement is required</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Serial Number <span style="color: red">*</span></label>
+                                                        <input name="validation-simple[cost]" [(ngModel)]="ass_sno"
+                                                                type="text" placeholder="Enter Serial Number"
+                                                                class="form-control"  #assnocon="ngModel" required (ngModelChange)="viewserialno(SiteID,$event)" autocomplete="off">
+                                                        <div *ngIf="assnocon.errors && (assnocon.dirty || assnocon.touched)"
+                                                             class="alert alert-danger">
+                                                            <div [hidden]="!assnocon.errors.required">
+                                                               Serial Number is required
+                                                            </div>
+                                                        </div>
+                                                    <div  class="alert alert-danger" id="existerror" style="display:none">Serial Number already exists.</div>
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label">Identifier</label>
+                                                    <input name="validation-simple[cost]"[(ngModel)]="ass_iden"
+                                                           type="text" placeholder="Enter ID"
+                                                           class="form-control"  #ass_id="ngModel" autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label">
+                                                        Dates this Model Supported
+                                                        <span style="color: red">*</span></label>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <input [(ngModel)]="ass_from" class="form-control datepicker-only-init display-inline-block margin-inline" name="fesdate" placeholder="From"  #assfromdate="ngModel" (blur)="ass_from = assf_date.value"  #assf_date type="text" required  onkeydown="return false" value="">
+                                                            <div *ngIf="assfromdate.errors && (assfromdate.dirty || assfromdate.touched)"
+                                                                 class="alert alert-danger">
+                                                                <div [hidden]="!assfromdate.errors.required">
+                                                                    From Date is required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <input [(ngModel)]="asm_to" class="form-control datepicker-only-init display-inline-block margin-inline" name="festodate" placeholder="To"  #asmto_date="ngModel" (blur)="asm_to = dfesto_date.value"  #dfesto_date type="text"  required onkeydown="return false">
+                                                            <div *ngIf="asmto_date.errors && (asmto_date.dirty || asmto_date.touched)"
+                                                                 class="alert alert-danger">
+                                                                <div [hidden]="!asmto_date.errors.required">
+                                                                    To Date is required
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <button type="button" class="btn btn-primary" style="margin-right: 10px"
+                                                    [disabled]="!partForm.form.valid || enable()" (click)="createAss(AccountID,sadkeyid)">Create</button>
+                                            <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div></div>
+
+<!-----Site Model--------------------------------------------------------------->
+<div class="modal fade modal-size-large" id="showsite" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+<h3></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+
+                    <div [ngSwitch]='status'>
+                        <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+
+
+                      <app-create-site [AccountID]="siteaccountid"></app-create-site>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div></div>

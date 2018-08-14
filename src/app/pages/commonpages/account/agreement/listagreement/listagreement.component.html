@@ -1,0 +1,63 @@
+<div class="row acc_header row_margin">
+    <div class="col-lg-2 col-sm-2 col-xs-2"><h5 class="acc_heading">Agreement</h5></div>
+    <div class="col-lg-6 col-sm-6 col-xs-6">
+        <h2 class="acc_name">{{AccountName}}</h2>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-xs-4">
+       <span class="pull-right" style="margin-top: 10px">
+           <button (click)="open('agreement/create/'+this.id)" type="button" style="padding: 7px" [hidden]="add=='N'" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline hvr-pulse">
+               <i class="icmn-plus" aria-hidden="true"></i></button>
+       </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icmn-search"></i>
+            </span>
+            <input class="input-error form-control" id="l34" value="" type="text" [(ngModel)]="agreementName" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="mb-5">
+            <div class="cover1">
+            <table class=" table demo table-hover nowrap" id="branch" width="100%" [mfData]="allagreement|agreement:agreementName" #accAgg="mfDataTable" [mfRowsOnPage]="10"
+                   [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead class="th-color">
+                <tr>
+                    <th class=""><mfDefaultSorter by="AGM_Agreement_Name">Name<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                    <th class=""><mfDefaultSorter by="AGM_EffectiveDate"> Effective Date<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                    <th class=""><mfDefaultSorter by="AGM_EndDate"> End Date<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                    <th class="" >Action &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let agreement of accAgg.data;" >
+                    <td>{{agreement.AGM_Agreement_Name}}</td>
+                    <td>{{agreement.AGM_EffectiveDate|dateconvert | date:'M/d/y'}}</td>
+                    <td>{{agreement.AGM_EndDate|dateconvert | date:'M/d/y'}}</td>
+                    <td align="">
+                        <div class="">
+                            &nbsp;<button (click)="open('agreement/edit/'+agreement.AGM_KeyID)" [hidden]="edit=='N'" class="btn btn-icon btn-primary fa fa-pencil-square margin-inline" ></button>
+                             <button [hidden]="viewbtn=='N'"(click)="open('agreement/view/'+agreement.AGM_KeyID)" class="btn btn-icon btn-primary fa fa-eye  margin-inline"></button>
+                             <button [hidden]="delete=='N'" (click)="deleteAgreement(agreement.AGM_KeyID,agreement.AGM_AM_KeyID)" class="btn btn-icon btn-danger fa fa-trash"><i _ngcontent-mdt-28="" aria-hidden="true" ></i></button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+                </tfoot>
+
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+

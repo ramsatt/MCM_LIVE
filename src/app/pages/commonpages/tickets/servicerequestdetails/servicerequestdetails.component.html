@@ -1,0 +1,616 @@
+<div class="row">
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Known Issues<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="Show_TIC_KI_CreateModel()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_Known_Issue_Name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let ki of KnownIssuesArray; let i=index;" (click)="KIMClickedRow(i);" [class.active]="i == KIMselectedRow">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+            <div class="row">
+              <div class="col-lg-9 col-sm-9 col-xs-9" (click)="Load_TIC_Solutions(ki.TKIM_KeyID)">{{ki.TKIM_Known_Issue}}</div>
+              <div class="col-lg-3 col-sm-3 col-xs-3">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_Acc_KI(ki.TKIM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Solutions<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="Show_TIC_SOM_Create_Modal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_Sol_Name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed"  width="100%">
+        <tbody>
+        <tr *ngFor="let sol of SolutionArray; let i=index;" (click)="SOMClickedRow(i);" [class.active]="i == SOMselectedRow">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal">
+            <div class="row">
+              <div class="col-lg-9 col-sm-9 col-xs-9" (click)="Load_TIC_Parts(sol.TSOM_KeyID); Load_TIC_INS(sol.TSOM_KeyID); Load_TIC_INS_PDF(sol.TSOM_KeyID); Load_TIC_GEN_INS_PDF(sol.TSOM_KeyID);">{{sol.TSOM_Solution}}</div>
+              <div class="col-lg-3 col-sm-3 col-xs-3">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_Acc_SOL(sol.TSOM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Parts<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="ShowPartModal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_PartName">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let part of PartsArray">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+            <div class="row">
+              <div class="col-lg-7 col-sm-7 col-xs-7">{{part.PM_Part_Name}}</div>
+              <div class="col-lg-5 col-sm-5 col-xs-5">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="RemovePart(part.PM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Instructions<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="Show_TIC_INS_Create_Modal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_Ins_Name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let ins of InstructionArray">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+            <div class="row">
+              <div class="col-lg-7 col-sm-7 col-xs-7">{{ins.TIM_Name}}</div>
+              <div class="col-lg-5 col-sm-5 col-xs-5">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_Acc_INS(ins.TIM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Images<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="Show_TIC_INS_PDF_Create_Modal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_InsPDF_name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let INS_PDF of InstructionPDFArray">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal">
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 col-xs-6">{{INS_PDF.TIPDFM_Name}}</div>
+              <div class="col-lg-6 col-sm-6 col-xs-6">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_TIC_INS_PDF(INS_PDF.TIPDFM_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Videos<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" (click)="Show_TIC_GEN_INS_PDF_Create_Modal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="A_GInsPDF_name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let GPDF of GeneralInsPDFArray">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal">
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 col-xs-6">{{GPDF.TGGIPDF_Name}}</div>
+              <div class="col-lg-6 col-sm-6 col-xs-6">
+                                <span class="pull-right">
+                                    <button class="btn btn-icon btn-danger btn-rounded margin-inline" type="button" (click)="Delete_TIC_GEN_INS_PDF(GPDF.TGIPDF_KeyID)">
+                                        <i aria-hidden="true" class="fa fa-trash">
+                                        </i>
+                                    </button>
+                                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--Modal Boxes-->
+<!--KnownIssue-->
+<div class="modal fade modal-size-large" id="KnownIssue" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ASR_KI_Modal_Title}}</h5>
+                <button type="button" class="close" aria-label="Close" (click)="Hide_Acc_KI_Modal_Hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form [formGroup]="KI_Form" (ngSubmit)="Save_Acc_KI(KI_Form.value)" id="KIForm">
+                            <div class="form-group col-lg-12">
+                                <label class="form-label">Issue <span style="color: red">*</span></label>
+                                <textarea class="form-control" rows="4" formControlName="kiName" placeholder="Enter the issue"></textarea>
+                                <div class="alert" *ngIf="!KI_Form.controls['kiName'].valid && (KI_Form.controls['kiName'].touched || KI_Form.controls['kiName'].dirty)">
+                                    <div [hidden]="!KI_Form.controls['kiName'].errors.required">
+                                        Issue required.
+                                    </div>
+                                    Issue must have 5 characters length.
+                                </div>
+                            </div>
+
+                            <input type="submit" [value]="ASR_KI_Modal_Btn" class="btn btn-primary" [disabled]="!KI_Form.valid">
+                        </form>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12" *ngIf="UnassignKIStaus">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Unassigned Known Issues</h5>
+                                </div>
+                            </div>
+                                <div class="col-lg-12" *ngIf="UnassignKIStaus">
+                                    <form [formGroup]="unassignKIForm" novalidate>
+                                        <div formArrayName="uKIList" class="set_height_ov">
+                                            <div class="cust_checkbx" *ngFor="let uKI of uKIList.controls; let i=index" [formGroupName]="i" >
+                                                <input class="styled-checkbox" type="checkbox" formControlName="isChosen" /> {{uKI.controls.KIM_Name.value}}
+                                            </div>
+                                        </div>
+                                        <span class="pull-right">
+                                <button class="btn btn-primary" (click)="Assign_KI()">Assign</button>
+                            </span>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Solutions-->
+<div class="modal fade modal-size-large" id="Solutions" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ASR_SOL_Modal_Title}}</h5>
+                <button type="button" class="close" aria-label="Close" (click)="Hide_Acc_Sol_Modal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form [formGroup]="SOL_Form" (ngSubmit)="Save_Acc_SOL(SOL_Form.value)" id="SOLForm">
+                            <div class="form-group col-lg-12">
+                                <label class="form-label">Solution <span style="color: red">*</span></label>
+                                <textarea class="form-control" rows="4" formControlName="solName" placeholder="Enter the solution"></textarea>
+                                <div class="alert" *ngIf="!SOL_Form.controls['solName'].valid && (SOL_Form.controls['solName'].touched || SOL_Form.controls['solName'].dirty)">
+                                    <div [hidden]="!SOL_Form.controls['solName'].errors.required">
+                                        Solution required.
+                                    </div>
+                                    Solution must have 5 characters length.
+                                </div>
+                            </div>
+                            <input type="submit" [value]="ASR_SOL_Modal_Btn" class="btn btn-primary" [disabled]="!SOL_Form.valid">
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12" *ngIf="UnassignSOLStaus">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Unassigned Solutions</h5>
+                                </div>
+                            </div>
+                            <form [formGroup]="unassignSOLForm" novalidate>
+                                <div formArrayName="uSOLList" class="set_height_ov">
+                                    <div class="cust_checkbx" *ngFor="let uSol of uSOLList.controls; let i=index" [formGroupName]="i" >
+                                        <input class="styled-checkbox" type="checkbox" formControlName="isChosen" /> {{uSol.controls.SOM_Name.value}}
+                                    </div>
+                                </div>
+                                <span class="pull-right">
+                                <button class="btn btn-primary" (click)="Assign_Acc_Sol()">Assign</button>
+                            </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Parts-->
+<div class="modal fade modal-size-large" id="Parts_Modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign Parts</h5>
+                <button type="button" class="close" aria-label="Close" (click)="HidePartModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-5">
+                            <table class="table table-hover" id="Part_Unassign_List_Table" width="100%">
+                                <thead>
+                                <tr style="background-color: #0b3e6f; color: #f4f6f9">
+                                    <th>Select</th>
+                                    <th>Name</th>
+                                    <th>Model</th>
+                                    <th>MFG Part.No.</th>
+                                    <th>Price</th>
+                                    <th>Internal Cost</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let u_part of UnassignPartsArray">
+                                    <td><div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="example6" (change)="SelectedPart(u_part.PM_KeyID)">
+                                        </label>
+                                    </div></td>
+                                    <td>{{u_part.PM_Part_Name}}</td>
+                                    <td>{{u_part.PM_Model}}</td>
+                                    <td>{{u_part.PM_MFG_Part_No}}</td>
+                                    <td>{{u_part.PM_Price}}</td>
+                                    <td>{{u_part.PM_Internal_Cost}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <br>
+                            <div class="pull-right"><button class="btn btn-primary" (click)="Assign_ASR_Part()">Assign Parts</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Instructions-->
+<div class="modal fade modal-size-large" id="Instruction_Modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ASR_INS_Modal_Title}}</h5>
+                <button type="button" class="close" aria-label="Close" (click)="Hide_ASR_INS_Modal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form [formGroup]="INS_Form" (ngSubmit)="Save_ASR_INS(INS_Form.value)" id="INSForm">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">Name<span style="color: red">*</span></label>
+                                        <input class="form-control" type="text" formControlName="InsName" placeholder="Enter the instruction"/>
+                                        <div class="alert" *ngIf="!INS_Form.controls['InsName'].valid && (INS_Form.controls['InsName'].touched || INS_Form.controls['InsName'].dirty)">
+                                            <div [hidden]="!INS_Form.controls['InsName'].errors.required">
+                                                Instruction name is required.
+                                            </div>
+                                            Instruction name must have 4 characters length.</div>
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control" rows="4" formControlName="InsDesc" placeholder="Enter the description"></textarea>
+                                        <div class="alert" *ngIf="!INS_Form.controls['InsDesc'].valid && (INS_Form.controls['InsDesc'].touched || INS_Form.controls['InsDesc'].dirty)">Description must have minimum 10 characters long</div>
+                                    </div>
+                                    <input type="submit" [value]="ASR_INS_Modal_Btn" class="btn btn-primary" [disabled]="!INS_Form.valid">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12" *ngIf="UnassignINSStaus">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Unassigned Instructions</h5>
+                                </div>
+                            </div>
+
+                            <form [formGroup]="unassignINSForm" novalidate>
+                                <div formArrayName="uINSList" class="set_height_ov">
+                                    <div class="cust_checkbx" *ngFor="let uins of uINSList.controls; let i=index" [formGroupName]="i">
+                                        <input class="styled-checkbox" type="checkbox" formControlName="isChosen" /> {{uins.controls.INS_Name.value}}
+                                    </div>
+                                </div>
+                                <span class="pull-right">
+                                <button class="btn btn-primary" (click)="Assign_ASR_INS()">Assign</button>
+                            </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Instruction PDF Modal-->
+<div class="modal fade modal-size-large" id="Ins_PDF_Modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ASR_INS_PDF_Modal_Title}}</h5>
+                <button type="button" class="close" aria-label="Close" (click)="Hide_ASR_INS_PDF_Modal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form [formGroup]="INS_PDF_Form" (ngSubmit)="ASR_INS_PDF_Save(INS_PDF_Form.value)" id="INSPDFForm">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Name<span style="color: red">*</span></label>
+                                        <input class="form-control" type="text" formControlName="InsPdfName" placeholder="Enter the instruction PDF name"/>
+                                        <div class="alert" *ngIf="!INS_PDF_Form.controls['InsPdfName'].valid && (INS_PDF_Form.controls['InsPdfName'].touched || INS_PDF_Form.controls['InsPdfName'].dirty)">
+                                            <div [hidden]="!INS_PDF_Form.controls['InsPdfName'].errors.required">
+                                                Image name is required.
+                                            </div>
+                                            Image name must have 4 characters length.
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Disabled <span style="color: red">*</span></label>
+                                        <select class="form-control" formControlName="InsPDFStatus">
+                                            <option value="NO">NO</option>
+                                            <option value="YES">YES</option>
+                                        </select>
+                                        <div class="alert" *ngIf="!INS_PDF_Form.controls['InsPDFStatus'].valid && INS_PDF_Form.controls['InsPDFStatus'].touched">Status required</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Select Image <span style="color: red">*</span></label>
+                                        <input class="dropify form-control" type="file" #INS_PDF formControlName="InsPDF_File">
+                                        <div class="alert" *ngIf="!INS_PDF_Form.controls['InsPDF_File'].valid">File required</div>
+                                    </div>
+                                    <input type="submit" [value]="ASR_INS_PDF_Modal_Btn" class="btn btn-primary" [disabled]="!INS_PDF_Form.valid">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12" *ngIf="ASR_INS_PDF_Assign_Status">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Unassigned Images</h5>
+                                </div>
+                            </div>
+                            <form [formGroup]="unassignImageForm" novalidate>
+                                <div formArrayName="uimageList" class="set_height_ov">
+                                    <div class="cust_checkbx" *ngFor="let uImage of uimageList.controls; let i=index" [formGroupName]="i" >
+                                        <input class="styled-checkbox" type="checkbox" formControlName="isChosen" /> {{uImage.controls.Image_Name.value}}
+                                    </div>
+                                </div>
+                                <span class="pull-right">
+                                <button class="btn btn-primary" (click)="Assign_ASR_INS_PDF()">Assign</button>
+                            </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--General Instruction PDF-->
+<div class="modal fade modal-size-large" id="Gen_INS_PDF_Modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ASR_GEN_INS_PDF_Modal_Title}}</h5>
+                <button type="button" class="close" aria-label="Close" (click)="Hide_ASR_GEN_INS_PDF_Modal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form [formGroup]="Gen_Ins_PDF_Form" (ngSubmit)="Save_ASR_GEN_INS_PDF(Gen_Ins_PDF_Form.value)" id="GenInsPDFForm">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Name<span style="color: red">*</span></label>
+                                        <input class="form-control" type="text" formControlName="GenPDFName" placeholder="Enter the general instruction PDF name"/><div class="alert" *ngIf="!Gen_Ins_PDF_Form.controls['GenPDFName'].valid && (Gen_Ins_PDF_Form.controls['GenPDFName'].touched || Gen_Ins_PDF_Form.controls['GenPDFName'].dirty)">
+                                        <div [hidden]="!Gen_Ins_PDF_Form.controls['GenPDFName'].errors.required">
+                                            Video name is required.
+                                        </div>
+                                        Video name must have 4 characters length.
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Select Video<span style="color: red">*</span></label>
+                                        <input class="dropify form-control" type="file" #GEN_INS_PDF formControlName="GenPDF_File">
+                                        <div class="alert" *ngIf="!Gen_Ins_PDF_Form.controls['GenPDF_File'].valid">File required</div>
+                                    </div>
+                                    <input type="submit" [value]="ASR_GEN_INS_PDF_Modal_Btn" class="btn btn-primary" [disabled]="!Gen_Ins_PDF_Form.valid">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12" *ngIf="ASR_GEN_INS_PDF_Assign_Status">
+                            <div class="row acc_header row_margin">
+                                <div class="col-lg-12"><h5 class="acc_heading">Unassigned Videos</h5>
+                                </div>
+                            </div>
+                            <form [formGroup]="unassignVideoForm" novalidate>
+                                <div formArrayName="uvideoList" class="set_height_ov">
+                                    <div class="cust_checkbx" *ngFor="let uVideo of uvideoList.controls; let i=index" [formGroupName]="i" >
+                                        <input class="styled-checkbox" type="checkbox" formControlName="isChosen" /> {{uVideo.controls.Video_Name.value}}
+                                    </div>
+                                </div>
+                                <span class="pull-right">
+                                <button class="btn btn-primary" (click)="Assign_ASR_GEN_INS_PDF()">Assign</button>
+                            </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--PDF Modal-->
+<div class="modal fade modal-size-large" id="View_pdf_Modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ShowGenInsPDFTitle">{{PDFModalTitle}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <iframe [src]='PDF_PATH | safe' style="width:100%; height:400px;" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

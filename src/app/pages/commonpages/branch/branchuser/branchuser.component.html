@@ -1,0 +1,478 @@
+<div class="row">
+
+  <div class="col-lg-4 padding_0">
+    <div class="cat__core__card-sidebar">
+      <div class="row acc_header row_margin" style="margin-bottom:7px">
+        <div class="col-lg-12"><h5 class="acc_heading">Contacts<span><button type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" style="padding: 7px; margin-bottom: 5px" data-toggle="modal"  (click)="formrefresh()"  [hidden]="add=='N'"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div _ngcontent-c1="" class="row" style="padding:7px;padding-top:0">
+      <div _ngcontent-c1="" class="col-lg-12">
+        <div _ngcontent-c1="" class="input-group">
+                                        <span _ngcontent-c1="" class="input-group-addon">
+                                            <i _ngcontent-c1="" class="icmn-search"></i>
+                                        </span>
+          <input _ngcontent-c1="" class="form-control ng-untouched ng-pristine ng-valid" id="site" name="Site_Search" placeholder="Search" type="text" value="" [(ngModel)]="branch_contact">
+        </div>
+      </div>
+        </div>
+
+      <!--<div class="cat__apps__messaging__header">-->
+        <!--<input class="form-control cat__apps__messaging__header__input" placeholder="Search" [(ngModel)]="branch_contact">-->
+        <!--<i class="icmn-search"></i>-->
+        <!--<button></button>-->
+      <!--</div>-->
+      <div class="cat__apps__messaging__list set_height_scroll">
+       <!-- <div *ngFor="let user of UserArray|branchcontact:branch_contact;let i=index">
+          <div class="cat__apps__messaging__tab padding_0" >
+          <div class="cat__apps__messaging__tab" [class.active]="i == selectedRow" (click)="LoadUserDetails(user.UM_KeyID);setClickedRow(i)">
+          <!--<div class="cat__apps__messaging__tab__avatar">
+            <a class="cat__core__avatar cat__core__avatar--50" href="javascript:void(0);">
+
+              <img class="img-circle" src="{{showimg}}/uploads/user_images/branch/{{branchid}}/avatars/{{user.BUD_User_image}}" alt="No Image"  onError="this.src='assets/modules/dummy-assets/common/img/noimagefound.jpg';" ></a>
+          </div>
+          <div class="cat__apps__messaging__tab__content" style="cursor: pointer" (click)="LoadUserDetails(user.UM_KeyID)">
+            <small class="cat__apps__messaging__tab__time"></small>
+              <div class="cat__apps__messaging__tab__name">{{user.UM_First_Name}}</div>
+            <small class="cat__apps__messaging__tab__time"><button type="button" class="btn btn-sm btn-success margin-inline" (click)="AssignPrimary(user.BUD_KeyID)">Assign Primary</button></small>
+          </div>
+        </div>
+          </div>
+        </div>-->
+        <div class="" *ngFor="let user of UserArray|branchcontact:branch_contact;let i=index">
+          <!--<div class="cat__apps__messaging__tab__avatar">
+            <a class="cat__core__avatar cat__core__avatar--50" href="javascript:void(0);">
+
+              <img src="assets/modules/dummy-assets/common/img/avatars/1.jpg"/></a>
+          </div>-->
+          <div class="cat__apps__messaging__tab" [class.active]="user.UM_KeyID==scltUserID" (click)="LoadUserDetails(user.UM_KeyID);setClickedRow(i)">
+
+            <div  style="cursor: pointer"><div class="cat__apps__messaging__tab__name"><span class="pull-left">{{user.UM_First_Name}}</span><br>
+              <span class="cat__apps__messaging__tab__text" style="color: red" *ngIf="user.UM_Active=='N'">Deactivated</span>
+
+              <small class="cat__apps__messaging__tab__time" style="margin-top:-20px;">
+                <button type="button" class="btn btn-sm btn-success margin-inline" [hidden]="unassignbtn=='N'"(click)="AssignPrimary(user.BUD_KeyID)" *ngIf="user.UM_Active=='Y'">Assign Primary</button>
+              </small>
+              <small class="cat__apps__messaging__tab__time" style="margin-top:-20px;"><button type="button" class="btn btn-sm btn-success margin-inline" [hidden]="unassignbtn=='N'"(click)="Deactivate(user.BUD_KeyID,user.UM_URM_KeyID,user.BUD_UM_KeyID,user.UM_Active)" *ngIf="user.UM_Active=='N' && urmid==1">Activate</button></small>
+
+            </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+
+      <div class="row">
+        <h3>Primary User</h3>
+        <table class="table table-hover nowrap" id="zip" width="100%">
+          <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Action</th>
+
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngIf="scltprimeFirstName !== ''" >
+            <td>{{scltprimeFirstName}} </td>
+            <td>{{scltprimeLastName}}</td>
+            <td>{{scltprimeMobile}}</td>
+            <td>{{scltprimeEmail}}</td>
+            <td><span ><button (click)="EditUserDetails(scltprimeumkeyid,'primary')" type="button" style="padding: 10px" class="btn btn-icon btn-warning btn-rounded margin-inline hvr-pulse" id="edit_primary" [hidden]="edit=='N'"data-toggle="modal" ><i class="fa fa-pencil-square" aria-hidden="true" ></i></button>
+                      <button (click)="unassign(scltprimeumkeyid)" [hidden]="unassignbtn=='N'" id="delete_primary"type="button" style="padding: 10px" class="btn btn-sm btn-warning">Unassign</button>
+                              </span></td>
+
+
+
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="box box-widget widget-user">
+
+          <!-- Add the bg color to the header using any of the bg-* classes -->
+          <div class="widget-user-header bg-black" style="background: url('assets/modules/pages/common/img/login/9.jpg')">
+            <h3 class="widget-user-username">{{scltFirstName}}<span class="pull-right" ><button (click)="EditUserDetails(scltumkeyid,'')" type="button" style="padding: 10px"  [hidden]="edit=='N' || scltumkeyid==''"class="btn btn-icon btn-warning btn-rounded margin-inline hvr-pulse" data-toggle="modal"  ><i class="fa fa-pencil-square" aria-hidden="true" ></i></button>
+                              <button [hidden]="delete=='N' || scltumkeyid==''"(click)="Deletebranchuser(scltumkeyid,scltbudkeyid)" type="button" style="padding: 10px" class="btn btn-icon btn-danger btn-rounded margin-inline hvr-pulse"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+            </h3>
+
+          </div>
+          <div class="widget-user-image hvr-pulse-shrink">
+            <img class="img-circle" src="{{showimg}}/uploads/user_images/branch/{{branchid}}/avatars/{{scltbudimgpath}}" alt="No Image"  onError="this.src='assets/modules/dummy-assets/common/img/noimagefound.jpg';" >
+            <!--<img class="img-circle" src="assets/modules/dummy-assets/common/img/avatars/1.jpg" alt="User Avatar">-->
+          </div>
+          <div class="box-footer">
+            <div class="row">
+              <table class="table table-responsive" width="100%">
+                <tr>
+                  <td width="25%">First Name:</td>
+                  <td width="25%">{{scltFirstName}}</td>
+                  <td width="25%">Last Name:</td>
+                  <td width="25%">{{scltLastName}}</td>
+                </tr>
+                <tr>
+                  <td>User Name:</td>
+                  <td>{{scltUserName}}</td>
+                  <td>Email:</td>
+                  <td>{{scltEmail}}</td>
+                </tr>
+                <tr>
+                  <td>Mobile:</td>
+                  <td>{{scltMobile}}</td>
+                  <td>Role:</td>
+                  <td>{{scltUserRole}}</td>
+                </tr>
+                <tr>
+                  <td>Category:</td>
+                  <td>{{scltUserCategory}}</td>
+                  <td>Addtional Email</td>
+                  <td>{{additionemail}}</td>
+                </tr>
+              </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade modal-size-large" id="CreatebranchUserModel" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Instruction">Create Contact for {{branchname}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="HideCreateUserModel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <form #CreateUser="ngForm" (ngSubmit)="FormSubmit(CreateUser.value)" id="CreateUser">
+              <div class="row">
+                <div class="col-lg-6">
+
+                  <div class="form-group">
+                    <label>User Type <span style="color: red">*</span></label>
+                    <div class="col-lg-12">
+                      <table class="table" id="model_service" width="100%">
+                        <tr>
+                          <td><input (click)="Hidediv('1')" class="form-check-input" id="exampleRadios1" [(ngModel)]="userType" name="userType" value="1" type="radio" checked> User</td>
+                          <td><input (click)="Hidediv('2')" class="form-check-input" id="exampleRadios2" [(ngModel)]="userType" name="userType" value="2" type="radio"> Contact</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Category <span style="color: red">*</span></label>
+                    <select class="form-control" name="Category" (change)="checktechnician(cat.value)" #cat="ngModel" id="Category" ngModel required autofocus>
+                      <option value="">--Select--</option>
+                      <option *ngFor="let category of CategoryArray" [value]="category.UCM_KeyID">{{category.UCM_Category_Name}}</option>
+
+                    </select>
+                    <div *ngIf="cat.errors && (cat.dirty || cat.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!cat.errors.required">
+                        Category is required
+                      </div>
+
+
+                    </div>
+                  </div>
+                    <div class="form-group">
+                        <label>Designation <span style="color: red">*</span></label>
+                        <select class="form-control" name="Designation" #design="ngModel" id="Designation" ngModel required>
+<option>--Select--</option>
+                            <option *ngFor="let design of designation" [value]="design.id">{{design.name}}</option>
+                        </select>
+                      <div *ngIf="design.errors && design.touched" class="alert alert-danger">
+                        <div [hidden]="!design.errors.required">Designation is required</div>
+                      </div>
+                    </div>
+                  <div class="form-group">
+                    <label>First Name <span style="color: red">*</span></label>
+                    <input class="form-control" ngModel placeholder="Enter the First Name" type="text" name="FirstName" id="FirstName" #first_name="ngModel" required minlength="2"  >
+                    <div *ngIf="first_name.errors && (first_name.dirty || first_name.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!first_name.errors.required">
+                        First Name is required
+                      </div>
+                      <div [hidden]="!first_name.errors.minlength">
+                        First Name must be at least 2 characters long.
+                      </div>
+                      <div [hidden]="!first_name.errors.maxlength">
+                        First Name cannot be more than 50 characters long.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Last Name </label>
+                    <input class="form-control" ngModel placeholder="Enter the Last Name" #last_name="ngModel" type="text" name="LastName"  >
+
+                  </div>
+
+                  <template [ngIf]="isValid">
+                    <div class="form-group hidediv">
+                      <label>User Name <span style="color: red">*</span></label>
+                      <input class="form-control" id="user_name" required ngModel placeholder="Enter the User Name" #user_name="ngModel" minlength="5" maxlength="50" type="text" (input)="SearchUserName($event, SearchKey)" name="UserName">
+                      <div *ngIf="user_name.errors && (user_name.dirty || user_name.touched)"
+                           class="alert alert-danger">
+                        <div [hidden]="!user_name.errors.required">
+                          User Name is required
+                        </div>
+                        <div [hidden]="!user_name.errors.minlength">
+                          User Name must be at least 5 characters long.
+                        </div>
+                        <div [hidden]="!user_name.errors.maxlength">
+                          User Name cannot be more than 50 characters long.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group hidediv">
+                      <label>Password <span style="color: red">*</span></label>
+                      <input class="form-control" id="password" required ngModel placeholder="Enter the Password" type="password" name="Password" #password="ngModel" pattern="^(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%])[0-9A-Za-z!@#$%]{6,150}$" autofocus >
+                      <div *ngIf="password.errors && (password.dirty || password.touched)"
+                           class="alert alert-danger">
+                        <div [hidden]="!password.errors.required">
+                          Password is required
+                        </div>
+                        <div [hidden]="!password.errors.pattern">
+                          Password must contain 6 characters of letters, numbers and at least one special character.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group hidediv">
+                      <label>Confirm Password <span style="color: red">*</span></label>
+                      <input class="form-control" id="CnfPassword" required ngModel placeholder="Enter the Confirm password" type="password" name="CnfPassword" (ngModelChange)="passwordvalidation(password.value,$event)" #cnfpassword="ngModel" validateEqual="password" reverse="false">
+                                          <div id="existerror" class="alert alert-danger">Password do not match.</div>
+                    </div>
+                  </template>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Email <span style="color: red">*</span></label>
+                    <input class="form-control" ngModel placeholder="Enter the Email" type="text" name="Email" (change)="checkunique(user_email.value,'')" #user_email="ngModel" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" required>
+                    <div *ngIf="user_email.errors && (user_email.dirty || user_email.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!user_email.errors.required">
+                        Email is required
+                      </div>
+
+
+                      <div [hidden]="!user_email.errors.pattern">
+                        Please Enter Valid Email Address.
+                      </div>
+                    </div>
+                    <div  class="alert alert-danger" id="existmail" style="display:none">Email already exists .</div>
+                  </div>
+                  <div class="form-group">
+                    <label>Additional Email</label>
+                    <input class="form-control" ngModel placeholder="Enter the Email" type="text" name="AltEmail" #user_altemail="ngModel" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*" >
+                    <div *ngIf="user_altemail.errors && (user_altemail.dirty || user_altemail.touched)"
+                         class="alert alert-danger">
+
+                      <div [hidden]="!user_altemail.errors.pattern">
+                        Please Enter Valid Email Address.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Mobile <span style="color: red">*</span></label>
+                    <input class="form-control" ngModel placeholder="Enter the Mobile" type="text" name="Mobile"  #bnc_phone="ngModel" required  id="us-phone-mask-input" minlength="14"   pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                    <div *ngIf="bnc_phone.errors && (bnc_phone.dirty || bnc_phone.touched)" class="alert alert-danger">
+                    <div [hidden]="!bnc_phone.errors.required">
+                      Phone Number must required
+                    </div>
+                    <div [hidden]="!bnc_phone.errors.minlength">
+                      Phone Number must be 10 digits long.
+                    </div>
+                    <div [hidden]="!bnc_phone.errors.pattern">
+                      Phone Number not valid.
+                    </div>
+                  </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">User Image</label>
+                    <input class="dropify form-control" type="file" ngModel #UserImage id="UserImage" name="UserImage" data-allowed-file-extensions="jpg jpeg png bmp" ><br> <span style="color: #7a7a7a;
+    font-size: 12px;">Please upload user image less than 1.5 MB (.jpg, .png, .jpeg, .bmp)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-actions">
+                <div class="form-group row">
+                  <div class="col-md-9 offset-md-5">
+                    <button class="btn btn-primary" type="submit" [disabled]="!CreateUser.form.valid || !enable()">Create</button>
+                    <button class="btn btn-default" type="button"  (click)="HideCreateUserModel()">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!--------------------------------------------------Edit User---------------------------------------------------------------->
+<div class="modal fade modal-size-large" id="EditUserModel" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Instruction">Update Contact for {{branchname}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="HideupdateUserModel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <form #UpdateUser="ngForm"  id="UpdateUser">
+              <div class="row">
+                <div class="col-lg-6">
+
+                  <div class="form-group">
+                    <label>User Type <span style="color: red">*</span></label>
+                    <div class="col-lg-12">
+                      <table class="table" id="model_service" width="100%">
+                        <tr>
+                          <td><input (click)="Hidediv('1')" class="form-check-input" [(ngModel)]="userType" name="userType" value="1" type="radio" disabled="true"> User</td>
+                          <td><input (click)="Hidediv('2')" class="form-check-input" [(ngModel)]="userType" name="userType" value="2" type="radio" disabled="true"> Contact</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>First Name <span style="color: red">*</span></label>
+                    <input class="form-control" ngModel placeholder="Enter the First Name" type="text" name="FirstName" id="FirstName" #efirst_name="ngModel" [(ngModel)]="escltFirstName" required minlength="2"  autofocus>
+                    <div *ngIf="efirst_name.errors && (efirst_name.dirty || efirst_name.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!efirst_name.errors.required">
+                        First Name is required
+                      </div>
+                      <div [hidden]="!efirst_name.errors.minlength">
+                        First Name must be at least 2 characters long.
+                      </div>
+                      <div [hidden]="!efirst_name.errors.maxlength">
+                        First Name cannot be more than 50 characters long.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Last Name</label>
+                    <input class="form-control" ngModel placeholder="Enter the Last Name" #elast_name="ngModel" type="text" name="LastName"  [(ngModel)]="escltLastName"  autofocus>
+
+                  </div>
+
+                  <template [ngIf]="isValidupdate">
+                    <div class="form-group">
+                      <label>Password </label><br><span style="color: #7a7a7a;
+      font-size: 12px;"> If you want to change password, enter new password</span><br>
+                      <input class="form-control" (ngModelChange)="contactsetpassword(epassword.value,$event)" ngModel placeholder="Enter the Password" type="password" name="ePassword"  #epassword="ngModel" pattern="^(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%])[0-9A-Za-z!@#$%]{6,15}$"  autocomplete="off" >
+                      <div *ngIf="epassword.errors && (epassword.dirty || epassword.touched)"
+                           class="alert alert-danger">
+
+                        <div [hidden]="!epassword.errors.pattern">
+                          Password must contain 6 characters of letters, numbers and at least one special character.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Confirm Password </label>
+                      <input class="form-control" ngModel placeholder="Enter the Confirm password" type="password" name="eCnfPassword" [(ngModel)]="escltPassword" (ngModelChange)="editpasswordvalidation(epassword.value,$event)"  #ecnfpassword="ngModel" reverse="false" (autocomplete)="off">
+
+                      <div id="existerror1" style="display:none;" class="alert alert-danger">Password mismatch</div>
+                    </div>
+                  </template>
+
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>Email <span style="color: red">*</span></label>
+                    <input class="form-control" required="required" (change)="checkunique(euser_email.value,escltumkeyid)"[(ngModel)]="escltEmail"ngModel placeholder="Enter the Email" type="text" name="Email" #euser_email="ngModel" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" >
+                <div *ngIf="euser_email.errors && (euser_email.dirty || euser_email.touched)"
+                         class="alert alert-danger">
+                      <div [hidden]="!euser_email.errors.required">
+                        Email is required
+                      </div>
+
+
+                      <div [hidden]="!euser_email.errors.pattern">
+                        Please Enter Valid Email Address.
+                      </div>
+                    </div>
+                    <div  class="alert alert-danger" id="existmailedit" style="display:none">Email already exists .</div>
+
+                  </div>
+                  <div class="form-group">
+                    <label>Additional Email</label>
+                    <input class="form-control" [(ngModel)]="escltaltEmail" ngModel placeholder="Enter the Email" type="text" name="EAltEmail" #euser_altemail="ngModel" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*" >
+                    <div *ngIf="euser_altemail.errors && (euser_altemail.dirty || euser_altemail.touched)"
+                         class="alert alert-danger">
+
+                      <div [hidden]="!euser_altemail.errors.pattern">
+                        Please Enter Valid Email Address.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Mobile <span style="color: red">*</span></label>
+                    <input class="form-control" ngModel placeholder="Enter the Mobile number" type="text" name="Mobile" [(ngModel)]="escltMobile" #bnc_ephone="ngModel" required  id="e-us-phone-mask-input" minlength="14"   pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                    <div *ngIf="bnc_ephone.errors && (bnc_ephone.dirty || bnc_ephone.touched)"                                                                                                                                                                                                                                                                                   class="alert alert-danger">
+                    <div [hidden]="!bnc_ephone.errors.required">
+                      Phone Number must required
+                    </div>
+                    <div [hidden]="!bnc_ephone.errors.minlength">
+                      Phone Number must be 10 digits long.
+                    </div>
+                    <div [hidden]="!bnc_ephone.errors.pattern">
+                      Phone Number not valid.
+                    </div>
+                  </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">User Image</label>
+                    <template [ngIf]="scltbudimgpath">
+                      <img src="{{showimg}}/uploads/user_images/branch/{{branchid}}/avatars/{{escltbudimgpath}}" class="drp-cls" >
+                    </template>
+                    <input class="dropify form-control" type="file" #editfileInput ngFileSelect
+
+                           data-allowed-file-extensions="jpg jpeg png bmp" (onUpload)="edithandleUpload($event)"
+                    ><br> <span style="color: #7a7a7a;
+    font-size: 12px;">Please upload user image less than 1.5 MB (.jpg, .jpeg, .bmp, .png)</span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="form-actions">
+                <div class="form-group row">
+                  <div class="col-md-9 offset-md-5">
+                    <button class="btn btn-primary" type="submit"  [disabled]="!UpdateUser.form.valid || !enable()" (click)="updateuser()" >Update</button>
+                    <button class="btn btn-default" type="button" (click)="HideupdateUserModel()">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

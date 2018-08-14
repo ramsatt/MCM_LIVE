@@ -1,0 +1,347 @@
+<div class="cat__content">
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Accounting</strong>
+        </span>
+    </div>
+
+    <div class="card-block">
+      <div class="margin-bottom-50">
+        <div class="nav-tabs-horizontal">
+            <ul class="nav nav-tabs" role="tablist" >
+                <li class="nav-item" *ngFor="let sub of Asssubmenu ">
+                    <a  attr.data-target="{{sub.SUB_URL}}" class="nav-link  {{sub.SUB_Active}}" href="javascript: void(0);" data-toggle="tab"  role="tab" >
+                        <i class="{{sub.SUB_Icon}}"></i>
+                        <span class="hide">{{sub.SUB_Name}}</span>
+                    </a>
+                </li>
+            </ul>
+
+          <div class="tab-content padding-vertical-20">
+            <div class="tab-pane active" id="branches" role="tabpanel">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="row acc_header row_margin">
+                    <div class="col-lg-12"><h5 class="acc_heading">Request Parts</h5></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                              <i class="icmn-search"></i>
+                          </span>
+                        <input class="input-error form-control" id="l34" value="" type="text" [(ngModel)]="branch_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+                      </div>
+                    </div>
+                  </div>
+
+                    <div class="row col-lg-12">
+                        <div  class="form-check col-lg-4">
+                            <label  class="form-check-label">
+                                <input  checked="" class="form-check-input" type="checkbox" (change)="changeAccount($event)">
+                                Account
+                            </label>
+                        </div>
+                        <div  class="form-check col-lg-4">
+                            <label  class="form-check-label">
+                                <input checked="" class="form-check-input"  type="checkbox" (change)="changeBranch($event)">
+                                Branch
+                            </label>
+                        </div>
+                        <div class="form-check col-lg-4">
+                            <label class="form-check-label">
+                                <input checked="" class="form-check-input" type="checkbox"(change)="changeSupplier($event)">
+                                Supplier
+                            </label>
+                        </div>
+                    </div>
+
+                  <table class="table table-fixed" id="" width="100%">
+                    <tbody>
+                    <tr *ngFor="let request of requestall|raisedrequest:branch_name;let i=index" (click)="selectRequestDetails(request.RPM_KeyID,request.RPM_Request_Type);setClickedRow(i)" [class.active]="i == selectedRow">
+                      <td class="col-lg-12 col-sm-12 col-xs-12" >
+                        <b>{{request.RPM_KeyID}} - {{request.BM_Branch_Name}}</b>
+                        <br>
+                        {{request.RPM_Request_Date|dateconvert | date:'M/d/y'}}
+                      </td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-lg-8">
+                  <div class="row acc_header row_margin">
+                    <div class="col-lg-12">
+                      <h2 class="acc_name">Request Parts
+                          <span class="pull-right">
+                            <button  type="button" [hidden]="viewbtn=='N'"style="padding: 5px; margin-right: 3px;" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" data-toggle="modal" data-target="#PO" >View PO</button>
+                          </span>
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="table-responsive mb-5 break_word ">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <form #UpdateUser="ngForm" id="UpdateUser" enctype="multipart/form-data" method="post">
+                                <input type="hidden" name="umkeyid" [(ngModel)]="umkeyid">
+                              <div class="row">
+                                <div class="col-lg-6">
+
+                                  <div class="form-group">
+                                    <label>Request Id</label>
+                                    <input class="form-control" #firstname="ngModel" [(ngModel)]="RPM_KeyID" type="text" name="RPM_KeyID" id="FirstName" [readonly]="true">
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label>Request Date</label>
+                                    <input class="form-control" [(ngModel)]="RPM_Request_Date"  type="text" name="RPM_Request_Date" view-format="MM/DD/YYYY" model-format="MM/DD/YYYY" datetime="MM/DD/YYYY" #RequestDate readonly>
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Request To</label>
+                                    <input class="form-control" [(ngModel)]="RPM_Request_Type" type="text" name="RPM_Request_Type" [readonly]="true">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Name</label>
+                                    <input class="form-control" [(ngModel)]="BM_Name" type="text" name="BM_Name" [readonly]="true" >
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Contact Name</label>
+                                    <input class="form-control" [(ngModel)]="Contact_Name" placeholder="Contact Name" type="text" name="Contact_Name">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Contact Email</label>
+                                    <input class="form-control" #email="ngModel" [(ngModel)]="Contact_Email" placeholder="Email" type="text"  name="Contact_Email">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Status</label>
+                                      <select [(ngModel)]="Status"  name="Status" class="form-control">
+                                          <option value="1">Active</option>
+                                          <option value="2">Closed</option>
+                                      </select>
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Shipment Date</label>
+                                      <input placeholder="Shipment Date" [(ngModel)]="Shipment_Date" name="Shipment_Date" #ShipmentDate type="text"
+                                             class="form-control col-lg-12 display-inline-block margin-inline datepicker-only-init" onkeypress=" return String.fromCharCode(event.charCode).match(/[]/g) != null" datetime="yyyy/MM/dd" ng-model="myDate">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Payment Term</label>
+                                    <input class="form-control" id="emg_phone" #emg_phone="ngModel" [(ngModel)]="Payment_Term" placeholder="Payment Term" type="text"  name="Payment_Term">
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Notes</label>
+                                    <input class="form-control" #acc_fax="ngModel" [(ngModel)]="Notes" placeholder="Notes" type="text" name="Notes">
+                                  </div>
+
+                                    <div class="form-group">
+                                        <label>Shipment Type</label>
+                                        <select [(ngModel)]="Shipment_Type"  name="Shipment_Type" class="form-control">
+                                            <option value="1">Same Day</option>
+                                            <option value="2">Next Day</option>
+                                            <option value="3">Ground</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Request From</label>
+                                        <input class="form-control" [(ngModel)]="Request_From" type="text" name="Request_From" [readonly]="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Herokit/Not Herokit</label>
+                                        <input class="form-control" [(ngModel)]="Herokit_Value" type="text" name="Herokit_Value" [readonly]="true">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+
+                                    <h5>Ship To Address</h5>
+                                  <div class="form-group">
+                                    <label class="form-label">Ship To Name</label>
+                                      <input class="form-control" [(ngModel)]="Ship_To_Name" type="text" name="Ship_To_Name" readonly>
+                                  </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Ship To Company</label>
+                                        <input class="form-control" [(ngModel)]="Ship_To_Company" type="text" name="Ship_To_Company" readonly>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Ship To Street</label>
+                                        <input class="form-control" [(ngModel)]="Ship_To_Street" type="text" name="Ship_To_Street" readonly>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label class="form-label">Ship To City</label>
+                                            <input class="form-control" [(ngModel)]="Ship_To_City" type="text" name="Ship_To_City" readonly>
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label class="form-label">Ship To ST</label>
+                                            <input class="form-control" [(ngModel)]="Ship_To_ST" type="text" name="Ship_To_ST" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="form-group col-lg-6">
+                                            <label class="form-label">Ship To Zip</label>
+                                            <input class="form-control" [(ngModel)]="Ship_To_Zip" type="text" name="Ship_To_Zip">
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label class="form-label">Ship To Country</label>
+                                            <input class="form-control" [(ngModel)]="Ship_To_Country" type="text" name="Ship_To_Country">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <h5>Bill To Address</h5>
+                                        <button (click)="setBilladdress()" class="btn btn-primary" type="button">Copy Ship To Address</button>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="form-label">Name</label>
+                                        <input class="form-control" [(ngModel)]="Bill_To_Name" type="text" name="Bill_To_Name">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Company</label>
+                                        <input class="form-control" [(ngModel)]="Bill_To_Company" type="text" name="Bill_To_Company">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Street</label>
+                                        <input class="form-control" [(ngModel)]="Bill_To_Street" type="text" name="Bill_To_Street">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label class="form-label">City</label>
+                                            <input class="form-control" [(ngModel)]="Bill_To_City" type="text" name="Bill_To_City">
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label class="form-label">ST</label>
+                                            <input class="form-control" [(ngModel)]="Bill_To_ST" type="text" name="Bill_To_ST">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label class="form-label">Zip</label>
+                                            <input class="form-control" [(ngModel)]="Bill_To_Zip" type="text" name="Bill_To_Zip">
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label class="form-label">Country</label>
+                                            <input class="form-control" [(ngModel)]="Bill_To_Country" type="text" name="Bill_To_Country">
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              <div class="form-actions">
+                                <div class="form-group row">
+                                  <div class="col-md-9 offset-md-5">
+                                    <button class="btn btn-primary" type="submit" [hidden]="edit=='N'"(click)="updateRequest(UpdateUser.value)">Update</button>
+                                    <button class="btn btn-default" type="button">Cancel</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12" style="padding: 2px">
+                  <div class="row acc_header row_margin">
+                    <div class="col-lg-12"><h5 class="acc_heading">Requested Parts List</h5></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                              <i class="icmn-search"></i>
+                          </span>
+                        <input class="input-error form-control"[(ngModel)]="account_name" type="text" class="form-control" name="Site_Search" placeholder="Search">
+                      </div>
+                    </div>
+                  </div>
+
+                    <div class="cover1">
+                    <table class="table demo table-hover nowrap" id="branch" width="100%" [mfData]="requestallparts" #accparts="mfDataTable" [mfRowsOnPage]="10"
+                           [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <thead>
+                        <tr>
+                            <th><mfDefaultSorter by="BM_Code"> Branch Code<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="PM_Part_Name"> Part<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                            <th>Requested Quantity</th>
+                            <th><mfDefaultSorter by="PM_Price">Unit Cost<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="PRS_Status"> Status<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let requests of accparts.data;let i=index">
+                            <input type="hidden" #requestid [value]="requests.RPD_KeyID" />
+                            <td>{{requests.BM_Code}}</td>
+                            <td>{{requests.PM_Part_Name}}</td>
+                            <template >
+                                <td [ngIf]="requests.RPD_Status=='1'"><input style="width: 80px;" class="form-control" #Quantity [value]="requests.RPD_Ordered_Qty" (change)="updateQuantity(Quantity.value,requestid.value)" type="text" name="Bill_To_ST" ></td>
+                            </template>
+                            <template >
+                                <td [ngIf]="requests.RPD_Status!='1'"><input style="width: 80px;" class="form-control" #Quantity [value]="requests.RPD_Ordered_Qty" readonly type="text" name="Bill_To_STs"></td>
+                            </template>
+                            <td>{{requests.PM_Price}}</td>
+                            <td>{{requests.PRS_Status}}</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="7">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="grs" role="tabpanel">
+                  <app-goodsreceipt></app-goodsreceipt>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</div>
+
+<div class="modal fade modal-size-large" id="PO" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Purchase Order</h3>
+                <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe [src]="POM_PurchaseOrder_Path" width="100%" height="480px" type='application/pdf'></iframe>
+            </div>
+        </div>
+    </div>
+</div>

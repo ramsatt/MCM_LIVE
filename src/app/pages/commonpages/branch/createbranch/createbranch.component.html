@@ -1,0 +1,926 @@
+
+<div class="cat__content">
+
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Create Branch</strong>
+        </span>
+    </div>
+
+    <div class="card-block">
+      <div [hidden]="submitted">
+        <form #branchForm="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="form-label">Branch Code <span style="color: red">*</span></label>
+                <input [(ngModel)]="branchcode" #branch_code="ngModel" name="branchcode"
+                       type="text" placeholder="Enter Branch Code"
+                       class="form-control"
+                       required minlength="2" maxlength="50" autofocus>
+                <div *ngIf="branch_code.errors && (branch_code.dirty || branch_code.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!branch_code.errors.required">
+                    Branch Code is required
+                  </div>
+                  <div [hidden]="!branch_code.errors.minlength">
+                    Branch Code must be at least 2 characters long.
+                  </div>
+                  <div [hidden]="!branch_code.errors.maxlength">
+                    Branch Code cannot be more than 50 characters long.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Branch Name <span style="color: red">*</span></label>
+                <input [(ngModel)]="branchname" #branch="ngModel" name="branchname"
+                       type="text" placeholder="Enter Branch Name"
+                       class="form-control"
+                       required minlength="2" maxlength="50">
+                <div *ngIf="branch.errors && (branch.dirty || branch.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!branch.errors.required">
+                    Branch Name is required
+                  </div>
+                  <div [hidden]="!branch.errors.minlength">
+                    Branch Name must be at least 2 characters long.
+                  </div>
+                  <div [hidden]="!branch.errors.maxlength">
+                    Branch Name cannot be more than 50 characters long.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Branch Email <span style="color: red">*</span></label>
+                <input [(ngModel)]="branchemail" #branch_email="ngModel" name="branchemail"
+                       type="text" placeholder="Enter Branch Email with Comma Seperated"
+                       class="form-control"
+                       required minlength="2" pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">
+                <div *ngIf="branch_email.errors && (branch_email.dirty || branch_email.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!branch_email.errors.required">
+                    Branch Email is required
+                  </div>
+                  <div [hidden]="!branch_email.errors.minlength">
+                    Branch Email must be at least 2 characters long.
+                  </div>
+
+                  <div [hidden]="!branch_email.errors.pattern">
+                    Please Enter Valid Email Address.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Place</label>
+                <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Address</label>
+                <input [(ngModel)]="address" name="validation-simple[address]"
+                       type="text" placeholder="Enter Address"
+                       class="form-control"
+                       data-validation="[NOTEMPTY]">
+              </div>
+              <div class="form-group">
+                <label class="form-label">City <span style="color: red">*</span></label>
+                <input [(ngModel)]="city" name="city"
+                       type="text" id="city" placeholder="Enter City Name"
+                       class="form-control"
+                       #bnc_city="ngModel" required minlength="2" maxlength="50"
+                       pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" (change)="GoogleAddress(bnc_city.value,'')">
+                <div *ngIf="bnc_city.errors && (bnc_city.dirty || bnc_city.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!bnc_city.errors.required">
+                    City Name is required
+                  </div>
+                  <div [hidden]="!bnc_city.errors.minlength">
+                    City Name must be at least 2 characters long.
+                  </div>
+                  <div [hidden]="!bnc_city.errors.maxlength">
+                    City Name cannot be more than 50 characters long.
+                  </div>
+                  <div [hidden]="!bnc_city.errors.pattern">
+                    City Name cannot be numerical value.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">State</label>
+                <input [(ngModel)]="state" name="state"
+                       type="text" id="state" placeholder="Enter State Name" #bnc_state="ngModel"
+                       class="form-control" (change)="GoogleAddress(bnc_city.value,bnc_state.value)"
+                       data-validation="[NOTEMPTY]" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                <div *ngIf="bnc_state.errors && (bnc_state.dirty || bnc_state.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!bnc_state.errors.pattern">
+                    State Name cannot be numerical value.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Country</label>
+                <input [(ngModel)]="country" name="validation-simple[country]"
+                       type="text" id="country"#bnc_country="ngModel"
+                       class="form-control" placeholder="Enter Country Name"
+                       data-validation="[NOTEMPTY]"pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                <div *ngIf="bnc_country.errors && (bnc_country.dirty || bnc_country.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!bnc_country.errors.pattern">
+                    Country Name cannot be numerical value.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Zip <span style="color: red">*</span></label>
+                <input [(ngModel)]="zip" name="validation-simple[zip]"
+                       type="text" id="zip"
+                       class="form-control" placeholder="Enter ZIP Code"
+                       data-validation="[NOTEMPTY]"
+                       #bnc_zip="ngModel" required pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$">
+                <div *ngIf="bnc_zip.errors && (bnc_zip.dirty || bnc_zip.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!bnc_zip.errors.pattern">
+                    ZIP code not valid.
+                  </div>
+                  <div [hidden]="!bnc_zip.errors.required">
+                    ZIP code must required
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-4">
+
+              <div class="form-group">
+                <label class="form-label">Phone <span style="color: red">*</span></label>
+                <input [(ngModel)]="phone" name="validation-simple[phone]" placeholder="Enter Phone Number" type="text"  class="form-control"
+                       data-validation="[NOTEMPTY]"
+                       #bnc_phone="ngModel" required  id="us-phone-mask-input" minlength="14"   pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                <div *ngIf="bnc_phone.errors && (bnc_phone.dirty || bnc_phone.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!bnc_phone.errors.required">
+                    Phone Number must required
+                  </div>
+                  <div [hidden]="!bnc_phone.errors.minlength">
+                    Phone Number must be 10 digits long.
+                  </div>
+                  <div [hidden]="!bnc_phone.errors.pattern">
+                    Phone Number not valid.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Mobile </label>
+                <input [(ngModel)]="mobile" name="validation-simple[br_mobile]" placeholder="Enter Mobile Number" type="text" class="form-control"
+                       data-validation="[NOTEMPTY]"
+                       #bnc_mobile="ngModel"   id="us-phone-mask-mobile" minlength="14"   pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                <div *ngIf="bnc_mobile.errors && (bnc_mobile.dirty || bnc_mobile.touched)"
+                     class="alert alert-danger">
+
+                  <div [hidden]="!bnc_mobile.errors.minlength">
+                    Mobile Number must be 10 digits long.
+                  </div>
+                  <div [hidden]="!bnc_mobile.errors.pattern">
+                    Mobile Number not valid.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Home </label>
+                <input [(ngModel)]="home" name="validation-simple[br-home]" placeholder="Enter Home Phone Number" type="text" id="phone" class="form-control"
+                       data-validation="[NOTEMPTY]"
+                       #bnc_home="ngModel"   id="us-phone-mask-home" minlength="14"   pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                <div *ngIf="bnc_home.errors && (bnc_home.dirty || bnc_home.touched)"
+                     class="alert alert-danger">
+
+                  <div [hidden]="!bnc_home.errors.minlength">
+                    Phone Number must be 10 digits long.
+                  </div>
+                  <div [hidden]="!bnc_home.errors.pattern">
+                    Phone Number not valid.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Fax</label>
+                <input [(ngModel)]="fax" name="validation-simple[fax]" id="us-fax-mask-input"
+                       type="text" #bnc_fax="ngModel"
+                       class="form-control" placeholder="Enter Fax" pattern="\(\d{3}\) \d{3}-\d{4}" [textMask]="{mask: mask}">
+                <div *ngIf="bnc_fax.errors && (bnc_fax.dirty || bnc_fax.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!bnc_fax.errors.pattern">
+                    Fax Number must valid.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Contact</label>
+                <div class="row">
+                  <input type="text" class="form-control col-lg-6 display-inline-block margin-inline" placeholder="First Name" name="firstname"[(ngModel)]="datefrom" #bnc_from="ngModel" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                  <div *ngIf="bnc_from.errors && (bnc_from.dirty || bnc_from.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!bnc_from.errors.pattern">
+                      First Name cannot be numerical value.
+                    </div>
+                  </div>
+                  <input type="text" class="form-control col-lg-6 display-inline-block margin-inline" placeholder="Last Name"  name="lastname"[(ngModel)]="dateto" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" #bnc_to="ngModel">
+                  <div *ngIf="bnc_to.errors && (bnc_to.dirty || bnc_to.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!bnc_to.errors.pattern">
+                      Last Name cannot be numerical value.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="l38">Description</label>
+                <textarea [(ngModel)]="description" name="desc" class="form-control" rows="5" id="l38" placeholder="Enter Description"></textarea>
+              </div>
+
+                <div class="form-group" *ngIf="userRole === '1'">
+                    <label for="l38">Private Description</label>
+                    <textarea [(ngModel)]="private_description" name="private_desc" class="form-control" rows="5" placeholder="Enter Private Description"></textarea>
+                </div>
+              <div class="form-group">
+                <label class="form-label">Latitude</label>
+                <input [(ngModel)]="latitude" name="validation-simple[latitude]"
+                       type="text" id="lat" #bnc_lat="ngModel"
+                       class="form-control"
+                       pattern="^[0-9.*#+-]+$">
+                <div *ngIf="bnc_lat.errors && (bnc_lat.dirty || bnc_lat.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!bnc_lat.errors.pattern">
+                    Latitude cannot be alphabetic value.
+                  </div>
+                </div></div>
+              <div class="form-group">
+                <label class="form-label">Longitude</label>
+                <input [(ngModel)]="longitude" name="validation-simple[longitude]"
+                       type="text" id="lon"
+                       class="form-control" #bnc_lon="ngModel"
+                       pattern="^[0-9.*#+-]+$">
+                <div *ngIf="bnc_lon.errors && (bnc_lon.dirty || bnc_lon.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!bnc_lon.errors.pattern">
+                    Longitude cannot be alphabetic value.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+                <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
+              </sebm-google-map>
+            </div>
+          </div>
+          <div class="card">
+            <span class="cat__core__title">
+                <strong>Billing Address <input type="checkbox" (change)="billcheck($event)"> </strong>
+            </span>
+              <div class="col-lg-4">
+              <div class="form-group">  Name <span style="color: red">*</span><input [(ngModel)]="bilname" name="bilname"
+                          type="text" id="bilname" placeholder="Enter the Name"
+                          class="form-control" [disabled]="checked==0"
+                          #bncbil_name="ngModel" required minlength="2" maxlength="50">
+              <div *ngIf="bncbil_name.errors && (bncbil_name.dirty || bncbil_name.touched)"
+                   class="alert alert-danger">
+                  <div [hidden]="!bncbil_name.errors.required">
+                       Name  required
+                  </div>
+                  <div [hidden]="!bncbil_name.errors.minlength">
+                      Name must be at least 2 characters long.
+                  </div>
+                  <div [hidden]="!bncbil_name.errors.maxlength">
+                      Name cannot be more than 50 characters long.
+                  </div>
+
+
+              </div></div></div>
+
+         <div class="table table-responsive">
+           <table class="table">
+             <thead>
+             <tr>
+               <th>Place</th>
+               <th>Address</th>
+               <th>City <span style="color: red">*</span></th>
+               <th>State</th>
+               <th>Country</th> <th>Zip <span style="color: red">*</span></th>
+             </tr>
+             </thead>
+             <tbody>
+             <tr>
+               <td><input placeholder="search for location" autocorrect="off" id="bilsearch" [disabled]="checked==0" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search1></td>
+               <td><input [(ngModel)]="biladdress" name="validation-simple[biladdress]"
+                          type="text" id="biladdress" placeholder="Enter Address" [disabled]="checked==0"
+                          class="form-control"  #bncbil_address
+                          data-validation="[NOTEMPTY]"></td>
+               <td ><input [(ngModel)]="bilcity" name="bilcity"
+                          type="text" id="bilcity" placeholder="Enter City Name"
+                          class="form-control" [disabled]="checked==0"
+                          #bncbil_city="ngModel" required minlength="2" maxlength="50"
+                          pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" (change)="GoogleAddressbil(bncbil_city.value)">
+                   <div *ngIf="bncbil_city.errors && (bncbil_city.dirty || bncbil_city.touched)"
+                        class="alert alert-danger">
+                       <div [hidden]="!bncbil_city.errors.required">
+                           City Name is required
+                       </div>
+                       <div [hidden]="!bncbil_city.errors.minlength">
+                           City Name must be at least 2 characters long.
+                       </div>
+                       <div [hidden]="!bncbil_city.errors.maxlength">
+                           City Name cannot be more than 50 characters long.
+                       </div>
+                       <div [hidden]="!bncbil_city.errors.pattern">
+                           City Name cannot be numerical value.
+                       </div>
+                   </div></td>
+
+               <td> <input [(ngModel)]="bilstate" name="bilstate"
+                           type="text" id="bilstate" placeholder="Enter State Name" #bncbil_state="ngModel"
+                           class="form-control" [disabled]="checked==0"
+                           data-validation="[NOTEMPTY]" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                   <div *ngIf="bncbil_state.errors && (bncbil_state.dirty || bncbil_state.touched)"
+                        class="alert alert-danger">
+                       <div [hidden]="!bncbil_state.errors.pattern">
+                           State Name cannot be numerical value.
+                       </div>
+                   </div></td>
+               <td><input [(ngModel)]="bilcountry" name="validation-simple[bilcountry]"
+                          type="text" id="bilcountry"#bncbil_country="ngModel"
+                          class="form-control" placeholder="Enter Country Name" [disabled]="checked==0"
+                          data-validation="[NOTEMPTY]"pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                   <div *ngIf="bncbil_country.errors && (bncbil_country.dirty || bncbil_country.touched)"
+                        class="alert alert-danger">
+                       <div [hidden]="!bncbil_country.errors.pattern">
+                           Country Name cannot be numerical value.
+                       </div>
+                   </div></td>
+               <td  *ngIf="checked==1; else elseziptd"><input [(ngModel)]="bilzip" name="validation-simple[bilzip]"
+                          type="text" id="bilzip"
+                          class="form-control" placeholder="Enter ZIP Code"
+                          data-validation="[NOTEMPTY]"
+                          #bncbil_zip="ngModel" required pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$">
+                   <div *ngIf="bncbil_zip.errors && (bncbil_zip.dirty || bncbil_zip.touched)"
+                        class="alert alert-danger">
+                       <div [hidden]="!bncbil_zip.errors.pattern">
+                           ZIP code not valid.
+                       </div>
+                       <div  [hidden]="!bncbil_zip.errors.required">
+                           ZIP code must required
+                       </div>
+                   </div></td>
+                 <ng-template #elseziptd><td>
+
+                     <input [(ngModel)]="bilzip" name="validation-simple[bilzip]"
+                            type="text" id="bilzip" [disabled]="checked==0"
+                            class="form-control" placeholder="Enter ZIP Code"
+                            data-validation="[NOTEMPTY]"
+                            #bncbil_zip="ngModel"  pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$">
+                     <div *ngIf="bncbil_zip.errors && (bncbil_zip.dirty || bncbil_zip.touched)"
+                          class="alert alert-danger">
+                         <div [hidden]="!bncbil_zip.errors.pattern">
+                             ZIP code not valid.
+                         </div>
+
+                     </div></td></ng-template>
+             </tr>
+             </tbody>
+           </table>
+         </div> </div>
+          <div class="card">
+            <span class="cat__core__title">
+                <strong>Shipping Address <input type="checkbox" (change)="ship1check4($event)"></strong>
+            </span>
+              <div class="col-lg-4">
+                  <div class="form-group">  Name <span style="color: red">*</span>
+                      <input [(ngModel)]="shipname4" name="shipname4"  [disabled]="shipchecked4==0"                                                                                       type="text" id="shipname4" placeholder="Enter the Name"
+                                                                                         class="form-control" [disabled]="checked==0"
+                                                                                         #bncship_name4="ngModel" required minlength="2" maxlength="50">
+                      <div *ngIf="bncship_name4.errors && (bncship_name4.dirty || bncship_name4.touched)"
+                           class="alert alert-danger">
+                          <div [hidden]="!bncship_name4.errors.required">
+                              Name  required
+                          </div>
+                          <div [hidden]="!bncship_name4.errors.minlength">
+                              Name must be at least 2 characters long.
+                          </div>
+                          <div [hidden]="!bncship_name4.errors.maxlength">
+                              Name cannot be more than 50 characters long.
+                          </div>
+
+                      </div></div></div>
+
+
+          <div class="table table-responsive">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Place</th>
+                <th>Address</th>
+                <th>City <span style="color: red">*</span></th>
+                <th>State</th>
+                <th>Country</th> <th>Zip <span style="color: red">*</span></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                  <td><input id="shipsearch4"[disabled]="shipchecked4==0" placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #searchship4></td>
+                  <td><input [(ngModel)]="shipaddress4" [disabled]="shipchecked4==0" id="shipaddress4" name="validation-simple[shipaddress4]"
+                             type="text" placeholder="Enter Address"
+                             class="form-control"
+                             data-validation="[NOTEMPTY]">
+                  </td>
+                  <td><input [(ngModel)]="shipcity4" [disabled]="shipchecked4==0" name="shipcity4"
+                             type="text" id="shipcity4" placeholder="Enter City Name"
+                             class="form-control" required
+                             #bncship4_city="ngModel"  minlength="2" maxlength="50"
+                             pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" (change)="GoogleAddressship4(bncship4_city.value)">
+                      <div *ngIf="bncship4_city.errors && (bncship4_city.dirty || bncship4_city.touched)"
+                           class="alert alert-danger">
+                          <div [hidden]="!bncship4_city.errors.required">
+                              City Name is required
+                          </div>
+                          <div [hidden]="!bncship4_city.errors.minlength">
+                              City Name must be at least 2 characters long.
+                          </div>
+                          <div [hidden]="!bncship4_city.errors.maxlength">
+                              City Name cannot be more than 50 characters long.
+                          </div>
+                          <div [hidden]="!bncship4_city.errors.pattern">
+                              City Name cannot be numerical value.
+                          </div>
+                      </div>
+                  </td>
+                  <td> <input [(ngModel)]="shipstate4" name="shipstate4"
+                              type="text" id="shipstate4" [disabled]="shipchecked4==0" placeholder="Enter State Name" #bncship4_state="ngModel"
+                              class="form-control"
+                              data-validation="[NOTEMPTY]" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                      <div *ngIf="bncship4_state.errors && (bncship4_state.dirty || bncship4_state.touched)"
+                           class="alert alert-danger">
+                          <div [hidden]="!bncship4_state.errors.pattern">
+                              State Name cannot be numerical value.
+                          </div>
+                      </div></td>
+                  <td><input [(ngModel)]="shipcountry4"  [disabled]="shipchecked4==0" name="validation-simple[shipcountry4]"
+                             type="text" id="shipcountry4"#bncship4_country="ngModel"
+                             class="form-control" placeholder="Enter Country Name"
+                             data-validation="[NOTEMPTY]"pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                      <div *ngIf="bncship4_country.errors && (bncship4_country.dirty || bncship4_country.touched)"
+                           class="alert alert-danger">
+                          <div [hidden]="!bncship4_country.errors.pattern">
+                              Country Name cannot be numerical value.
+                          </div>
+                      </div>
+                  </td>
+                  <td><input [(ngModel)]="shipzip4" [disabled]="shipchecked4==0"  name="validation-simple[shipzip4]"
+                             type="text" id="shipzip4"
+                             class="form-control" placeholder="Enter ZIP Code"
+                             data-validation="[NOTEMPTY]" required
+                             #bncship4_zip="ngModel"  pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$">
+
+                      <div *ngIf="bncship4_zip.errors && (bncship4_zip.dirty || bncship4_zip.touched)"
+                           class="alert alert-danger">
+                          <div [hidden]="!bncship4_zip.errors.pattern">
+                              ZIP code not valid.
+                          </div>
+                          <div  [hidden]="!bncship4_zip.errors.required">
+                              ZIP code must required
+                          </div>
+                      </div>
+                  </td>
+              </tr>
+              </tbody>
+            </table>
+          </div> </div>
+           <!-- <div class="mb-5">
+                <div class="accordion accordion-margin-bottom" id="accordion2">-->
+                    <div class="card">
+
+                            <div class="card-title">
+
+                                <a>
+                                    <strong>Alternate Shipping Address #1  <input type="checkbox" (change)="shipcheck2($event)"></strong>
+                                </a>
+                                <div class="col-lg-4">
+                                    <div class="form-group">  Name <span style="color: red">*</span>
+                                        <input [(ngModel)]="shipname1" name="shipname1"                                                                                        type="text" id="shipname1"  [disabled]="shipchecked2==0" placeholder="Enter the Name"
+                                               class="form-control"
+                                               #bncship_name1="ngModel" required minlength="2" maxlength="50">
+                                        <div *ngIf="bncship_name1.errors && (bncship_name1.dirty || bncship_name1.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!bncship_name1.errors.required">
+                                                Name  required
+                                            </div>
+                                            <div [hidden]="!bncship_name1.errors.minlength">
+                                                 Name must be at least 2 characters long.
+                                            </div>
+                                            <div [hidden]="!bncship_name1.errors.maxlength">
+                                                 Name cannot be more than 50 characters long.
+                                            </div>
+
+                                        </div></div></div>
+                            </div>
+
+                            <div class="table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Place</th>
+                                        <th>Address</th>
+                                        <th>City <span style="color: red">*</span></th>
+                                        <th>State</th>
+                                        <th>Country</th> <th>Zip <span style="color: red">*</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><input [disabled]="shipchecked2==0" placeholder="search for location" autocorrect="off" id="shipsearch1" autocapitalize="off" spellcheck="off" type="text" class="form-control" #searchship1></td>
+                                        <td><input [(ngModel)]="shipaddress1" [disabled]="shipchecked2==0" name="validation-simple[shipaddress1]" id="shipaddress1"
+                                                   type="text" placeholder="Enter Address"
+                                                   class="form-control"
+                                                   data-validation="[NOTEMPTY]"></td>
+                                        <td><input [(ngModel)]="shipcity1" [disabled]="shipchecked2==0" name="shipcity1"
+                                                   type="text" id="shipcity1" placeholder="Enter City Name"
+                                                   class="form-control" required
+                                                   #bncship1_city="ngModel"  minlength="2" maxlength="50"
+                                                   pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" (change)="GoogleAddressship1(bncship1_city.value)">
+                                            <div *ngIf="bncship1_city.errors && (bncship1_city.dirty || bncship1_city.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bncship1_city.errors.required">
+                                                    City Name is required
+                                                </div>
+
+                                                <div [hidden]="!bncship1_city.errors.minlength">
+                                                    City Name must be at least 2 characters long.
+                                                </div>
+                                                <div [hidden]="!bncship1_city.errors.maxlength">
+                                                    City Name cannot be more than 50 characters long.
+                                                </div>
+                                                <div [hidden]="!bncship1_city.errors.pattern">
+                                                    City Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td> <input [(ngModel)]="shipstate1" [disabled]="shipchecked2==0" name="shipstate1"
+                                                    type="text" id="shipstate1" placeholder="Enter State Name" #bnc1_state="ngModel"
+                                                    class="form-control"
+                                                    data-validation="[NOTEMPTY]" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                                            <div *ngIf="bnc1_state.errors && (bnc1_state.dirty || bnc1_state.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc1_state.errors.pattern">
+                                                    State Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td><input [(ngModel)]="shipcountry1" [disabled]="shipchecked2==0" name="validation-simple[shipcountry1]"
+                                                   type="text" id="shipcountry1"#bnc1_country="ngModel"
+                                                   class="form-control" placeholder="Enter Country Name"
+                                                   data-validation="[NOTEMPTY]"pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                                            <div *ngIf="bnc1_country.errors && (bnc1_country.dirty || bnc1_country.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc1_country.errors.pattern">
+                                                    Country Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td><input [(ngModel)]="shipzip1" [disabled]="shipchecked2==0" name="validation-simple[shipzip1]"
+                                                   type="text" id="shipzip1"
+                                                   class="form-control" placeholder="Enter ZIP Code"
+                                                   data-validation="[NOTEMPTY]" required
+                                                   #bnc1_zip="ngModel"  pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$">
+                                            <div *ngIf="bnc1_zip.errors && (bnc1_zip.dirty || bnc1_zip.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc1_zip.errors.pattern">
+                                                    ZIP code not valid.
+                                                </div>
+                                                <div  [hidden]="!bnc1_zip.errors.required">
+                                                    ZIP code must required
+                                                </div>
+                                            </div></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                    </div>
+                    <div class="card">
+
+                            <div class="card-title">
+
+                                <a>
+                                    <strong>Alternate Shipping Address #2 <input type="checkbox" (change)="shipcheck3($event)"></strong>
+                                </a>
+                                <div class="col-lg-4">
+                                    <div class="form-group">  Name <span style="color: red">*</span>
+                                        <input [(ngModel)]="shipname2" name="shipname2"                                                                                        type="text" id="shipname2"  [disabled]="shipchecked3==0" placeholder="Enter the Name"
+                                               class="form-control"
+                                               #bncship_name2="ngModel" required minlength="2" maxlength="50">
+                                        <div *ngIf="bncship_name2.errors && (bncship_name2.dirty || bncship_name2.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!bncship_name2.errors.required">
+                                                Name  required
+                                            </div>
+                                            <div [hidden]="!bncship_name2.errors.minlength">
+                                                Name must be at least 2 characters long.
+                                            </div>
+                                            <div [hidden]="!bncship_name2.errors.maxlength">
+                                                Name cannot be more than 50 characters long.
+                                            </div>
+
+                                        </div></div></div>
+                            </div>
+
+
+                            <div class="table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Place</th>
+                                        <th>Address</th>
+                                        <th>City <span style="color: red">*</span></th>
+                                        <th>State</th>
+                                        <th>Country</th> <th>Zip <span style="color: red">*</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><input placeholder="search for location" autocorrect="off" autocapitalize="off" id="shipsearch2" spellcheck="off" type="text" class="form-control" [disabled]="shipchecked3==0" #searchship2></td>
+                                        <td><input [(ngModel)]="shipaddress2" [disabled]="shipchecked3==0" name="validation-simple[shipaddress2]"
+                                                   type="text" placeholder="Enter Address"
+                                                   class="form-control" id="shipaddress2"
+                                                   data-validation="[NOTEMPTY]"></td>
+                                        <td><input [(ngModel)]="shipcity2" name="shipcity2" [disabled]="shipchecked3==0"
+                                                   type="text" id="shipcity2" placeholder="Enter City Name"
+                                                   class="form-control" required
+                                                   #bncship2_city="ngModel"  minlength="2" maxlength="50"
+                                                   pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" (change)="GoogleAddressship2(bncship2_city.value)">
+                                            <div *ngIf="bncship2_city.errors && (bncship2_city.dirty || bncship2_city.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bncship2_city.errors.required">
+                                                    City Name is required
+                                                </div>
+                                                <div [hidden]="!bncship2_city.errors.minlength">
+                                                    City Name must be at least 2 characters long.
+                                                </div>
+                                                <div [hidden]="!bncship2_city.errors.maxlength">
+                                                    City Name cannot be more than 50 characters long.
+                                                </div>
+                                                <div [hidden]="!bncship2_city.errors.pattern">
+                                                    City Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td> <input [(ngModel)]="shipstate2" name="shipstate2"
+                                                    type="text" id="shipstate2" placeholder="Enter State Name" #bnc2_state="ngModel"
+                                                    class="form-control" [disabled]="shipchecked3==0"
+                                                    data-validation="[NOTEMPTY]" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                                            <div *ngIf="bnc2_state.errors && (bnc2_state.dirty || bnc2_state.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc2_state.errors.pattern">
+                                                    State Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td><input [(ngModel)]="shipcountry2" name="validation-simple[shipcountry2]"
+                                                   type="text" id="shipcountry2"#bnc2_country="ngModel"
+                                                   class="form-control" placeholder="Enter Country Name" [disabled]="shipchecked3==0"
+                                                   data-validation="[NOTEMPTY]"pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                                            <div *ngIf="bnc2_country.errors && (bnc2_country.dirty || bnc2_country.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc2_country.errors.pattern">
+                                                    Country Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td><input [(ngModel)]="shipzip2" name="validation-simple[shipzip2]"
+                                                   type="text" id="shipzip2"
+                                                   class="form-control" placeholder="Enter ZIP Code"
+                                                   data-validation="[NOTEMPTY]" required
+                                                   #bnc2_zip="ngModel"  [disabled]="shipchecked3==0" pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$">
+                                            <div *ngIf="bnc2_zip.errors && (bnc2_zip.dirty || bnc2_zip.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc2_zip.errors.pattern">
+                                                    ZIP code not valid.
+                                                </div>
+                                                <div  [hidden]="!bnc2_zip.errors.required">
+                                                    ZIP code must required
+                                                </div>
+                                            </div></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                    </div>
+                    <div class="card">
+                               <div class="card-title">
+
+                                <a>
+                                   <strong>Alternate Shipping Address #3 <input type="checkbox" (change)="shipcheck4($event)"></strong>
+                                </a>
+                                   <div class="col-lg-4">
+                                       <div class="form-group">  Name <span style="color: red">*</span>
+                                           <input [(ngModel)]="shipname3" name="shipname3"                                                                                        type="text" id="shipname3"  [disabled]="shipchecked5==0" placeholder="Enter the Name"
+                                                  class="form-control"
+                                                  #bncship_name3="ngModel" required minlength="2" maxlength="50">
+                                           <div *ngIf="bncship_name3.errors && (bncship_name3.dirty || bncship_name3.touched)"
+                                                class="alert alert-danger">
+                                               <div [hidden]="!bncship_name3.errors.required">
+                                                   Name  required
+                                               </div>
+                                               <div [hidden]="!bncship_name3.errors.minlength">
+                                                   Name must be at least 2 characters long.
+                                               </div>
+                                               <div [hidden]="!bncship_name3.errors.maxlength">
+                                                   Name cannot be more than 50 characters long.
+                                               </div>
+
+                                           </div></div></div>
+                            </div>
+
+
+                            <div class="table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Place</th>
+                                        <th>Address</th>
+                                        <th>City <span style="color: red">*</span></th>
+                                        <th>State</th>
+                                        <th>Country</th> <th>Zip <span style="color: red">*</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><input [disabled]="shipchecked5==0"                                                    placeholder="search for location" autocorrect="off" autocapitalize="off" id="shipsearch3" spellcheck="off" type="text" class="form-control" #searchship3></td>
+                                        <td><input [(ngModel)]="shipaddress3" [disabled]="shipchecked5==0"  name="validation-simple[shipaddress3]"
+                                                   type="text" placeholder="Enter Address"
+                                                   class="form-control"
+                                                   data-validation="[NOTEMPTY]" id="shipaddress3"></td>
+                                        <td><input [(ngModel)]="shipcity3" name="shipcity3"
+                                                   type="text" id="shipcity3" [disabled]="shipchecked5==0"  placeholder="Enter City Name"
+                                                   class="form-control" required
+                                                   #bncship3_city="ngModel"  minlength="2" maxlength="50"
+                                                   pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" (change)="GoogleAddressship3(bncship3_city.value)">
+                                            <div *ngIf="bncship3_city.errors && (bncship3_city.dirty || bncship3_city.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bncship3_city.errors.required">
+                                                    City Name is required
+                                                </div>
+                                                <div [hidden]="!bncship3_city.errors.minlength">
+                                                    City Name must be at least 2 characters long.
+                                                </div>
+                                                <div [hidden]="!bncship3_city.errors.maxlength">
+                                                    City Name cannot be more than 50 characters long.
+                                                </div>
+                                                <div [hidden]="!bncship3_city.errors.pattern">
+                                                    City Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td> <input [(ngModel)]="shipstate3" [disabled]="shipchecked5==0" name="shipstate3"
+                                                    type="text" id="shipstate3" placeholder="Enter State Name" #bnc3_state="ngModel"
+                                                    class="form-control"
+                                                    data-validation="[NOTEMPTY]" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                                            <div *ngIf="bnc3_state.errors && (bnc3_state.dirty || bnc3_state.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc3_state.errors.pattern">
+                                                    State Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td><input [(ngModel)]="shipcountry3" [disabled]="shipchecked5==0" name="validation-simple[shipcountry3]"
+                                                   type="text" id="shipcountry3"#bnc3_country="ngModel"
+                                                   class="form-control" placeholder="Enter Country Name"
+                                                   data-validation="[NOTEMPTY]"pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                                            <div *ngIf="bnc3_country.errors && (bnc3_country.dirty || bnc3_country.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc3_country.errors.pattern">
+                                                    Country Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td><input [(ngModel)]="shipzip3" [disabled]="shipchecked5==0" name="validation-simple[shipzip3]"
+                                                   type="text" id="shipzip3"
+                                                   class="form-control" placeholder="Enter ZIP Code"
+                                                   data-validation="[NOTEMPTY]" required
+                                                   #bnc3_zip="ngModel"  pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$">
+                                            <div *ngIf="bnc3_zip.errors && (bnc3_zip.dirty || bnc3_zip.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bnc3_zip.errors.pattern">
+                                                    ZIP code not valid.
+                                                </div>
+                                                <div  [hidden]="!bnc3_zip.errors.required">
+                                                    ZIP code must required
+                                                </div>
+                                            </div></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        <div class="card">
+
+                            <div class="card-title">
+
+                                <a>
+                                    <strong>Alternate Shipping Address #4  <input type="checkbox" (change)="shipcheck5($event)"></strong>
+                                </a>
+                                <div class="col-lg-4">
+                                    <div class="form-group">  Name <span style="color: red">*</span>
+                                        <input [(ngModel)]="shipname5" name="shipname5"                                                                                        type="text" id="shipname5"  [disabled]="shipchecked1==0" placeholder="Enter the Name"
+                                               class="form-control"
+                                               #bncship_name5="ngModel" required minlength="2" maxlength="50">
+                                        <div *ngIf="bncship_name5.errors && (bncship_name5.dirty || bncship_name5.touched)"
+                                             class="alert alert-danger">
+                                            <div [hidden]="!bncship_name5.errors.required">
+                                                Name  required
+                                            </div>
+                                            <div [hidden]="!bncship_name5.errors.minlength">
+                                                Name must be at least 2 characters long.
+                                            </div>
+                                            <div [hidden]="!bncship_name5.errors.maxlength">
+                                                Name cannot be more than 50 characters long.
+                                            </div>
+
+                                        </div></div></div>
+                            </div>
+                            <div class="table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Place</th>
+                                        <th>Address</th>
+                                        <th>City <span style="color: red">*</span></th>
+                                        <th>State</th>
+                                        <th>Country</th> <th>Zip <span style="color: red">*</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><input placeholder="search for location" autocorrect="off" autocapitalize="off" id="shipsearch5" [disabled]="shipchecked1==0" spellcheck="off" type="text" class="form-control" #searchship5></td>
+                                        <td><input [(ngModel)]="shipaddress5" [disabled]="shipchecked1==0" name="validation-simple[shipaddress5]"
+                                                   type="text" placeholder="Enter Address"
+                                                   class="form-control"
+                                                   data-validation="[NOTEMPTY]" id="shipaddress5"></td>
+                                        <td><input [(ngModel)]="shipcity5" [disabled]="shipchecked1==0" name="shipcity5"
+                                                   type="text" id="shipcity5" placeholder="Enter City Name"
+                                                   class="form-control" required
+                                                   #bncship5_city="ngModel"  minlength="2" maxlength="50"
+                                                   pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" (change)="GoogleAddressship5(bncship5_city.value)">
+                                            <div *ngIf="bncship5_city.errors && (bncship5_city.dirty || bncship5_city.touched)"
+                                                 class="alert alert-danger">
+                                                <div [hidden]="!bncship5_city.errors.required">
+                                                    City Name is required
+                                                </div>
+                                                <div [hidden]="!bncship5_city.errors.minlength">
+                                                    City Name must be at least 2 characters long.
+                                                </div>
+                                                <div [hidden]="!bncship5_city.errors.maxlength">
+                                                    City Name cannot be more than 50 characters long.
+                                                </div>
+                                                <div [hidden]="!bncship5_city.errors.pattern">
+                                                    City Name cannot be numerical value.
+                                                </div>
+                                            </div></td>
+                                        <td> <input [(ngModel)]="shipstate5" [disabled]="shipchecked1==0" name="shipstate5"
+                                                    type="text" id="shipstate5" placeholder="Enter State Name" #bncship5_state="ngModel"
+                                                    class="form-control"
+                                                    data-validation="[NOTEMPTY]" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"></td>
+                                        <td><input [(ngModel)]="shipcountry5" [disabled]="shipchecked1==0" name="validation-simple[shipcountry5]"
+                                                   type="text" id="shipcountry5"#bnc_country="ngModel"
+                                                   class="form-control" placeholder="Enter Country Name"
+                                                   data-validation="[NOTEMPTY]"pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"></td>
+                                        <td><input [(ngModel)]="shipzip5" [disabled]="shipchecked1==0" name="validation-simple[shipzip5]"
+                                                   type="text" id="shipzip5"
+                                                   class="form-control" placeholder="Enter ZIP Code"
+                                                   data-validation="[NOTEMPTY]" required
+                                                   #bnc5_zip="ngModel"  pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$"><div *ngIf="bnc5_zip.errors && (bnc5_zip.dirty || bnc5_zip.touched)"
+                                                                                                                                          class="alert alert-danger">
+                                            <div [hidden]="!bnc5_zip.errors.pattern">
+                                                ZIP code not valid.
+                                            </div>
+                                            <div  [hidden]="!bnc5_zip.errors.required">
+                                                ZIP code must required
+                                            </div>
+                                        </div></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+</div>
+                    </div>
+                    <!--</div></div>-->
+          <div class="row">
+            <button type="submit" class="btn btn-primary" style="margin-right: 10px"
+                    [disabled]="!branchForm.form.valid" (click)="createBranch()">Create</button>
+            <button type="button" class="btn btn-secondary" (click)="Navigation('branch/overview')">Cancel</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </section>
+  <app-footer></app-footer>
+</div>
+

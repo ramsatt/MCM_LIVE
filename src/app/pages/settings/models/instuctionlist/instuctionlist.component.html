@@ -1,0 +1,622 @@
+<div class="row">
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Service Requests<span><button (click)="showSerReq()" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="RequestName">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" id="" width="100%">
+        <tbody>
+        <tr *ngFor="let sr of ServiceRequestArray | servicerequest: RequestName; let i=index" (click)="serReqsetClickedRow(i);SelectedSerReq(sr.SRM_KeyID)" [class.active]="i == serReqselectedRow">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+            <b>{{sr.SRM_Name}}<span class="pull-right">
+              <button class="btn btn-icon btn-primary pull-right btn-rounded margin-inline" type="button" (click)="EditSerRequest( sr.SRM_KeyID, sr.SRM_Name, sr.SRM_Description, sr.SRM_Disable )"><i aria-hidden="true" class="fa fa-pencil-square"></i></button>
+            </span></b>
+
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Known Issues<span><button (click)="showKnownIssues()" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="known_issue">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let KI of KnownIssuesArray | knownissue: known_issue; let i=index" (click)="KIMClickedRow(i)" [class.active]="i == KIMselectedRow">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" (click)="SelectedKI(KI.KIM_KeyID)">
+            <b>{{KI.KIM_Known_Issue}}<span class="pull-right">
+              <button class="btn btn-icon btn-primary pull-right btn-rounded margin-inline" type="button" (click)="EditKIM(KI.KIM_KeyID, KI.KIM_Known_Issue);"><i aria-hidden="true" class="fa fa-pencil-square"></i></button>
+            </span></b>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Solutions<span><button (click)="showSolutions()" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="sol_name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed"  width="100%">
+        <tbody>
+        <tr *ngFor="let sm of SolutionsArray | solution: sol_name; let i=index" (click)="SOMClickedRow(i)" [class.active]="i == SOMselectedRow">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" (click)="SelectedSOMID(sm.SOM_KeyID)">
+            <b>{{sm.SOM_Solution}}<span class="pull-right">
+              <button class="btn btn-icon btn-primary pull-right btn-rounded margin-inline" type="button" (click)="EditSOM(sm.SOM_KeyID,sm.SOM_Solution)"><i aria-hidden="true" class="fa fa-pencil-square"></i></button>
+            </span></b>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Parts<span><button (click)="showPartsModel()" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="part_name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let ap of AssignedPartsArray | partfilter:part_name">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+            {{ap.PM_Part_Name}}
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Instruction List<span><button (click)="showInsList()" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="ins_name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let IL of InstructionListArray | instruction:ins_name">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" >
+          <b>{{IL.ILM_Name}}</b>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="col-lg-3">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Instruction PDF<span><button (click)="showInsPDFList()" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="InsPDF_name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let pdf of InsListPdfArray | inspdf:InsPDF_name">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" (click)="ViewInsPdf( pdf.IPDFM_KeyID, pdf.IPDFM_PDF_PATH )">
+            <b>{{pdf.IPDFM_Name}} <span class="pull-right">
+                <button class="btn btn-icon btn-success pull-right btn-rounded margin-inline" type="button"><i aria-hidden="true" class="fa fa-eye"></i></button>
+              </span></b>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="col-lg-3">
+    <div class="col-lg-12">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">General Instruction PDF<span><button (click)="showGenInsPDFList()" type="button" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+            <input class="input-error form-control" value="" type="text" class="form-control" name="Site_Search" placeholder="Search" [(ngModel)]="GenInsPDF_name">
+          </div>
+        </div>
+
+      </div>
+
+      <table class="table table-fixed" width="100%">
+        <tbody>
+        <tr *ngFor="let GPDF of GenInsPDFArray | geninspdf:GenInsPDF_name;">
+          <td class="col-lg-12 col-sm-12 col-xs-12" [ngClass]="normal" (click)="ViewGenInsPdf( GPDF.GIPDF_KeyID, GPDF.GGIPDF_PDF_PATH )">
+              <b>{{GPDF.GGIPDF_Name}} <span class="pull-right">
+                <button class="btn btn-icon btn-success pull-right btn-rounded margin-inline" type="button"><i aria-hidden="true" class="fa fa-eye"></i></button>
+              </span></b>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="new_ser_req" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">{{ServiceReqModelTitle}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideSerreq()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div [hidden]="submitted">
+          <form #sre_req="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group col-lg-12">
+                  <label class="form-label">Name<span style="color: red">*</span></label>
+                  <input class="form-control" type="text" #ser_req_name="ngModel" [(ngModel)]="ServiceRequestName" name="accountname" placeholder="Enter Account Name" required minlength="4" maxlength="50"/>
+                  <div *ngIf="ser_req_name.errors && (ser_req_name.dirty || ser_req_name.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!ser_req_name.errors.required">
+                      Request Name is required
+                    </div>
+                    <div [hidden]="!ser_req_name.errors.minlength">
+                      Request Name must be at least 4 characters long.
+                    </div>
+                    <div [hidden]="!ser_req_name.errors.maxlength">
+                      Request Name cannot be more than 50 characters long.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea [(ngModel)]="ServiceRequestDesc" name="desc" class="form-control" rows="4" placeholder="Enter the description here"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Disabled</label>
+                  <select [(ngModel)]="ServiceRequestDisabled" name="accounttype"
+                          class="form-control select2">
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn btn-primary"
+                      [disabled]="!sre_req.form.valid" (click)="ServiceReqAction()">{{ServiceReqModelButtonPrimary}}</button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="hideSerreq()">{{ServiceReqModelButtonSec}}</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="KnownIssues" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="KnownIssuestitle">{{KIModelTitle}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideKnownIssues()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div [hidden]="submitted">
+          <form #knownissues="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label>Known Issues <span style="color: red">*</span></label>
+                  <textarea [(ngModel)]="KnownIssues" name="desc" class="form-control" rows="4" placeholder="Enter the description here" #known_issues="ngModel" required minlength="5" maxlength="1000"></textarea>
+                  <div *ngIf="known_issues.known_issues && (known_issues.dirty || known_issues.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!known_issues.errors.required">
+                      Name is required
+                    </div>
+                    <div [hidden]="!known_issues.errors.minlength">
+                      Name must be at least 5 characters long.
+                    </div>
+                    <div [hidden]="!known_issues.errors.maxlength">
+                      Name cannot be more than 1000 characters long.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn btn-primary"
+                      [disabled]="!knownissues.form.valid" (click)="KIFormAction()">{{KIModelButtonPrimary}}</button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="hideKnownIssues()">{{KIModelButtonSec}}</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="solution" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sol">{{SOMModelTitle}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideSolutions()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div [hidden]="submitted">
+          <form #knownissues="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label>Solutions<span style="color: red">*</span></label>
+                  <textarea [(ngModel)]="SOM_Name" name="desc" class="form-control" rows="4" placeholder="Enter the description here" #solutions="ngModel" required minlength="5" maxlength="1000"></textarea>
+                  <div *ngIf="solutions.known_issues && (solutions.dirty || solutions.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!solutions.errors.required">
+                      Name is required
+                    </div>
+                    <div [hidden]="!solutions.errors.minlength">
+                      Name must be at least 5 characters long.
+                    </div>
+                    <div [hidden]="!solutions.errors.maxlength">
+                      Name cannot be more than 1000 characters long.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn btn-primary"
+                      [disabled]="!knownissues.form.valid" (click)="SOMFormAction()">{{SOMModelButtonPrimary}}</button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="hideSolutions()">{{SOMModelButtonSec}}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ins_list" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Instruction">{{ILModelTitle}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideInsList()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div [hidden]="submitted">
+          <form #insList="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group col-lg-12">
+                  <label class="form-label">Name<span style="color: red">*</span></label>
+                  <input class="form-control" type="text" #insLst="ngModel" [(ngModel)]="IL_Name" name="accountname" placeholder="Enter Instruction Name" required minlength="4" maxlength="50"/>
+                  <div *ngIf="insLst.errors && (insLst.dirty || insLst.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!insLst.errors.required">
+                      Name is required
+                    </div>
+                    <div [hidden]="!insLst.errors.minlength">
+                      Name must be at least 4 characters long.
+                    </div>
+                    <div [hidden]="!insLst.errors.maxlength">
+                      Name cannot be more than 50 characters long.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea [(ngModel)]="IL_Desc" name="desc" class="form-control" rows="4" placeholder="Enter the description here"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn btn-primary"
+                      [disabled]="!insList.form.valid" (click)="ILFormAction()">{{ILModelButtonPrimary}}</button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="hideInsList()">{{ILModelButtonSec}}</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="ModelAssign" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="models">Assign Parts</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="table-responsive mb-5">
+              <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-search"></i>
+                                        </span>
+                <input class="input-error form-control" id="l34" value="" type="text" [(ngModel)]="part_Name_Keyword" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+              </div>
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>Part Image</th>
+                  <th>Part Name</th>
+                  <th>MFG Part No</th>
+                  <th>Model</th>
+                  <th>Internal Cost</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let part of PartsArray | partfilter: part_Name_Keyword">
+                  <td>
+                    <img src="assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}" class="partImage" onError="this.src='assets/modules/dummy-assets/common/img/noimagefound.jpg';" width="150px" height="80px"/></td>
+                  <td>{{part.PM_Part_Name}}</td>
+                  <td>{{part.PM_MFG_Part_No}}</td>
+                  <td>{{part.PM_Model}}</td>
+                  <td>$ {{part.PM_Internal_Cost}}</td>
+                  <td><button class="btn btn-success" (click)="AssignParts(part.PM_KeyID)">Assign</button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ins_PDF" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ins_Pdf_title">{{ILPDFModelTittle}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="HideInsPDFModel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div [hidden]="submitted">
+          <form #insListForm="ngForm"  *ngIf="active"  (ngSubmit)="CreateInsPDF(insListForm.value)" id="insListForm">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group col-lg-12">
+                  <label class="form-label">Name<span style="color: red">*</span></label>
+                  <input class="form-control" type="text" #insPDF="ngModel" [(ngModel)]="ILPDF_Name" name="ILPDF_Name" placeholder="Enter Instruction Name" required minlength="4" maxlength="50"/>
+                  <div *ngIf="insPDF.errors && (insPDF.dirty || insPDF.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!insPDF.errors.required">
+                      Name is required
+                    </div>
+                    <div [hidden]="!insPDF.errors.minlength">
+                      Name must be at least 4 characters long.
+                    </div>
+                    <div [hidden]="!insPDF.errors.maxlength">
+                      Name cannot be more than 50 characters long.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Primary</label>
+                  <select [(ngModel)]="ILPDF_Primary" name="ILPDF_Primary"
+                          class="form-control select2">
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Select File</label>
+                  <input class="dropify form-control" type="file" #insPDFFile id="insPDF" name="insPDF" data-allowed-file-extensions="pdf" required>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn btn-primary" [disabled]="!insListForm.form.valid">{{ILPDFModelButtonPrimary}}</button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="HideInsPDFModel()">{{ILPDFModelButtonSec}}</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Gen_ins_PDF" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Gen_ins_Pdf_title">{{Gen_INS_PDF_ModelTittle}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideGenInsPDFList()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div [hidden]="submitted">
+          <form #genInsListFrom="ngForm"  *ngIf="active" (ngSubmit)="CreateGenInsPDF(genInsListFrom.value)" id="genInsListFrom">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group col-lg-12">
+                  <label class="form-label">Name<span style="color: red">*</span></label>
+                  <input class="form-control" type="text" #GenInsPDF="ngModel" [(ngModel)]="Gen_Ins_PDF_Name" name="Gen_Ins_PDF_Name" placeholder="Enter Instruction Name" required minlength="4" maxlength="50"/>
+                  <div *ngIf="GenInsPDF.errors && (GenInsPDF.dirty || GenInsPDF.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!GenInsPDF.errors.required">
+                      Name is required
+                    </div>
+                    <div [hidden]="!GenInsPDF.errors.minlength">
+                      Name must be at least 4 characters long.
+                    </div>
+                    <div [hidden]="!GenInsPDF.errors.maxlength">
+                      Name cannot be more than 50 characters long.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Select File</label>
+                  <input class="dropify form-control" type="file" #GenInsfile id="GenIns" name="GenIns" data-allowed-file-extensions="pdf" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn btn-primary" [disabled]="!genInsListFrom.form.valid">{{Gen_INS_PDF_ModelButtonPrimary}}</button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="hideGenInsPDFList()">{{Gen_INS_PDF_ModelButtonSec}}</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="ViewInsPdf" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewPdfTitle">File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <iframe [src]='ILPDF_PDF_PATH | safe' style="width:100%; height:400px;" frameborder="0"></iframe>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ViewGenInsPdf" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="genPdfTitle">File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <iframe [src]='Gen_Ins_PDF_Path | safe' style="width:100%; height:400px;" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

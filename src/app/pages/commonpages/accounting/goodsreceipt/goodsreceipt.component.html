@@ -1,0 +1,534 @@
+<div class="row">
+  <div class="col-lg-4">
+      <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Goods Receipt<span>
+
+        </span></h5></div>
+      </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icmn-search"></i>
+            </span>
+          <input class="input-error form-control" id="l34" value="" type="text" [(ngModel)]="branch_name" type="text" class="form-control" name="Site_Search" placeholder="Search" id="site">
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-lg-12">
+      <div  class="form-check col-lg-4">
+        <label  class="form-check-label">
+          <input  checked="" class="form-check-input" type="checkbox" (change)="changeAccount($event)">
+          Account
+        </label>
+      </div>
+      <div  class="form-check col-lg-4">
+        <label  class="form-check-label">
+          <input checked="" class="form-check-input"  type="checkbox" (change)="changeBranch($event)">
+          Branch
+        </label>
+      </div>
+      <div class="form-check col-lg-4">
+        <label class="form-check-label">
+          <input checked="" class="form-check-input" type="checkbox"(change)="changeSupplier($event)">
+          Supplier
+        </label>
+      </div>
+    </div>
+
+    <table class="table table-fixed" id="" width="100%">
+      <tbody>
+      <tr *ngFor="let request of requestallgr|gr:branch_name;let i=index" (click)="Requestbyid(request.GRM_KeyID,request.GRM_Receive_From_Type);setClickedRow(i)" [class.active]="i == selectedRow">
+        <td class="col-lg-12 col-sm-12 col-xs-12" >
+          <b>{{request.GRM_KeyID}}</b>
+          <br>
+          {{request.fromnameval}} - {{request.fornameval}}
+          <br>
+          {{request.GRM_Receipt_Date|dateconvert | date:'M/d/y'}}
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-8">
+    <div class="row acc_header row_margin">
+        <div class="col-lg-12"><h5 class="acc_heading">Goods Receipt Info<span>
+
+        </span></h5></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive mb-5 break_word ">
+          <div class="row">
+            <div class="col-lg-12">
+              <form #UpdateUser="ngForm" id="UpdateUser" enctype="multipart/form-data" method="post">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label>Request Id</label>
+                      <input class="form-control" #firstname="ngModel" [(ngModel)]="GRM_KeyID" type="text" name="GRM_KeyID" id="FirstName" [readonly]="true">
+                    </div>
+
+                    <div class="form-group">
+                      <label>Request Date</label>
+                      <input class="form-control" [(ngModel)]="GRM_Receipt_Date"  type="text" name="GRM_Receipt_Date" #RequestDate>
+                    </div>
+                    <div class="form-group">
+                      <label>Receive For</label>
+                      <input class="form-control" [(ngModel)]="RequestForType" type="text" name="RequestForType" [readonly]="true">
+                    </div>
+                    <div class="form-group">
+                      <label>Name</label>
+                      <input class="form-control" [(ngModel)]="forname" type="text" name="forname" [readonly]="true" >
+                    </div>
+                    <div class="form-group">
+                      <label>Receive From</label>
+                      <input class="form-control" [(ngModel)]="GRM_Receive_From_Type" type="text" name="GRM_Receive_From_Type" [readonly]="true">
+                    </div>
+                    <div class="form-group">
+                      <label>Name</label>
+                      <input class="form-control" [(ngModel)]="fromname" type="text" name="fromname" [readonly]="true" >
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+
+
+                        <div class="form-group">
+                            <label>Contact Name</label>
+                            <input class="form-control" [(ngModel)]="Contact_Name" placeholder="Contact Name" type="text" name="Contact_Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Email</label>
+                            <input class="form-control" #email="ngModel" [(ngModel)]="Contact_Email" placeholder="Email" type="text"  name="Contact_Email">
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select [(ngModel)]="Status"  name="Status" class="form-control">
+                                <option value="1">Active</option>
+                                <option value="2">Closed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Shipment Date</label>
+                            <input placeholder="Shipment Date" [(ngModel)]="Shipment_Date" name="Shipment_Date" #ShipmentDate type="text"
+                                   class="form-control col-lg-12 display-inline-block margin-inline datepicker-only-init2" onkeypress=" return String.fromCharCode(event.charCode).match(/[]/g) != null">
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Term</label>
+                            <input class="form-control" id="emg_phone" #emg_phone="ngModel" [(ngModel)]="Payment_Term" placeholder="Payment Term" type="text"  name="Payment_Term">
+                        </div>
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <input class="form-control" #acc_fax="ngModel" [(ngModel)]="Notes" placeholder="Notes" type="text" name="Notes">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                  <div class="form-group row">
+                    <div class="col-md-9 offset-md-5">
+                      <button class="btn btn-primary" [hidden]="edit=='N'"type="submit" (click)="updateRequest(UpdateUser.value)">Update</button>
+                      <button class="btn btn-default" type="button">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12" style="padding: 2px">
+    <div class="row acc_header row_margin">
+      <div class="col-lg-12"><h5 class="acc_heading">Shipments List
+          <span class="pull-right">
+            <button  type="button" style="padding: 5px; margin-right: 3px;" class="btn btn-icon btn-warning pull-right btn-rounded margin-inline" data-toggle="modal" data-target="#GRid" [hidden]="viewbtn=='N'" >View GR</button>
+          </span>
+      </h5></div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="input-group">
+          <span class="input-group-addon">
+              <i class="icmn-search"></i>
+          </span>
+          <input class="input-error form-control"[(ngModel)]="account_name" type="text" class="form-control" name="Site_Search" placeholder="Search">
+        </div>
+      </div>
+    </div>
+
+    <table class="table table-hover nowrap" id="branch" width="100%" [mfData]="shipmentsbygr" #shipgr="mfDataTable" [mfRowsOnPage]="10"
+           [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th><mfDefaultSorter by="Herokit_Value"> Herokit Or Not<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+        <th><mfDefaultSorter by="HKM_Name"> Herokit Name<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+        <th><mfDefaultSorter by="PM_Part_Name"> Part<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+        <th><mfDefaultSorter by="RPD_Ordered_Qty"> Ordered Qty<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+        <th><mfDefaultSorter by="RPSD_Shipment_Qty"> Shipment Qty<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+        <th>Received Quantity</th>
+        <th><mfDefaultSorter by="PM_Price"> Unit Cost<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+        <th>Cost</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let requests of shipgr.data;let i=index">
+        <td>{{requests.RPSD_KeyID}}</td>
+        <td>{{requests.Herokit_Value}}</td>
+        <td>{{requests.HKM_Name}}</td>
+        <td>{{requests.PM_Part_Name}}</td>
+          <td>{{requests.RPD_Ordered_Qty}}</td>
+        <td>{{requests.RPSD_Shipment_Qty}}</td>
+        <td>{{requests.GRD_Received_Qty}}</td>
+        <td>{{requests.PM_Price}}</td>
+        <td>{{requests.PM_Price * requests.GRD_Received_Qty}}</td>
+      </tr>
+      </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="9">
+                <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+  </div>
+</div>
+
+<div class="modal fade modal-size-large" id="singlegr" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Goods Receipt Single</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #GRForm="ngForm" id="GRForm" >
+        <input type="hidden" name="requesttype" [(ngModel)]="requesttype" >
+         <input type="hidden" name="random" [(ngModel)]="random">
+        <div class="modal-body">
+          <div class="panel-body">
+
+              <div class="row">
+                  <div class="col-lg-6">
+                      <label class="form-label">Receive For<span style="color: red"> *</span></label>
+                      <select id="select1" [(ngModel)]="Receiveforid" #ReceiveFort  name="Receiveforid" class="form-control col-lg-12" (change)="setReceiveforid(ReceiveFort.value)" required>
+                          <option value="0" [selected]="true">----Select------</option>
+                          <option *ngFor="let branches of shippedbranches" value="{{branches.id}}" > {{ branches.name }}</option>
+                      </select>
+                  </div>
+              </div>
+            <div [ngSwitch]='status'>
+              <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+              <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                  <label class="form-label">Receive From<span style="color: red"> *</span></label>
+                  <div class="form-check col-lg-4">
+                    <table style="margin-left: 15px;">
+                      <tr>
+                        <td style="width: 200px;"><input class="form-check-input" id="requestto1" name="account" value="Manufacturer" type="radio" #acc1 (click)="findShipmentfrom(acc1.value)">
+                            Account</td>
+                        <td style="width: 200px;"><input class="form-check-input" id="requestto2" name="account" value="Branch" type="radio" #acc2 (click)="findShipmentfrom(acc2.value)">
+                          Branch</td>
+                        <td><input class="form-check-input" id="requestto3" name="account" value="Supplier" type="radio" #acc3 (click)="findShipmentfrom(acc3.value)">
+                          Supplier</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <label class="form-label">Name<span style="color: red"> *</span></label>
+                  <select [(ngModel)]="Receivefrom" #Receivefromid  name="Receivefrom" class="form-control col-lg-12" (change)="loadshipments(Receivefromid.value,this.requesttype)" required>
+                    <option id="select2" value="0" [selected]="true">----Select------</option>
+                    <option *ngFor="let branches of shipmentfrom" value="{{branches.id}}" > {{ branches.name }}</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                  <label class="form-label">Shipments<span style="color: red"> *</span></label>
+                  <table class="table table-hover nowrap" id="model_service" width="100%">
+                    <thead style="background: #4567B1;color: #FFF">
+                    <tr>
+                      <th >#</th>
+                      <th >Shipment Id</th>
+                      <th >Date</th>
+                      <th >Shipment From</th>
+                      <th >Herokit or Not</th>
+                      <th >Part</th>
+                      <th >Ordered Quantity</th>
+                      <th >Shipment Quantity</th>
+                      <th >Received Quantity</th>
+                      <th >Company</th>
+                      <th >Track Code1</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let shipment of shipments;let i=index">
+                      <input type="hidden" name="id{{i}}" [(ngModel)]="shipments[i].RPSM_KeyID">
+                      <input type="hidden" name="PM_KeyID{{i}}" [(ngModel)]="shipments[i].PM_KeyID">
+                      <input type="hidden" name="RPM_HeroKit_Yes_No{{i}}" [(ngModel)]="shipments[i].RPM_HeroKit_Yes_No">
+                      <input type="hidden" name="RPD_Type_KeyID{{i}}" [(ngModel)]="shipments[i].RPD_Type_KeyID">
+                      <input type="hidden" name="RPSD_KeyID{{i}}" [(ngModel)]="shipments[i].RPSD_KeyID">
+                      <input type="hidden" name="RPSD_RPD_KeyID{{i}}" [(ngModel)]="shipments[i].RPSD_RPD_KeyID" />
+                      <td><input type="checkbox" [(ngModel)]="shipments[i].checked" name="checked{{i}}" value="shipments[i].id" (change)="updateCheckedOptions(shipment.RPD_KeyID, $event,i)"></td>
+                      <td>{{shipment.RPSD_KeyID}}</td>
+                      <td>{{shipment.RPSM_Shipment_Date | date:'M/d/y'}}</td>
+                      <td>{{shipment.name}}</td>
+                      <td>{{shipment.Herokit_Value}}</td>
+                      <td>{{shipment.PM_Part_Name}}</td>
+                      <td>{{shipment.RPD_Ordered_Qty}}</td>
+                      <td><input id="ytbty{{i}}" class="form-control"  [(ngModel)]="shipments[i].RPSD_Shipment_Qty" #ytbqty name="yetobe{{i}}" type="text" readonly></td>
+                      <td><input placeholder="Qty" id="shqty{{i}}" readonly [(ngModel)]="shipments[i].receivedqty" #qty [value]="shipments[i].RPSD_Shipment_Qty" name="receivedqty{{i}}" type="text"
+                                   class="form-control" (change)="ytbquantity(i)" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                          <span id="ytbqtymsg{{i}}" class="text-danger"></span></td>
+                      <td>{{shipment.SC_Company_Name}}</td>
+                      <td>{{shipment.RPSM_TrackCode}}</td>
+                    </tr>
+                    <tr *ngIf="!shipments">
+                      <td align="center" colspan="11"> Shipment List Not Available </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" [disabled]="!GRForm.form.valid || checkService() || checkqty()" (click)="createGR(GRForm.value); GRForm.reset();" data-dismiss="modal" data-toggle="modal" data-target="#mulreqpartinfo">Create GR</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade modal-size-large" id="multiplegr" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Goods Receipt</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <form #GRFormmulti="ngForm" id="GRFormmulti" >
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="form-label">Receive For<span style="color: red"> *</span></label>
+                                <select id="selectmultiple" [(ngModel)]="ReceiveFors" #ReceiveFort2  name="Receiveforids" class="form-control col-lg-12" (change)="multisetReceiveforid(ReceiveFort2.value)" required>
+                                    <option value="0" [selected]="true">----Select------</option>
+                                    <option *ngFor="let branches of shippedbranches" value="{{branches.id}}" > {{ branches.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        </form>
+                        <div [ngSwitch]='status'>
+                            <div *ngSwitchCase="'loading'" class="cat__app-loader"><div><!-- --></div></div>
+                            <form #GRFormaccount="ngForm" id="GRFormaccount" >
+                            <input type="hidden" name="requesttypes" [(ngModel)]="requesttypeaccount">
+                            <input type="hidden" name="Receiveforids" [(ngModel)]="this.Receiveforid">
+                            <input type="hidden" name="random" [(ngModel)]="random">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-xs-12">
+                                    <label class="form-label">Shipments From Account</label>
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th >#</th>
+                                            <th >Shipment Id</th>
+                                            <th >Date</th>
+                                            <th >Shipment From</th>
+                                            <th >Herokit or Not</th>
+                                            <th >Part</th>
+                                            <th >Ordered Quantity</th>
+                                            <th >Shipment Quantity</th>
+                                            <th >Received Quantity</th>
+                                            <th >Company</th>
+                                            <th >Track Code2</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let shipment of accountshipments;let i=index">
+                                            <input type="hidden" name="Receivefroms{{i}}" [(ngModel)]="accountshipments[i].RPM_Request_To">
+                                            <input type="hidden" name="ids{{i}}" [(ngModel)]="accountshipments[i].RPSM_KeyID">
+                                            <input type="hidden" name="RPSD_KeyIDs{{i}}" [(ngModel)]="accountshipments[i].RPSD_KeyID">
+                                            <input type="hidden" name="PM_KeyID{{i}}" [(ngModel)]="accountshipments[i].PM_KeyID">
+                                            <input type="hidden" name="RPM_HeroKit_Yes_No{{i}}" [(ngModel)]="accountshipments[i].RPM_HeroKit_Yes_No">
+                                            <td><input type="checkbox" [(ngModel)]="accountshipments[i].checkedaccount" name="checked{{i}}" value="shipments[i].id" (change)="accupdateCheckedOptions(accountshipments.RPD_KeyID, $event,i)"></td>
+                                            <td>{{shipment.RPSD_KeyID}}</td>
+                                            <td style="padding-left:2px">{{shipment.RPSM_Shipment_Date}}</td>
+                                            <td>{{shipment.name}}</td>
+                                            <td>{{shipment.Herokit_Value}}</td>
+                                            <td>{{shipment.PM_Part_Name}}</td>
+                                            <td>{{shipment.RPD_Ordered_Qty}}</td>
+                                            <td><input id="accytbty{{i}}" class="form-control"  [(ngModel)]="accountshipments[i].RPSD_Shipment_Qty" #accytbqty name="accyetobe{{i}}" type="text" readonly></td>
+                                            <td><input id="accshqty{{i}}" (change)="accytbquantity(i)" readonly placeholder="Qty" [(ngModel)]="accountshipments[i].receivedqtys" #qty [value]="accountshipments[i].RPSD_Shipment_Qty" name="receivedqtys{{i}}" type="text"
+                                                       class="form-control" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                                                <span id="accytbqtymsg{{i}}" class="text-danger"></span></td>
+                                            <td>{{shipment.SC_Company_Name}}</td>
+                                            <td>{{shipment.RPSM_TrackCode}}</td>
+                                        </tr>
+                                        <tr *ngIf="!accountshipments">
+                                            <td align="center" colspan="11"> Shipment List Not Available </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </form>
+
+                            <form #GRFormbranch="ngForm" id="GRFormbranch" >
+                            <input type="hidden" name="requesttypes" [(ngModel)]="requesttypebranch">
+                                <input type="hidden" name="Receiveforids" [(ngModel)]="this.Receiveforid">
+                                <input type="hidden" name="random" [(ngModel)]="random">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-xs-12">
+                                    <label class="form-label">Shipments From Branch</label>
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th >#</th>
+                                            <th >Shipment Id</th>
+                                            <th >Date</th>
+                                            <th >Shipment From</th>
+                                            <th >Herokit or Not</th>
+                                            <th >Part</th>
+                                            <th > Ordered Quantity</th>
+                                            <th >Shipment Quantity</th>
+                                            <th >Received Quantity</th>
+                                            <th >Company</th>
+                                            <th >Track Code3</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let shipment of branchshipments;let i=index">
+                                            <input type="hidden" name="Receivefroms{{i}}" [(ngModel)]="branchshipments[i].RPM_Request_To">
+                                            <input type="hidden" name="ids{{i}}" [(ngModel)]="branchshipments[i].RPSM_KeyID">
+                                            <input type="hidden" name="RPSD_KeyIDs{{i}}" [(ngModel)]="branchshipments[i].RPSD_KeyID">
+                                            <input type="hidden" name="PM_KeyID{{i}}" [(ngModel)]="branchshipments[i].PM_KeyID">
+                                            <input type="hidden" name="RPM_HeroKit_Yes_No{{i}}" [(ngModel)]="branchshipments[i].RPM_HeroKit_Yes_No">
+                                            <td><input type="checkbox" [(ngModel)]="branchshipments[i].checkedbranch" name="checked{{i}}" value="shipments[i].id" (change)="brupdateCheckedOptions(branchshipments.RPD_KeyID, $event,i)"></td>
+                                            <td>{{shipment.RPSD_KeyID}}</td>
+                                            <td>{{shipment.RPSM_Shipment_Date}}</td>
+                                            <td>{{shipment.name}}</td>
+                                            <td>{{shipment.Herokit_Value}}</td>
+                                            <td>{{shipment.PM_Part_Name}}</td>
+                                            <td>{{shipment.RPD_Ordered_Qty}}</td>
+                                            <td><input id="brytbty{{i}}" class="form-control"  [(ngModel)]="branchshipments[i].RPSD_Shipment_Qty" #brytbqty name="bryetobe{{i}}" type="text" readonly></td>
+                                            <td><input placeholder="Qty" (change)="brytbquantity(i)" readonly [(ngModel)]="branchshipments[i].receivedqtys" #qty [value]="branchshipments[i].RPSD_Shipment_Qty" name="receivedqtys{{i}}" type="text"
+                                                       class="form-control" id="brshqty{{i}}" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                                                <span id="brytbqtymsg{{i}}" class="text-danger"></span></td>
+                                            <td>{{shipment.SC_Company_Name}}</td>
+                                            <td>{{shipment.RPSM_TrackCode}}</td>
+                                        </tr>
+                                        <tr *ngIf="!branchshipments">
+                                            <td align="center" colspan="11"> Shipment List Not Available </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </form>
+                            <form #GRFormsupplier="ngForm" id="GRFormsupplier" >
+                            <input type="hidden" name="requesttypes" [(ngModel)]="requesttypesupplier" >
+                                <input type="hidden" name="Receiveforids" [(ngModel)]="this.Receiveforid">
+                                <input type="hidden" name="random" [(ngModel)]="random">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-xs-12">
+                                    <label class="form-label">Shipments From Supplier</label>
+                                    <table class="table table-hover nowrap" id="model_service" width="100%">
+                                        <thead style="background: #4567B1;color: #FFF">
+                                        <tr>
+                                            <th >#</th>
+                                            <th >Shipment Id</th>
+                                            <th >Date</th>
+                                            <th >Shipment From</th>
+                                            <th >Herokit or Not</th>
+                                            <th >Part</th>
+                                            <th >Ordered Quantity</th>
+                                            <th >Shipment Quantity</th>
+                                            <th >Received Quantity</th>
+                                            <th >Company</th>
+                                            <th >Track Code4</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let shipment of suppliershipments;let i=index">
+                                            <input type="hidden" name="Receivefroms{{i}}" [(ngModel)]="suppliershipments[i].RPM_Request_To">
+                                            <input type="hidden" name="ids{{i}}" [(ngModel)]="suppliershipments[i].RPSM_KeyID">
+                                            <input type="hidden" name="RPSD_KeyIDs{{i}}" [(ngModel)]="suppliershipments[i].RPSD_KeyID">
+                                            <input type="hidden" name="PM_KeyID{{i}}" [(ngModel)]="suppliershipments[i].PM_KeyID">
+                                            <input type="hidden" name="RPM_HeroKit_Yes_No{{i}}" [(ngModel)]="suppliershipments[i].RPM_HeroKit_Yes_No">
+                                            <td><input type="checkbox" [(ngModel)]="suppliershipments[i].checkedsupplier" name="checked{{i}}" value="shipments[i].id" (change)="supupdateCheckedOptions(suppliershipments.RPD_KeyID, $event,i)"></td>
+                                            <td>{{shipment.RPSD_KeyID}}</td>
+                                            <td style="padding-left:2px">{{shipment.RPSM_Shipment_Date}}</td>
+                                            <td>{{shipment.name}}</td>
+                                            <td>{{shipment.Herokit_Value}}</td>
+                                            <td>{{shipment.PM_Part_Name}}</td>
+                                            <td>{{shipment.RPD_Ordered_Qty}}</td>
+                                            <td><input id="supytbty{{i}}" class="form-control"  [(ngModel)]="suppliershipments[i].RPSD_Shipment_Qty" #supytbqty name="supyetobe{{i}}" type="text" readonly></td>
+                                            <td><input placeholder="Qty" (change)="supytbquantity(i)" readonly [(ngModel)]="suppliershipments[i].receivedqtys" #qty [value]="suppliershipments[i].RPSD_Shipment_Qty" name="receivedqtys{{i}}" type="text"
+                                                       class="form-control" id="supshqty{{i}}" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                                                <span id="supytbqtymsg{{i}}" class="text-danger"></span></td>
+                                            <td>{{shipment.SC_Company_Name}}</td>
+                                            <td>{{shipment.RPSM_TrackCode}}</td>
+                                        </tr>
+                                        <tr *ngIf="!suppliershipments">
+                                            <td align="center" colspan="11">Shipment List Not Available </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" [disabled]="!GRFormmulti.form.valid || gencheckService() || acccheckqty() || brcheckqty() || supcheckqty()" (click)="createGRmultiple(GRFormaccount.value,GRFormbranch.value,GRFormsupplier.value)" data-dismiss="modal" data-toggle="modal" data-target="#mulreqpartinfo">Create GR</button>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="GRid" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Goods Receipt</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <iframe [src]="GRM_GoodsReceipt_Path" width="100%" height="480px" type='application/pdf'></iframe>
+            </div>
+        </div>
+    </div>
+</div>

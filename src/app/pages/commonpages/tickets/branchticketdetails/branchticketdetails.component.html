@@ -1,0 +1,148 @@
+<div *ngIf="TicketID != ''; else elseBlock">
+  <div class="row">
+    <div class="col-lg-12">
+    <span class="pull-right">
+    <button class="btn btn-squared btn-primary mr-2 mb-2" (click)="Preview_Ticket_Info()" type="button">Preview</button>
+  </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="table-responsive mb-5">
+      <table class="table table-hover">
+        <tbody>
+        <tr>
+          <td>Ticket ID:</td>
+          <td><b>{{Ticket_ID}}</b></td>
+          <td>Account:</td>
+          <td><b>{{Account_Name}}</b></td>
+        </tr>
+        <tr>
+          <td>User:</td>
+          <td><b>-</b></td>
+          <td>Asset: </td>
+          <td><b>{{Asset_Name}}</b></td>
+        </tr>
+        <tr>
+          <td>Model:</td>
+          <td><b>{{Model_Name}}</b></td>
+          <td>S/N:</td>
+          <td><b>{{Asset_Serial_Number}}</b></td>
+        </tr>
+        <tr>
+          <td>Status:</td>
+          <td><b>{{Status}}</b></td>
+          <td>Action Required:</td>
+          <td><b>-</b></td>
+        </tr>
+        <tr>
+          <td>Time Remaining:</td>
+          <td><b>-</b></td>
+          <td>Type:</td>
+          <td><b>Technician</b></td>
+        </tr>
+        <tr>
+          <td>Related Contact:</td>
+          <td><b>-</b></td>
+          <td>Unrelated contact:</td>
+          <td><b>-</b></td>
+        </tr>
+        <tr>
+          <td>Created:</td>
+          <td><b>{{Ticket_Cteated_Date}}</b></td>
+          <td>Update:</td>
+          <td><b></b></td>
+        </tr>
+        <tr>
+          <td>Follow Up Date:</td>
+          <td><b>-</b></td>
+          <td>Follow Up Time:</td>
+          <td><b>-</b></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/1.jpg') no-repeat center;">
+        <h6>Account</h6>
+        <h1 style="color: #00BCD4; font-size: 16px">{{Account_Name}}</h1>
+        <h6>{{Account_Street}}, {{Account_City}}</h6>
+        <h6>{{Account_State}}, {{Account_Country}} - {{Account_Pincode}}</h6>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/2.jpg') no-repeat center;">
+        <h6>Site</h6>
+        <h1 style="color: #00d4ca; font-size: 16px">{{Site_Name}}</h1>
+        <h6>{{Site_Address}}, {{Site_city}}</h6>
+        <h6>{{Site_State}}, {{Site_country}} - {{Site_PinCcode}}</h6>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/3.jpg') no-repeat center;">
+        <h6>Assets</h6>
+        <h1 style="color: #00d499; font-size: 16px">{{Asset_Name}}</h1>
+        <h6>Model No: {{Model_Name}}, Serial No: {{Asset_Serial_Number}}</h6>
+        <h6>Retail Value: - , Status: {{Status}}</h6>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/4.jpg') no-repeat center;">
+        <h6>Primary Branch</h6>
+        <h1 style="color: #FFC107; font-size: 16px">{{Branch_Name}}</h1>
+        <h6>{{Branch_Address}}, {{Branch_City}}</h6>
+        <h6>{{Branch_State}}, {{Branch_Country}} - {{Branch_PinCode}}</h6>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="dash-book dash-b-1" style="
+background: url('assets/modules/dummy-assets/common/img/block/1.jpg') no-repeat center;">
+        <h6>Technician</h6>
+        <h1 style="color: #00BCD4; font-size: 16px">Sathish Kumar</h1>
+        <h6>(897) 357 - 6694</h6>
+        <h6>ramsatt@gmail.com</h6>
+      </div>
+    </div>
+
+  </div>
+  <!--ticket preview-->
+  <div class="modal fade modal-size-large" id="Preview" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ticket Preview</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div id="TestTEst"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #elseBlock>
+  <div class="alert alert-warning" role="alert">
+    <strong>Warning!</strong>Please Select a ticket to view details here.
+  </div>
+</ng-template>

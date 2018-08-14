@@ -1,0 +1,181 @@
+.sebm-google-map-container {
+    height: 300px;
+}
+
+#home2 table  td{cursor: pointer}
+
+.col-lg-4
+{
+    padding-left: 1px;
+    padding-right: 1px;
+}
+.cus_set_padng{padding-left:120px}
+#accounts .avatar {height:84px !important;width: 150px;border-radius:0}
+#accounts .avatar img{height:84px !important;width: 150px;border-radius:0}
+
+#accounts .s1 {
+    float: left;
+    margin-top: -137px;
+    margin-left: -22px;
+}
+.col-lg-8
+{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.row{
+    padding: 7px;
+}
+
+.row_margin
+{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.acc_heading
+{
+    padding: 10px 1px 1px 10px;
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 0px;
+}
+.acc_icon
+{
+    padding: 5px 5px 5px 5px;
+    color: #fff;
+}
+.btn
+{
+    margin-right: 0px;
+    padding: 5px;
+}
+.table-fixed{
+    width: 100%;
+    background-color: #fff;
+tbody{
+    height:400px;
+    overflow-y:auto;
+    width: 100%;
+}
+thead,tbody,tr,td,th{
+    display:block;
+}
+tbody{
+td{
+    float:left;
+    border: 1px solid #eee;
+    cursor: pointer;
+
+}
+td:hover{
+    background-color: #e4e9f0;
+}
+}
+thead {
+tr{
+th{
+    float:left;
+    background-color: #4567B1;
+    border-color:#4567B1;
+}
+}
+}
+}
+
+.table-fixed[_ngcontent-c1] tbody[_ngcontent-c1] {
+    height: 400px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+@media (max-width: 400px) {
+    .hide{
+        display: none;
+    }
+}
+.margin_zero
+{
+    padding-left: 10px;
+    padding-right:2px;
+}
+.fa{
+
+    font-size: 22px;
+}
+.pad20{
+    padding-bottom: 20px;
+    padding-top: 20px;
+
+}
+.height540
+{
+    min-height: 400px;
+}
+
+#map {
+    height: 300px;
+    background-color: #0b0222;
+}
+.selected
+{
+    background-color: #CBDCB1;
+}
+.table tr.active td {
+    background-color:#566573 !important;
+    color: white;
+}
+
+@media  (max-width:420px) {
+
+    #accounts .s1 {
+        float: left;
+        margin-top: -75px;
+        margin-left: -22px;
+    }
+    .cus_set_padng {
+        padding-left: 0px
+    }
+    #accounts .avatar {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%
+    }
+    #accounts .avatar img{border-radius:50%; width:100%; height:57px !important;}
+}
+
+.acc_logo {
+    width: 100%;
+    height: 70px;
+    border: 4px solid #fff;
+    background-color: #fff;
+}
+
+.acc_name{
+    padding-top: 15px;
+    color: #fff;
+}
+.text-primary1
+{
+    color: #0a0a0a;
+}
+#branch tr th:last-child {
+    text-align: center;
+}
+.th-color{
+    background-color: #005374;
+    border-color: #005374;
+    color: #FFF;
+}
+.cover1 {
+    overflow: auto;
+    position: relative;
+    height: 350px;
+    width: 100%;
+}
+.w100{
+    width: 100% !important;
+}
+.floatThead-container{
+    table-layout: fixed !important;
+    width: 100% !important;
+}

@@ -1,0 +1,128 @@
+<div class="col-lg-12">
+  <div class="row acc_header row_margin">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+      <h2 class="acc_name">{{Branch_Name}}</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="table-responsive break_word ">
+        <table class="table table-hover">
+          <tbody>
+          <tr>
+            <td style="width:25%">
+              Branch ID:
+            </td>
+            <td style="width:25%">
+              <b>
+                {{Branch_ID}}
+              </b>
+            </td>
+            <td style="width:25%">Branch Name:</td>
+            <td style="width:25%">
+              <b>
+                <span class="text-primary1">{{Branch_Name}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>Branch Code:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{Branch_Code}}</span>
+              </b>
+            </td>
+            <td>Email:</td>
+            <td class="email_new_class">
+              <b>
+                <span class="text-primary1">{{Branch_Email}}</span>
+              </b>
+            </td>
+
+          </tr>
+          <tr>
+            <td>Address:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{Branch_Address}}</span>
+              </b>
+            </td>
+            <td>City:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{Branch_City}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{Branch_State}}</span>
+              </b>
+            </td>
+            <td>Country:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{Branch_Country}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>ZIP:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{Branch_Zip}}</span>
+              </b>
+            </td>
+            <td>Fax:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{Branch_Fax}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td>Phone:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{Branch_Phone}}</span>
+              </b>
+            </td>
+            <td>Location:</td>
+            <td>
+              <b>
+                <span class="text-primary1">Lat:{{lat}}<br>Lon:{{lng}}</span>
+              </b>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid #e4e9f0">
+            <td>Mobile:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{mobile}}</span>
+              </b>
+            </td>
+            <td>Home:</td>
+            <td>
+              <b>
+                <span class="text-primary1">{{home}}</span>
+              </b>
+            </td>
+          </tbody>
+
+        </table>
+        <div class="width_full">
+          <div class="width_50 hide_small"> Description:<br>
+            <span class="text-primary1">{{Branch_Description}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lg_screen_map" style="width: 100% !important;">
+      <div class="lg_hide">Description</div>
+      <div id="branchmap"></div>
+    </div>
+  </div>
+</div>

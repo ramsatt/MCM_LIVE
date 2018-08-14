@@ -1,0 +1,117 @@
+
+<div class="cat__content">
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Create Part</strong>
+        </span>
+    </div>
+
+    <div class="card-block">
+      <div [hidden]="submitted">
+        <form #partForm="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-lg-6 col-sm-6 col-xs-6">
+              <div class="form-group">
+                <label class="form-label">Part Name <span style="color: red">*</span></label>
+                <input  [(ngModel)]="partname" name="validation-simple[partname]"
+                        type="text" placeholder="Enter Part Name"
+                        class="form-control" #partName="ngModel" required minlength="3" maxlength="50">
+                <div *ngIf="partName.errors && (partName.dirty || partName.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!partName.errors.required">
+                    Part Name is required
+                  </div>
+                  <div [hidden]="!partName.errors.minlength">
+                    Part Name must be at least 3 characters long.
+                  </div>
+                  <div [hidden]="!partName.errors.maxlength">
+                    Part Name cannot be more than 50 characters long.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">MFG Part Number</label>
+                <input  name="validation-simple[mfgpartnumber]"
+                        [(ngModel)]="mfgpartnumber"
+                        type="text" placeholder="Enter MFG Number"
+                        class="form-control"
+                        data-validation="[NOTEMPTY]">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Model</label>
+                <input  name="validation-simple[model]"
+                        [(ngModel)]="part_model"
+                        type="text" placeholder="Enter Model Name"
+                        class="form-control"
+                        data-validation="[NOTEMPTY]">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Internal Cost <span style="color: red">*</span></label>
+
+                <div class="form-input-icon form-input-icon-left">
+                  <i class="fa fa-dollar " style="color: #85bb65;font-size: 15px"></i>
+                  <input  name="validation-simple[cost]"
+                        [(ngModel)]="internalcost"
+                        type="text" placeholder="Enter Internal Cost"
+                        class="form-control" pattern="^\d{0,8}(\.\d{1,4})?$" #partCost="ngModel" required>
+                </div>
+                <div *ngIf="partCost.errors && (partCost.dirty || partCost.touched)"
+                     class="alert alert-danger">
+                  <div [hidden]="!partCost.errors.required">
+                    Internal Cost is required
+                  </div>
+                  <div [hidden]="!partCost.errors.pattern">
+                    Internal Cost must be digits
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-xs-6">
+              <div class="form-group">
+                <label class="form-label">Price <span style="color: red">*</span></label>
+                <div class="form-input-icon form-input-icon-left">
+                  <i class="fa fa-dollar " style="color: #85bb65;font-size: 15px"></i>
+                <input  name="validation-simple[price]"
+                        [(ngModel)]="part_price"
+                        type="text" placeholder="Enter Price"
+                        class="form-control" pattern="^\d{0,8}(\.\d{1,4})?$" #partPrice="ngModel" required>
+                  <div *ngIf="partPrice.errors && (partPrice.dirty || partPrice.touched)"
+                       class="alert alert-danger">
+                    <div [hidden]="!partPrice.errors.required">
+                      Price is required
+                    </div>
+                    <div [hidden]="!partPrice.errors.pattern">
+                      Price must be digits
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Internal Notes</label>
+                <input  name="validation-simple[internalnotes]"
+                        type="text" placeholder="Enter Internal Notes"
+                        [(ngModel)]="internalnotes"
+                        class="form-control"
+                        data-validation="[NOTEMPTY]">
+              </div>
+              <div class="form-group">
+                <label for="l38">Description</label>
+                <textarea [(ngModel)]="part_description" name="desc" class="form-control" rows="6" id="l38" placeholder="Enter account description here"></textarea>
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <button type="submit" class="btn btn-primary" style="margin-right: 10px"
+                    [disabled]="!partForm.form.valid" (click)="createParts()">Create</button>
+            <button type="button" class="btn btn-secondary" (click)="Navigation('part/overview')">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </section>
+  <app-footer></app-footer>
+</div>
+

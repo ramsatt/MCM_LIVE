@@ -1,0 +1,540 @@
+<app-topmenu></app-topmenu>
+<div class="cat__content">
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Edit Incident Report</strong>
+        </span>
+    </div>
+
+    <div class="card-block" *ngIf="irSubmit === false; else elseBlock">
+      <div class="margin-bottom-50">
+        <div class="row">
+          <div class="col-lg-12">
+            <h3>Service Call Details</h3>
+            <hr>
+            <div class="form-group">
+              <label>Service Request</label>
+              <input class="form-control" placeholder="" type="text" [(ngModel)]="ServiceRequestName" readonly>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Account</label>
+                  <input class="form-control" placeholder="" type="text" [(ngModel)]="ManufacturerName" readonly>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Site</label>
+                  <input class="form-control" placeholder="" type="text" [(ngModel)]="SiteName" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Model</label>
+                  <input class="form-control" placeholder="" type="text" [(ngModel)]="ModelName" readonly>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Asset</label>
+                  <input class="form-control" placeholder="" type="text" [(ngModel)]="AssetName" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Ticket Number</label>
+                  <input class="form-control" placeholder="" type="text" [(ngModel)]="WorkOrderNumber" readonly>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Branch</label>
+                  <input class="form-control" placeholder="" type="text" [(ngModel)]="BranchName" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Account Reference Number</label>
+                  <input class="form-control" placeholder="" type="text" [(ngModel)]="AccountRefNumber" readonly>
+                </div>
+              </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>Trip Number</label>
+                        <input class="form-control" placeholder="" type="text" [(ngModel)]="TripNumber" readonly>
+                    </div>
+                </div>
+            </div>
+              <div class="row">
+                  <div class="col-lg-12">
+                      <h3>Part Details</h3>
+                      <h3 *ngIf="HeroKitPartAvailable">Hero Kit Parts</h3>
+                      <table class="table" *ngIf="HeroKitPartAvailable">
+                          <thead class="thead-inverse">
+                          <tr>
+                              <th>Part Name</th>
+                              <th>Image</th>
+                              <th>Required Qty.</th>
+                              <th>Used Qty.</th>
+                              <th>Current Stock</th>
+                              <th>Target Stock</th>
+                              <th>Replenishment</th>
+                              <th>Virtual stock</th>
+                              <th>Allotted Qty</th>
+                              <th>Total Reserved Qty</th>
+                              <th>Used Part S. No.</th>
+                              <th>Replaced Part S. No.</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let part of TicketsPartArray">
+                              <td valign="center" *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">
+                                  {{part.PM_Part_Name}}
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">
+                                  <img src="{{FileBaseUrl}}assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}"
+                                       alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">
+                                  {{part.TRPD_Required_Qty}}
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">
+                                  <input class="form-control" placeholder="Quantity" type="text"
+                                         [(ngModel)]="part.TRPD_Used_Part_Qty"
+                                         (change)="UsedQuantityValidation(part.TRPD_Used_Part_Qty, part.Stock)">
+                                  <div class="alert" style="background-color: red"
+                                       *ngIf="UsedQtyError(part.TRPD_Used_Part_Qty, part.TRPD_Required_Qty)">Enter used
+                                      quantity less
+                                      than required quantity
+                                  </div>
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Target_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Replenishment}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Shipped_Virtual_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.TRPD_Shipment_Reserve_Qty}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">{{part.Reserved_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">
+                                  <input class="form-control" placeholder="Serial Number" type="text"
+                                         [(ngModel)]="part.TRPD_Used_Part_SR_No">
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'Y'">
+                                  <input class="form-control" placeholder="Serial Number" type="text"
+                                         [(ngModel)]="part.TRPD_Old_Part_SR_No"></td>
+                          </tr>
+                          </tbody>
+                      </table>
+
+                      <h3 *ngIf="NonHeroKitPartAavailable">Non-Hero Kit Parts</h3>
+                      <table class="table" *ngIf="NonHeroKitPartAavailable">
+                          <thead class="thead-inverse">
+                          <tr>
+                              <th>Part Name</th>
+                              <th>Image</th>
+                              <th>Required Qty.</th>
+                              <th>Used Qty.</th>
+                              <th>Current Stock</th>
+                              <th>Target Stock</th>
+                              <th>Replenishment</th>
+                              <th>Virtual stock</th>
+                              <th>Allotted Qty</th>
+                              <th>Total Reserved Qty</th>
+                              <th>Used Part S. No.</th>
+                              <th>Replaced Part S. No.</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let part of TicketsPartArray">
+                              <td valign="center" *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.PM_Part_Name}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">
+                                  <img src="{{FileBaseUrl}}assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}"
+                                       alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.TRPD_Required_Qty}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">
+                                  <input class="form-control" placeholder="Quantity" type="text"
+                                         [(ngModel)]="part.TRPD_Used_Part_Qty"
+                                         (change)="UsedQuantityValidation(part.TRPD_Used_Part_Qty, part.Stock)">
+                                  <div class="alert" style="background-color: red"
+                                       *ngIf="UsedQtyError(part.TRPD_Used_Part_Qty, part.TRPD_Required_Qty)">Enter used
+                                      quantity less
+                                      than required quantity
+                                  </div>
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Target_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Replenishment}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Shipped_Virtual_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.TRPD_Shipment_Reserve_Qty}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'">{{part.Reserved_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'"><input class="form-control"
+                                                                                   placeholder="Serial Number"
+                                                                                   type="text"
+                                                                                   [(ngModel)]="part.TRPD_Used_Part_SR_No">
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'N'"><input class="form-control"
+                                                                                   placeholder="Serial Number"
+                                                                                   type="text"
+                                                                                   [(ngModel)]="part.TRPD_Old_Part_SR_No">
+                              </td>
+                          </tr>
+                          </tbody>
+                      </table>
+
+                      <h1 *ngIf="NewPartAvailable">New Parts</h1>
+                      <table class="table" *ngIf="NewPartAvailable">
+                          <thead class="thead-inverse">
+                          <tr>
+                              <th>Part Name</th>
+                              <th>Image</th>
+                              <th>Required Qty.</th>
+                              <th>Used Qty.</th>
+                              <th>Current Stock</th>
+                              <th>Target Stock</th>
+                              <th>Replenishment</th>
+                              <th>Virtual stock</th>
+                              <th>Allotted Qty</th>
+                              <th>Total Reserved Qty</th>
+                              <th>Used Part S. No.</th>
+                              <th>Replaced Part S. No.</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let part of TicketsPartArray">
+                              <td valign="center" *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.PM_Part_Name}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">
+                                  <img src="{{FileBaseUrl}}assets/uploads/parts/{{part.PM_KeyID}}/image/{{part.PM_Part_Image_Path}}"
+                                       alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.TRPD_Required_Qty}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">
+                                  <input class="form-control" placeholder="Quantity" type="text"
+                                         [(ngModel)]="part.TRPD_Used_Part_Qty"
+                                         (change)="UsedQuantityValidation(part.TRPD_Used_Part_Qty, part.Stock)">
+                                  <div class="alert" style="background-color: red"
+                                       *ngIf="UsedQtyError(part.TRPD_Used_Part_Qty, part.TRPD_Required_Qty)">Enter used
+                                      quantity less
+                                      than required quantity
+                                  </div>
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Target_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Replenishment}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Shipped_Virtual_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.TRPD_Shipment_Reserve_Qty}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'">{{part.Reserved_Stock}}</td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'"><input class="form-control"
+                                                                                     placeholder="Serial Number"
+                                                                                     type="text"
+                                                                                     [(ngModel)]="part.TRPD_Used_Part_SR_No">
+                              </td>
+                              <td *ngIf="part.TRPD_Hero_Kit_Status === 'NIL'"><input class="form-control"
+                                                                                     placeholder="Serial Number"
+                                                                                     type="text"
+                                                                                     [(ngModel)]="part.TRPD_Old_Part_SR_No">
+                              </td>
+                          </tr>
+                          </tbody>
+                      </table>
+                      <hr>
+                  </div>
+              </div>
+            <br>
+            <div class="row">
+              <div class="col-lg-12">
+                <div *ngFor="let Check_List of TicktCheckListArray">
+                  <h3>{{Check_List.check_List_name}}</h3>
+                  <hr>
+                  <div class="form-check" *ngFor="let CL of Check_List.check_list">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="checkbox" [checked]="CL.ischossen" [(ngModel)]="CL.ischossen">
+                      {{CL.CLM_Check_List_Description}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <div class="row">
+              <div class="col-lg-12">
+                <h3>Upload Files</h3>
+                <hr>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label class="form-label">Upload File 1</label>
+                    <template [ngIf]="IRDetailsArray.IRM_Attachment_One !== ''">
+                        <div ><img src="{{FileOne}}" class="drp-cls"></div>
+                    </template>
+                  <input class="dropify form-control" type="file" #AttchmentOne data-allowed-file-extensions="pdf png psd jpg csv">
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label class="form-label">Upload File 2</label>
+                    <template [ngIf]="IRDetailsArray.IRM_Attachment_Two !== ''">
+                        <div ><img src="{{FileTwo}}" class="drp-cls"></div>
+                    </template>
+                  <input class="dropify form-control" type="file" #AttchmentTwo data-allowed-file-extensions="pdf png psd jpg csv">
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label class="form-label">Upload File 3</label>
+                    <template [ngIf]="IRDetailsArray.IRM_Attachment_Three !== ''">
+                        <div ><img src="{{FileThree}}" class="drp-cls"></div>
+                    </template>
+                  <input class="dropify form-control" type="file" #AttchmentThree data-allowed-file-extensions="pdf png psd jpg csv">
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label class="form-label">Upload File 4</label>
+                    <template [ngIf]="IRDetailsArray.IRM_Attachment_Four !== ''">
+                        <div ><img src="{{FileFour}}" class="drp-cls"></div>
+                    </template>
+                  <input class="dropify form-control" type="file" #AttchmentFour data-allowed-file-extensions="pdf png psd jpg csv">
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label class="form-label">Upload File 5</label>
+                    <template [ngIf]="IRDetailsArray.IRM_Attachment_Five !== ''">
+                        <div ><img src="{{FileFive}}" class="drp-cls"></div>
+                    </template>
+                  <input class="dropify form-control" type="file" #AttchmentFive data-allowed-file-extensions="pdf png psd jpg csv">
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label class="form-label">Upload File 6</label>
+                    <template [ngIf]="IRDetailsArray.IRM_Attachment_Six !== ''">
+                        <div ><img src="{{FileSix}}" class="drp-cls"></div>
+                    </template>
+                  <input class="dropify form-control" type="file" #AttchmentSix data-allowed-file-extensions="pdf png psd jpg csv">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+                <label>On Site Notes (Provide any additional details about this call here)<span
+                        style="color: red">*</span></label>
+              <textarea class="form-control" rows="3" [(ngModel)]="AdditionalInformation"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Was job completed and job area cleaned?</label>
+              <div class="mb-5">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input checked="" class="form-check-input" id="exampleRadios1" name="exampleRadios" type="radio" value="YES" [(ngModel)]="JobStatus">
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" id="exampleRadios2" name="exampleRadios" type="radio" value="NO" [(ngModel)]="JobStatus">
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <h3>Technician Details</h3>
+            <hr>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Technician First Name</label>
+                  <input class="form-control" placeholder="First Name" type="text" [(ngModel)]="TechnicianFirstName">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Technician Last Name</label>
+                  <input class="form-control" placeholder="Last Name" type="text" [(ngModel)]="TechnicianLastName">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Technician Email</label>
+                  <input class="form-control" placeholder="Email Address" type="text" [(ngModel)]="TechnicianEmail">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Technician Branch</label>
+                  <input class="form-control" placeholder="Branch" type="text" [(ngModel)]="TechnicianBranch">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Technician arrived <span style="color: red">*</span></label>
+                  <label class="input-group timepicker-init">
+                    <input class="form-control" placeholder="Select Time" #arrived_time type="text" [(ngModel)]="TechnicianArrivedTime" (blur)="TechnicianArrivedTime = arrived_time.value">
+                    <span class="input-group-addon">
+                    <i class="icmn-clock"></i>
+                  </span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Technician departed <span style="color: red">*</span></label>
+                  <label class="input-group timepicker-init">
+                    <input class="form-control" placeholder="Select Time" type="text" #depart_time [(ngModel)]="TechnicianDepartTime" (blur)="TechnicianDepartTime = depart_time.value">
+                    <span class="input-group-addon">
+                    <i class="icmn-clock"></i>
+                  </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+              <div class="row">
+                  <div class="col-lg-6">
+                      <div class="form-group">
+                          <label>On Site Date <span style="color: red">*</span></label>
+                          <label class="input-group datepicker-only-init">
+                              <input class="form-control" placeholder="Select Date" type="text" #onSiteDate
+                                     [(ngModel)]="OnSiteDate" (blur)="OnSiteDate = onSiteDate.value">
+                              <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                            </span>
+                          </label>
+                      </div>
+                  </div>
+              </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <label>Technician Signature</label>
+                <br>
+                <img src="{{FileBaseUrl}}uploads/incident_report/{{IR_ID}}/signature/{{TechSign}}" alt="" height="70px" width="300px">
+              </div>
+            </div>
+            <br>
+            <h3>Customer Details</h3>
+            <hr>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Customer First Name</label>
+                  <input class="form-control" placeholder="First Name" type="text" [(ngModel)]="CustomerFirstName">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Customer Last Name</label>
+                  <input class="form-control" placeholder="Last Name" type="text" [(ngModel)]="CustomerLastName">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Customer Email</label>
+                  <input class="form-control" placeholder="Email Address" type="text" [(ngModel)]="CustomerEmail">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Customer Mobile</label>
+                  <input class="form-control" id="Cus_Mobile" placeholder="Mobile" [textMask]="{mask: mask}" type="text" [(ngModel)]="CustomerMobile">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <label>Customer Signature</label>
+                <br>
+                <img src="{{FileBaseUrl}}uploads/incident_report/{{IR_ID}}/signature/{{cusSign}}" alt="" height="70px" width="300px">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Signed Date</label>
+                  <label class="input-group datepicker-only-init">
+                    <input class="form-control" placeholder="Select Date" type="text" #sign_Date [(ngModel)]="CusSignedDate" (blur)="CusSignedDate = sign_Date.value">
+                    <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                            </span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Signed Time</label>
+                  <label class="input-group timepicker-init">
+                    <input class="form-control" placeholder="Select Time" type="text" #sign_time [(ngModel)]="CusSignedTime" (blur)="CusSignedTime = sign_time.value">
+                    <span class="input-group-addon">
+                                <i class="icmn-clock"></i>
+                            </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <br>
+              <input *ngIf="(userRole === '1' || userRole === '7') && UsedQtyAvailable" type="submit"
+                     value="Save" class="btn btn-primary" (click)="Update('RESUBMIT')">
+              <input *ngIf="(TicketStatus === '12' || TicketStatus === '13') && userRole === '1' && UsedQtyAvailable"
+                     type="submit"
+                     value="Close IR" class="btn btn-primary" (click)="Update('CLOSE')">
+              <input *ngIf="TicketStatus === '13'  && userRole === '1'  && UsedQtyAvailable" type="submit"
+                     value="Create New Trip"
+                     class="btn btn-primary" (click)="Update('NEW')">
+              <h4 *ngIf="!UsedQtyAvailable" class="badge-danger text-white p-2">Stock not available in the inventory.
+                  You can't submit the incident report. Please change the used quantity</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="modal fade modal-size-large" id="IR_Error" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">We found these Errors</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12">
+                    <div class="margin-bottom-50">
+                        <div class="alert alert-danger" role="alert">
+                            <p><strong>Check the Following:</strong></p>
+                            <ul class="margin-top-10">
+                                <li *ngFor="let error of IR_Errors">{{error.ErrorMsg}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

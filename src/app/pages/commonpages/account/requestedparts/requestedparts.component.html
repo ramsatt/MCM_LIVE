@@ -1,0 +1,84 @@
+<div class="row acc_header row_margin">
+  <div class="col-lg-12"><h5 class="acc_heading">Received Request</h5></div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i class="icmn-search"></i>
+        </span>
+      <input  type="text" class="form-control" name="Site_Search" placeholder="Search" id="" [(ngModel)]="receivedpart">
+    </div>
+  </div>
+</div>
+
+<div class='cover1'>
+<table class="table demo table-hover nowrap"  width="100%" [mfData]="receivedRequests|raisedrequest:receivedpart" #accreceivedReq="mfDataTable" [mfRowsOnPage]="10"
+       [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+  <thead class="th-color">
+  <tr>
+    <th><mfDefaultSorter by="RPM_KeyID"> Request Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by="RPM_Request_Date"> Date<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by="BM_Code"> Branch Code<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by=""> Ticket Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by=""> Trip Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by="PM_Part_Name"> Part<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by="RPD_Ordered_Qty"> Requested Qty<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by="RPD_Shipped_Qty"> Shipment Qty<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by="RPD_Yet_To_Be_Shipped"> Yet to be Shipped<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+    <th><mfDefaultSorter by="PRS_Status"> Status<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let all of accreceivedReq.data; let i=index"  (click)="LoadPartrequests(all.RPD_KeyID,all.PRD_PM_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+    <td>{{all.RPM_KeyID}}</td>
+    <td>{{all.RPM_Request_Date|dateconvert | date:'M/d/y'}}</td>
+    <td>{{all.BM_Code}}</td>
+    <td>{{all.RPM_Ticket_KeyID}} </td>
+    <td>{{all.RPM_TRIP_KeyID}}</td>
+    <td>{{all.PM_Part_Name}}</td>
+    <td>{{all.RPD_Ordered_Qty}}</td>
+    <td>{{all.RPD_Shipped_Qty}}</td>
+    <td>{{all.RPD_Yet_To_Be_Shipped}}</td>
+    <td>{{all.PRS_Status}}</td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td colspan="9">
+      <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+    </td>
+  </tr>
+  </tfoot>
+</table>
+</div>
+
+<div class="row acc_header row_margin">
+
+  <div class="col-lg-12">
+    <h5 class="acc_heading">Shipment Detail
+      <span></span></h5>
+  </div>
+
+</div>
+
+<div class="overflow_3row">
+  <div class="col-lg-12">
+    <table class="table table-hover nowrap" id="branch"  width="100%" >
+      <thead style="font-size: 12px !important;">
+      <tr>
+        <th>Track Id</th>
+        <th>Status</th>
+        <th>Shipment Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr  *ngFor="let allpart of partsrequests">
+        <td>{{allpart.RPSM_TrackCode}}</td>
+        <td>{{allpart.RPSM_Status}}</td>
+        <td>{{allpart.RPSD_Shipment_Qty}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

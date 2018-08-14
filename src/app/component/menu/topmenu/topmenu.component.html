@@ -1,0 +1,53 @@
+<div class="cat__top-bar">
+  <!-- left aligned items -->
+  <div class="cat__top-bar__left">
+    <div class="cat__top-bar__logo">
+      <a href="dashboards-alpha.html">
+        <img src="{{logo_img}}" />
+      </a>
+    </div>
+
+  </div>
+  <!-- right aligned items -->
+  <div class="cat__top-bar__right">
+
+    <div class="cat__top-bar__item">
+      <a [hidden]="add=='N'" class="btn btn-sm btn-primary btn-rounded" [routerLink]="'/tickets/create'">New Ticket</a>
+    </div>
+
+    <div class="cat__top-bar__item hidden-sm-down">
+      <strong>Welcome  <span style="color:#0b58a2;">{{username}} {{lastname}}</span></strong>
+    </div>
+    <div class="cat__top-bar__item" style="margin-left: 0.30rem; !important;">
+      <div class="dropdown cat__top-bar__avatar-dropdown">
+        <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="cat__top-bar__avatar" href="javascript:void(0);">
+                   <img class="img-circle" src="{{imgurl}}" alt="No Image"  onError="this.src='assets/modules/dummy-assets/common/img/avatars/1.jpg';" >
+               </span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+          <!--<a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon icmn-user"></i> Profile</a>-->
+          <!--<div class="dropdown-divider"></div>
+          <div class="dropdown-header">Home</div>
+          <a class="dropdown-item" href="javascript:void(0)" (click)="Navigation('settings')"><i class="dropdown-icon icmn-circle-right"></i> Settings</a>
+          <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon icmn-circle-right"></i> User Boards</a>
+          <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon icmn-circle-right"></i> Issue Navigator (35 New)</a>
+          <div class="dropdown-divider"></div>-->
+          <a class="dropdown-item" href="javascript:void(0)" (click)="Navigation('login')"><i class="dropdown-icon icmn-exit"></i> Logout</a>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="loader2" id="loader">
+    <div class='loader'>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--text'></div>
+    </div>
+  </div>-->
+</div>

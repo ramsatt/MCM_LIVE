@@ -1,0 +1,95 @@
+<div class="row acc_header row_margin">
+  <div class="col-lg-12"><h5 class="acc_heading">Raised Request</h5>
+  <p>{{GetRaisedData}}</p></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i class="icmn-search"></i>
+        </span>
+      <input  type="text" class="form-control" name="Site_Search" placeholder="Search" id="" [(ngModel)]="raisedpart">
+    </div>
+  </div>
+</div>
+<div class="cover1" id="RaisedReqDiv">
+  <table class="table demo nowrap table-fixed" width="100%" [mfData]="raisedRequests|raisedrequest:raisedpart" #raisedReq="mfDataTable" [mfRowsOnPage]="10"
+         [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+    <thead style="background-color: #005374;color:white">
+    <tr>
+      <th><mfDefaultSorter by="RPM_KeyID"> Request Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="RPM_Request_Date"> Date<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="BM_Branch_Name"> Request Branch<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="RPM_Request_Type"> Request To<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by=""> Ticket Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by=""> Trip Id<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="PM_Part_Name"> Part<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="RPD_Ordered_Qty"> Requested Qty<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="RPD_Yet_To_Be_Shipped"> Yet to be Shipped<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th><mfDefaultSorter by="PRS_Status"> Status<i class="fa fa-fw fa-sort"></i></mfDefaultSorter></th>
+      <th [hidden]="delete=='N'">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let all of  raisedReq.data; let i=index" (click)="LoadPartrequests(all.RPD_KeyID,all.PRD_PM_KeyID);setClickedRow(i)" [class.active]="i == selectedRow">
+      <td>{{all.RPM_KeyID}}</td>
+      <td>{{all.RPM_Request_Date|dateconvert | date:'M/d/y h:mm a'}}</td>
+      <td><span title="{{all.BM_Branch_Name}}&#xA;{{all.BM_Code}}&#xA;{{all.BM_Address}}&#xA;{{all.BM_Phone}}">{{all.BM_Branch_Name}}</span></td>
+      <td>{{all.RPM_Request_Type}}</td>
+      <td>{{all.RPM_Ticket_KeyID}}</td>
+      <td>{{all.RPM_TRIP_KeyID}}</td>
+      <td>{{all.PM_Part_Name}}</td>
+      <td>{{all.RPD_Ordered_Qty}}</td>
+      <td>{{all.RPD_Yet_To_Be_Shipped}}</td>
+      <td>{{all.PRS_Status}}</td>
+      <td align="center" *ngIf="all.RPD_Status!='5' && all.RPD_Status!='7' && all.RPD_Status!='8'">
+        <div class="">
+            &nbsp;<button [hidden]="delete=='N'" (click)="cancelRequest(all.RPD_KeyID)" class="btn btn-icon btn-danger fa fa-times-circle margin-inline">
+        </button>
+        </div>
+      </td>
+      <td align="center" style="width:150px" *ngIf="all.RPD_Status=='5' || all.RPD_Status=='7' || all.RPD_Status=='8'">
+-
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="10">
+        <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+
+<div class="row acc_header row_margin">
+
+    <div class="col-lg-12">
+        <h5 class="acc_heading">Shipment Detail
+            <span></span></h5>
+    </div>
+
+</div>
+
+<div class="overflow_3row">
+  <div class="col-lg-12">
+    <table class="table table-hover nowrap" id="branch"  width="100%" >
+      <thead style="font-size: 12px !important;">
+      <tr>
+        <th>Track Id</th>
+        <th>Status</th>
+        <th>Shipment Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr  *ngFor="let allpart of partsrequests">
+        <td>{{allpart.RPSM_TrackCode}}</td>
+        <td>{{allpart.RPSM_Status}}</td>
+        <td>{{allpart.RPSD_Shipment_Qty}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

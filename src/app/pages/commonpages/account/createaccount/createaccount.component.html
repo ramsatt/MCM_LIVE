@@ -1,0 +1,218 @@
+<div class="cat__content" style="position: relative;">
+
+  <section class="card">
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Create Account</strong>
+        </span>
+    </div>
+    <div class="card-block">
+        <div [hidden]="submitted">
+        <form #heroForm="ngForm"  *ngIf="active"  (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-label">Account Name <span style="color: red">*</span></label>
+                        <input class="form-control" type="text" #accname="ngModel" [(ngModel)]="accountname" name="accountname" placeholder="Enter Account Name" required minlength="2" maxlength="50"/>
+                        <div *ngIf="accname.errors && (accname.dirty || accname.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!accname.errors.required">
+                                Account Name required
+                            </div>
+                            <div [hidden]="!accname.errors.minlength">
+                                Account name must be at least 2 characters long.
+                            </div>
+                            <div [hidden]="!accname.errors.maxlength">
+                                Account Name cannot be more than 50 characters long.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Place</label>
+                        <input placeholder="Search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <input [(ngModel)]="address" name="accountAddress"
+                               type="text"
+                               class="form-control" placeholder="Enter Address">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">City <span style="color: red">*</span></label>
+                        <input [(ngModel)]="city" name="city"
+                               type="text"
+                               class="form-control" placeholder="Enter City" #acc_city="ngModel" required minlength="2" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" (change)="GoogleAddress(acc_city.value,'')">
+                        <div *ngIf="acc_city.errors && (acc_city.dirty || acc_city.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!acc_city.errors.required">
+                                City is required
+                            </div>
+                            <div [hidden]="!acc_city.errors.minlength">
+                                City must be at least 2 characters long.
+                            </div>
+                            <div [hidden]="!acc_city.errors.pattern">
+                                City must be in Characters. Don't use numerical values.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">State</label>
+                        <input [(ngModel)]="state" name="accountState"
+                               type="text" #acc_state="ngModel" (change)="GoogleAddress(acc_city.value,acc_state.value)"
+                               class="form-control" placeholder="Enter State" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                        <div *ngIf="acc_state.errors && (acc_state.dirty || acc_state.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!acc_state.errors.pattern">
+                                State must be in Characters. Don't use numerical values.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Country</label>
+                        <input [(ngModel)]="country" name="accountCountry"
+                               type="text" #acc_country="ngModel"
+                               class="form-control" placeholder="Enter Country" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$">
+                        <div *ngIf="acc_country.errors && (acc_country.dirty || acc_country.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!acc_country.errors.pattern">
+                                State must be in Characters. Don't use numerical values.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Zip</label>
+                        <input [(ngModel)]="zip" name="accountZip" type="text"
+                               class="form-control" placeholder="Enter Zip Code" #acc_zip="ngModel" pattern="^[a-z A-Z 0-9][a-z A-Z 0-9\- ]{0,10}[a-z A-Z 0-9]$">
+                        <div *ngIf="acc_zip.errors && (acc_zip.dirty || acc_zip.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!acc_zip.errors.pattern">
+                                ZIP code must be a digits
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone <span style="color: red">*</span></label>
+                        <input [(ngModel)]="phone" name="phone"
+                               type="text" id="us-phone-mask-input"
+                               class="form-control" [textMask]="{mask: mask}" placeholder="Enter the phone number" #acc_phone="ngModel" required minlength="14" pattern="\(\d{3}\) \d{3}-\d{4}">
+                        <div *ngIf="acc_phone.errors && (acc_phone.dirty || acc_phone.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!acc_phone.errors.required">
+                                Phone Number Required.
+                            </div>
+                            <div [hidden]="!acc_phone.errors.minlength">
+                                Phone Number must be 10 digits long.
+                            </div>
+                            <div [hidden]="!acc_phone.errors.pattern">
+                                Phone Number not valid.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mobile</label>
+                        <input [(ngModel)]="mobile" name="mobile"
+                               type="text" id="us-mobile-mask-input"
+                               class="form-control"  [textMask]="{mask: mask}" placeholder="Enter the mobile number" #acc_mobile="ngModel" minlength="14" pattern="\(\d{3}\) \d{3}-\d{4}">
+                        <div *ngIf="acc_mobile.errors && (acc_mobile.dirty || acc_mobile.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!acc_mobile.errors.minlength">
+                                Phone Number must be 10 digits long.
+                            </div>
+                            <div [hidden]="!acc_mobile.errors.pattern">
+                                Phone Number not valid.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-label">Home</label>
+                        <input [(ngModel)]="home" name="home"
+                               type="text" id="us-home-mask-input"
+                               class="form-control" placeholder="Enter the phone number" [textMask]="{mask: mask}" #acc_home="ngModel" minlength="14" pattern="\(\d{3}\) \d{3}-\d{4}">
+                        <div *ngIf="acc_home.errors && (acc_home.dirty || acc_home.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!acc_home.errors.minlength">
+                                Phone Number must be 10 digits long.
+                            </div>
+                            <div [hidden]="!acc_home.errors.pattern">
+                                Phone Number not valid.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fax</label>
+                        <input [(ngModel)]="fax" id="us-fax-mask-input" name="accountFax"
+                               type="text"
+                               class="form-control"
+                               placeholder="Enter FAX" [textMask]="{mask: mask}" #acc_fax="ngModel" pattern="\(\d{3}\) \d{3}-\d{4}">
+                        <div *ngIf="acc_fax.errors && (acc_fax.dirty || acc_fax.touched)"
+                             class="alert alert-danger">
+                            <div [hidden]="!acc_fax.errors.pattern">
+                                FAX not valid
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Type</label>
+                        <select [(ngModel)]="accounttype" name="accounttype"
+                                class="form-control select2">
+                            <option value="1">Account</option>
+                            <option value="2">Customer</option>
+                            <option value="3">MCM Service</option>
+                            <option value="4">Supplier</option>
+                            <option value="5">Warehouse</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contract</label>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input class="form-control datepicker-only-init display-inline-block margin-inline" placeholder="From" name="datefrom" #dateFrom type="text" onkeydown="return false">
+                            </div>
+                            <div class="col-lg-6">
+                                <input class="form-control datepicker-only-init display-inline-block margin-inline" placeholder="To" name="dateto" #dateTo type="text" onkeydown="return false">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Latitude</label>
+                        <input [(ngModel)]="latitude" name="latitude"
+                               type="text" #acc_latitude="ngModel"
+                               class="form-control">
+                        <div *ngIf="acc_latitude.errors && (acc_latitude.dirty || acc_latitude.touched)"
+                             class="alert alert-danger">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Longitude</label>
+                        <input [(ngModel)]="longitude" name="longitude"
+                               type="text" #acc_longitude="ngModel"
+                               class="form-control">
+                        <div *ngIf="acc_longitude.errors && (acc_longitude.dirty || acc_longitude.touched)"
+                             class="alert alert-danger">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="l38">Description</label>
+                        <textarea [(ngModel)]="description" name="desc" class="form-control" rows="8" id="l38" placeholder="Enter account description here"></textarea>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+                        <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
+                    </sebm-google-map>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary" style="margin-right: 10px;"
+                        [disabled]="!heroForm.form.valid" (click)="createAccount()">Create</button>
+                <button type="button" class="btn btn-secondary" (click)="Navigation('account/overview')">Cancel</button>
+            </div>
+        </form>
+        </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</div>
+

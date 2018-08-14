@@ -1,0 +1,240 @@
+<app-leftmenu></app-leftmenu>
+<app-topmenu></app-topmenu>
+<div class="cat__content">
+
+  <section class="card">
+
+    <div class="card-header">
+        <span class="cat__core__title">
+            <strong>Create Agreement</strong>
+        </span>
+    </div>
+
+    <div class="card-block">
+      <form #formAgreement="ngForm"  (ngSubmit)="onSubmit()">
+
+      <div class="row">
+        <div class="col-lg-7 col-sm-6 col-xs-6">
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 col-xs-6">
+
+                <div class="row">
+
+                  <div class="form-group col-lg-12">
+                    <label class="form-label">Agreement Name <span style="color: #ff1425">*</span></label>
+                    <input [(ngModel)]="AGM_KeyID" type="hidden" name="AGM_KeyID" >
+                    <input placeholder="Agreement Name" (change)="setName(AgreementName.value)"  [(ngModel)]="AGM_Agreement_Name" name="AGM_Agreement_Name"
+                            type="text"
+                            class="form-control col-lg-12" #AgreementName="ngModel" required minlength="3" maxlength="50" autofocus>
+                    <div *ngIf="AgreementName.errors && (AgreementName.dirty || AgreementName.touched)"
+                         class="alert alert-danger col-lg-12" >
+                      <div [hidden]="!AgreementName.errors.required">
+                        Agreement Name is required
+                      </div>
+                      <div [hidden]="!AgreementName.errors.minlength">
+                        Agreement Name must be at least 3 characters long.
+                      </div>
+                      <div [hidden]="!AgreementName.errors.maxlength">
+                        Agreement Name cannot be more than 50 characters long.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-lg-12">
+                    <label class="form-label">Effective Date <span style="color: #ff1425">*</span> </label>
+                    <input placeholder="Effective Date" #Dateval="ngModel" [(ngModel)]="AGM_EffectiveDate" name="AGM_EffectiveDate" #EffectiveDate type="text" (change)="changedate()"
+                           class="form-control col-lg-12 display-inline-block margin-inline datepicker-only-init" (click)="setDate('Y')" >
+
+                  </div>
+
+                  <div class="form-group col-lg-12">
+                    <div  class="row">
+                      <div class="col-lg-6">
+                        <label class="form-label">Renewal Years</label>
+                        <select [(ngModel)]="AGM_Renewal_Years"  name="AGM_Renewal_Years" class="form-control col-lg-10" (change)="changedate()">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                        </select>
+                      </div>
+                      <div class="col-lg-6">
+                        <label class="form-label"></label><br/><br/>
+                        <input class="form-check-input" [(ngModel)]="AGM_Auto_Renewal" type="checkbox" name="AGM_Auto_Renewal" value="Y" >
+                        Auto Renewal
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="form-group col-lg-12">
+                    <label class="form-label">End Date</label>
+                    <input placeholder="End Date" name="AGM_EndDate" #EndDate [value]="END_Date"
+                            [(ngModel)]="AGM_EndDate"
+                            type="text"
+                            class="form-control col-lg-12"
+                            readonly>
+                  </div>
+
+                  <div class="form-group col-lg-12">
+                    <label class="form-label">Renewal Date</label>
+                    <input placeholder="Renewal Date" name="AGM_Renewal_AlertDate" #Renewal_AlertDate [value]="Alert_Date"
+                            [(ngModel)]="AGM_Renewal_AlertDate"
+                            type="text"
+                            class="form-control col-lg-12"
+                            readonly>
+                  </div>
+
+                  <div class="form-group col-lg-12">
+                    <label class="form-check-label">
+                      <input class="form-check-input" [(ngModel)]="AGM_Holiday_Include" type="checkbox" name="AGM_Holiday_Include" value="1" >
+                      Including Holidays
+                    </label>
+                  </div>
+
+                    <div class="form-group col-lg-12">
+                        <h5 class="text-black"><strong>Working Hours</strong></h5>
+                        <label class="form-label">Start Time <span style="color: #ff1425">*</span></label>
+                        <div  class="row">
+
+                            <div class="col-lg-4">
+                                <select [(ngModel)]="AGM_WorkingHours_StartTime_Hours"  name="AGM_WorkingHours_StartTime_Hours" class="form-control col-lg-12" (change)="responseTime(this.AGM_SameDay_Service_Request)" >
+                                    <option *ngFor="let st_hr of hoursArray" value="{{st_hr}}" > {{ st_hr }}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <select [(ngModel)]="AGM_WorkingHours_StartTime_Minutes"  name="AGM_WorkingHours_StartTime_Minutes" class="form-control col-lg-12" (change)="responseTime(this.AGM_SameDay_Service_Request)">
+                                    <option *ngFor="let st_mn of minutesArray" value="{{st_mn}}" > {{ st_mn }}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <select (change)="responseTime(this.AGM_SameDay_Service_Request)" [(ngModel)]="AGM_WorkingHours_StartTime_Sessions"  name="AGM_WorkingHours_StartTime_Sessions" class="form-control">
+                                    <option value="AM" selected>AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label class="form-label">End Time <span style="color: #ff1425">*</span></label>
+                        <div class="row">
+
+                            <div class="col-lg-4">
+                                <select [(ngModel)]="AGM_WorkingHours_EndTime_Hours"  name="AGM_WorkingHours_EndTime_Hours" class="form-control col-lg-12" (change)="responseTime(this.AGM_SameDay_Service_Request)" >
+                                    <option *ngFor="let en_hr of hoursArray" value="{{en_hr}}"  > {{ en_hr }}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <select [(ngModel)]="AGM_WorkingHours_EndTime_Minutes"  name="AGM_WorkingHours_EndTime_Minutes" class="form-control col-lg-12" (change)="responseTime(this.AGM_SameDay_Service_Request)">
+                                    <option *ngFor="let en_mn of minutesArray" value="{{en_mn}}" > {{ en_mn }}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <select (change)="responseTime(this.AGM_SameDay_Service_Request)" [(ngModel)]="AGM_WorkingHours_EndTime_Sessions" name="AGM_WorkingHours_EndTime_Sessions" class="form-control">
+                                    <option value="AM" selected>AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="TimeError" class="alert alert-danger col-lg-12">
+                            <div> Start and End Time should not be same.</div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+              </div>
+              <div class="col-lg-6 col-sm-6 col-xs-6">
+
+                <div class="">
+
+
+                  <strong>One Week Response Service </strong>
+                  <div class="mb-5 col-lg-12">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input checked="" class="form-check-input" id="exampleRadios1" [(ngModel)]="AGM_OneWeek_Response_Service" name="AGM_OneWeek_Response_Service" value="5" type="radio">
+                        5 Days per week
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" id="exampleRadios2" [(ngModel)]="AGM_OneWeek_Response_Service" name="AGM_OneWeek_Response_Service" value="7" type="radio">
+                        7 Days per week
+                      </label>
+                    </div>
+                  </div>
+
+                  <strong>Premium Service</strong>
+                  <div class="mb-5 col-lg-12">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input checked="" class="form-check-input" (click)="responseTime('1')" [(ngModel)]="AGM_SameDay_Service_Request" name="AGM_SameDay_Service_Request" value="1" type="radio">
+                        Same Day Service Request
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" (click)="responseTime('2')" [(ngModel)]="AGM_SameDay_Service_Request" name="AGM_SameDay_Service_Request" value="2" type="radio">
+                        Next Day Service Request
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" (click)="responseTime('3')" [(ngModel)]="AGM_SameDay_Service_Request" name="AGM_SameDay_Service_Request" value="3" type="radio">
+                        Service Request in Days
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-lg-12">
+                    <label class="form-label">Response Time</label>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <select [(ngModel)]="AGM_Response_Time_Hours"  name="AGM_Response_Time_Hours" class="form-control col-lg-12" [disabled]="buttonState()">
+                          <option *ngFor="let tf_hrs of tfhoursArray" value="{{tf_hrs}}" > {{ tf_hrs }}</option>
+                        </select>
+                      </div>
+                      <div class="col-lg-4">
+                        <select  [(ngModel)]="AGM_Response_Time_Minutes"  name="AGM_Response_Time_Minutes" class="form-control col-lg-12" [disabled]="buttonState()">
+                          <option *ngFor="let en_mn of minutesArray" value="{{en_mn}}" > {{ en_mn }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-lg-12">
+                    <label class="form-label">Service Request Days</label>
+                    <div class="row col-lg-6">
+                      <input placeholder="Days" id="reqdays" class="form-control col-lg-8" type="text" [readonly]="requestDaysstatus()" [(ngModel)]="AGM_Service_Request"  name="AGM_Service_Request" onkeypress=" if(event.charCode == 48 || event.charCode == 49|| event.charCode == 50|| event.charCode == 51|| event.charCode == 52|| event.charCode == 53|| event.charCode == 54|| event.charCode == 55|| event.charCode == 56 || event.charCode == 57 || event.charCode == 0 || event.charCode == 46) { return true } else { return false } ">
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="row col-lg-12">
+        <button type="submit" class="btn btn-primary" style="margin-right: 10px" [disabled]="allowasset()" (click)="createAgreement()">Create</button>
+        <button type="button" class="btn btn-secondary" (click)="Navigation('account/overview')">Cancel</button>
+      </div>
+      </form>
+    </div>
+  </section>
+  <app-footer></app-footer>
+
+</div>

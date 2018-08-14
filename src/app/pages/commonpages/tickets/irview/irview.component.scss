@@ -1,0 +1,132 @@
+/* Font */
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+a {
+  text-decoration: none;
+}
+
+/* Vertical Align */
+.vertAlign {
+  display: table;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.vertAlignInt {
+  display: table-cell;
+  width: 100%;
+  height: 400px;
+  vertical-align: middle;
+  float: left;
+}
+
+/* Wrapper */
+.wrapper {
+  width: 1000px;
+  margin: 0 auto;
+  text-align: left;
+}
+h3 {
+  margin-bottom: 15px;
+}
+h3 span {
+  font-size: 16px;
+  color: #98d768;
+}
+
+/* Gallery */
+.galleryFade ul li {
+  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+}
+#gallery:hover > ul li {
+  opacity: 0.3;
+}
+#gallery:hover > ul li:hover {
+  opacity: 1;
+}
+#gallery ul {
+  list-style-type: none;
+}
+#gallery ul li {
+  position: relative;
+  display: inline-block;
+  width: 247px;
+}
+#gallery ul li i {
+  position: absolute;
+  margin: 10px 0 0 10px;
+  color: #aaa;
+}
+#gallery ul li a {
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 175px;
+}
+#gallery ul li a:hover span {
+  display: block;
+}
+#gallery ul li a span {
+  z-index: 10 !important;
+  border-radius: 3px;
+  position: absolute;
+  content: "";
+  display: block;
+  border: 4px solid #98d768;
+  width: 250px;
+  height: 175px;
+  margin: -4px;
+  display: none;
+}
+
+/* Footer */
+footer {
+  z-index: 999;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 0 15px 15px 0;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+footer i {
+  font-size: 15px !important;
+  vertical-align: middle;
+  margin: -2px 0 0 15px;
+}
+footer a:hover {
+  color: #98d768;
+}
+
+.galleryFade{
+  overflow: hidden;
+  border: none;
+}
+iframe img
+{
+  width: 100% !important;
+  height: 100% !important;
+}.shrinkToFit {
+   cursor: zoom-in;
+   width: 100%;
+   height: 100%;
+ }
+
+ .irimg
+ {
+   width: 150px;
+   height: 150px;
+ }
+ .margbottom{
+   margin-bottom: 15px;
+ }

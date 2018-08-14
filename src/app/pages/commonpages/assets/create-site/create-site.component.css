@@ -1,0 +1,11 @@
+.alert
+{
+    padding: 5px;
+}
+.sebm-google-map-container {
+    height: 300px;
+}
+.scroll{
+    height: 892px;
+    overflow-y: scroll;
+}

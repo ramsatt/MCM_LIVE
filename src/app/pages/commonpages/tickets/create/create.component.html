@@ -1,0 +1,1943 @@
+<div class="cat__content">
+    <div class='container' *ngIf="TicketSubmitStatus === true">
+        <div class='loader'>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
+        </div>
+    </div>
+    <section class="card" *ngIf="TicketSubmitStatus === false">
+        <div class="card-header">
+        <span class="cat__core__title">
+            <strong>New Ticket Entry</strong> <span class="pull-right"><button
+                class="btn btn-rounded btn-outline-danger mr-2 mb-2" type="button"
+                (click)="Cancel_Ticket('tickets/overview')">Cancel</button></span>
+        </span>
+        </div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>Account Reference Number</label>
+                        <input class="form-control" placeholder="Reference Number" type="text"
+                               [(ngModel)]="AccountRefNumber" (change)="UpdateAccRefNumber()">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4" *ngIf="AccountRefNumber !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Account <span><button type="button"
+                                                                             class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                             style="padding: 5px;
+    margin-bottom: 5px;" (click)="ShowAccountModel()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 *ngFor="let acc of SelectedAccountArray">
+                                <div class="panel panel-default card-view pa-0">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pa-0">
+                                            <div class="sm-data-box bg-red">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                                            <span class="txt-light block counter"><span
+                                                                    class="counter-anim">{{acc.Acc_Name}}</span></span>
+                                                            <span class="weight-500 uppercase-font txt-light block font-13">{{acc.Acc_City}}</span>
+                                                        </div>
+                                                        <div class="col-md-3 text-center  pl-0 pr-0 data-wrap-right">
+                                                            <i class="fa fa-home txt-light data-right-rep-icon"></i>
+                                                            <span class="pull-right" (click)="RemoveAccount()"><i
+                                                                    class="fa fa-close txt-light"></i> </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><app-shimmer *ngIf="AccountLoaderStatus === true"></app-shimmer></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" *ngIf="ScltAccID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Site<span><button type="button"
+                                                                          class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                          style="padding: 5px;
+    margin-bottom: 5px;" (click)="ShowSiteModalBox(); LoadSites(ScltAccID);"><i class="icmn-plus"
+                                                                                aria-hidden="true"></i></button></span>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 *ngFor="let S_site of SelectedSiteArray">
+                                <div class="panel panel-default card-view pa-0">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pa-0">
+                                            <div class="sm-data-box bg-green">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-9 col-xs-9 text-center pl-0 pr-0 data-wrap-left">
+                                                            <span class="txt-light block counter"><span
+                                                                    class="counter-anim">{{S_site.SM_SiteName}}</span></span>
+                                                          <span class="weight-500 uppercase-font txt-light block font-13">{{S_site.SM_Address}}, {{S_site.SM_City}}, {{S_site.SM_State}} - {{S_site.SM_Zip}} </span>
+                                                        </div>
+                                                        <div class="col-md-3 col-xs-3 text-center  pl-0 pr-0 data-wrap-right">
+                                                            <i class="icmn-library txt-light data-right-rep-icon"></i>
+                                                            <span class="pull-right" (click)="RemoveSite()"><i
+                                                                    class="fa fa-close txt-light"></i> </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><app-shimmer *ngIf="SiteLoaderStatus === true"></app-shimmer></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" *ngIf="ScltSiteID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Branch<span><button type="button"
+                                                                            class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                            style="padding: 5px;
+    margin-bottom: 5px;" (click)="ShowBranchModal()" [disabled]="BranchModelClicked"><i class="icmn-plus"
+                                                                                        aria-hidden="true"></i></button></span>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 *ngFor="let S_Branch of SelectedBranchArray">
+                                <div class="panel panel-default card-view pa-0">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pa-0">
+                                            <div class="sm-data-box bg-blue">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                                            <span class="txt-light block counter"><span
+                                                                    class="counter-anim">{{S_Branch.Branch_Name}}</span></span>
+                                                            <span class="weight-500 uppercase-font txt-light block font-13">{{S_Branch.Branch_City}}, {{S_Branch.Branch_State}}</span>
+                                                        </div>
+                                                        <div class="col-md-3 text-center  pl-0 pr-0 data-wrap-right">
+                                                            <i class="icmn-office txt-light data-right-rep-icon"></i>
+                                                            <span class="pull-right" (click)="RemoveBranch()"><i
+                                                                    class="fa fa-close txt-light"></i> </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><app-shimmer *ngIf="BranchLoaderStatus === true"></app-shimmer></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4" *ngIf="ScltSiteID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Account Contact<span><button type="button"
+                                                                                     class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                                     style="padding: 5px;
+    margin-bottom: 5px;" (click)="ShowAccountContactModel()"><i class="icmn-plus"
+                                                                aria-hidden="true"></i></button></span></h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                            <div class="col-md-12 bg-white p-1">
+
+                                <div class="mail-list ps ps--theme_default ps--active-y" perfect-scrollbar=""
+                                     style="position: relative;" data-ps-id="37d79086-d3b8-6a25-6b6b-b3579064194d">
+                                    <div class="mail-list-item pb-2 pt-2 pl-1 pr-2 transititon unread"
+                                         *ngFor="let A_C of SelectedAccountContactArray">
+                                        <div class="media">
+                                            <!----><img class="d-flex mr-3 w-50p"
+                                                        src="{{FileBasePath}}uploads/user_images/{{A_C.AUD_AM_KeyID}}/avatars/{{A_C.AUD_User_Image}}" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                            <!---->
+                                            <div class="media-body overflow-hidden">
+                                                <div class="d-flex justify-content-between">
+                                                    <h6 class="text-truncate mail-sender">{{A_C.UM_First_Name}}</h6>
+                                                    <small class="mail-date" (click)="RemoveAccContact(A_C)">X</small>
+                                                </div>
+                                                <p class="mail-subject mb-0 text-truncate">{{A_C.UM_EmailID}}</p>
+                                                <p class="mail-subject mb-0 text-truncate">{{A_C.AUD_Cell}}</p>
+                                                <p class="mail-subject mb-0">{{A_C.AUD_Additional_EmailID}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><app-shimmer *ngIf="AccountContactLoaderStatus === true"></app-shimmer></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4" *ngIf="ScltSiteID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Site Contact<span><button type="button"
+                                                                                  class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                                  style="padding: 5px;
+    margin-bottom: 5px;" (click)="ShowSiteConModal()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+
+                            <div class="col-md-12 bg-white p-1">
+
+                                <div class="mail-list ps ps--theme_default ps--active-y" perfect-scrollbar=""
+                                     style="position: relative;" data-ps-id="37d79086-d3b8-6a25-6b6b-b3579064194d">
+
+                                    <div class="mail-list-item pb-2 pt-2 pl-1 pr-2 transititon unread"
+                                         *ngFor="let S_User of SelectedSiteContactArray">
+                                        <div class="media">
+                                            <!----><img class="d-flex mr-3 w-50p"
+                                                        src="{{FileBasePath}}uploads/user_images/siteuser/{{S_User.SUD_SM_KeyID}}/avatars/{{S_User.SUD_User_image}}" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                            <!---->
+                                            <div class="media-body overflow-hidden">
+                                                <div class="d-flex justify-content-between">
+                                                    <h6 class="text-truncate mail-sender">{{S_User.UM_First_Name}}</h6>
+                                                    <small class="mail-date" (click)="Remove_Site_Contact(S_User)">X
+                                                    </small>
+                                                </div>
+                                                <p class="mail-subject mb-0 text-truncate">{{S_User.UM_EmailID}}</p>
+                                                <p class="mail-subject mb-0 text-truncate">{{S_User.SUD_Cell}}</p>
+                                                <p class="mail-subject mb-0">{{S_User.SUD_Additional_EmailID}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><app-shimmer *ngIf="SiteContactLoaderStatus === true"></app-shimmer></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" *ngIf=" ScltBranchID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Branch Contact<span><button type="button"
+                                                                                    class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                                    style="padding: 5px;
+    margin-bottom: 5px;" (click)="ShowBranchUserModalBox()"><i class="icmn-plus" aria-hidden="true"></i></button></span>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+
+                            <div class="col-md-12 bg-white p-1">
+                                <div class="mail-list ps ps--theme_default ps--active-y" perfect-scrollbar=""
+                                     style="position: relative;" data-ps-id="37d79086-d3b8-6a25-6b6b-b3579064194d">
+
+                                    <div class="mail-list-item pb-2 pt-2 pl-1 pr-2 transititon unread"
+                                         *ngFor="let S_Branch_Contact of SelectedBranchContactArray">
+                                        <div class="media">
+                                            <!----><img *ngIf="S_Branch_Contact.UM_URM_KeyID === '4'" class="d-flex mr-3 w-50p"
+                                                        src="{{FileBasePath}}uploads/user_images/branch/{{S_Branch_Contact.BUD_BM_KeyID}}/avatars/{{S_Branch_Contact.BUD_User_image}}" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                          <img *ngIf="S_Branch_Contact.UM_URM_KeyID === '7'" class="d-flex mr-3 w-50p"
+                                                        src="{{FileBasePath}}{{S_Branch_Contact.TUD_Technician_Image}}">
+                                            <!---->
+                                            <div class="media-body overflow-hidden">
+                                                <div class="d-flex justify-content-between">
+                                                    <h6 class="text-truncate mail-sender">
+                                                        {{S_Branch_Contact.UM_First_Name}}</h6>
+                                                    <small class="mail-date"
+                                                           (click)="Remove_Branch_Contact(S_Branch_Contact)">X
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><app-shimmer *ngIf="BranchContactLoaderStatus === true"></app-shimmer></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6" *ngIf="ScltSiteID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Asset<span>
+                                    <button type="button"
+                                            class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                            style="padding: 5px;
+    margin-bottom: 5px;" (click)="ShowAssetModalBox()"><i class="icmn-plus" aria-hidden="true"></i></button></span></h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 *ngFor="let S_Asset of SelectedAssetArray">
+                                <div class="panel panel-default card-view pa-0">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pa-0">
+                                            <div class="sm-data-box bg-pink">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                                            <span class="txt-light block counter"><span
+                                                                    class="counter-anim">{{S_Asset.ASM_Asset_Name}}</span></span>
+                                                            <span class="weight-500 uppercase-font txt-light block font-13">Model: {{S_Asset.MM_Model_Name}}</span>
+                                                            <span class="weight-500 uppercase-font txt-light block font-13">Serial No.: {{S_Asset.ASM_Serial_No}}</span>
+                                                        </div>
+                                                        <div class="col-md-3 text-center  pl-0 pr-0 data-wrap-right">
+                                                            <i class="icmn-briefcase txt-light data-right-rep-icon"></i>
+                                                            <span class="pull-right" (click)="RemoveAsset()"><i
+                                                                    class="fa fa-close txt-light"></i> </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><app-shimmer *ngIf="AssetLoaderStatus === true"></app-shimmer></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" *ngIf="ScltAssetID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Service Request<span><button type="button"
+                                                                                     class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                                     style="padding: 5px;
+    margin-bottom: 5px;" (click)="ShowServiceRequestModal()"><i class="icmn-plus"
+                                                                aria-hidden="true"></i></button></span></h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 *ngFor="let S_ASR of SelectedServicerequestAarray">
+                                <div class="panel panel-default card-view pa-0">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pa-0">
+                                            <div class="sm-data-box bg-yellow">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                                            <span class="txt-light block counter"><span
+                                                                    class="counter-anim">{{S_ASR.SR_Name}}</span></span>
+                                                            <span class="weight-500 uppercase-font txt-light block font-13">{{S_ASR.SR_Desc}}</span>
+
+                                                        </div>
+                                                        <div class="col-md-3 text-center  pl-0 pr-0 data-wrap-right">
+                                                            <i class="icmn-wrench txt-light data-right-rep-icon"></i>
+                                                            <span class="pull-right" (click)="Remove_SR()"><i
+                                                                    class="fa fa-close txt-light"></i> </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><app-shimmer *ngIf="ServiceLoaderStatus === true"></app-shimmer></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="ScltServiceRequestID !== ''">
+                <app-srdetails [KICount]="KICountChange" [SolCount]="SolCountChange" [AccountID]="ScltAccID" [ServiceRequestID]="ScltServiceRequestID" [ModelID]="ScltModelID" [TicketID]="TicketID" (updateKICount)="KICountChangeEmit($event)" (updateSolCount)="SolCountChangeEmit($event)"></app-srdetails>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" *ngIf="ScltServiceRequestID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12"><h5 class="acc_heading" style="margin-bottom: 12px">Problem
+                                Description<span></span></h5></div>
+                        </div>
+                        <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>Problem Description</label>
+                                    <textarea class="form-control" rows="5" [(ngModel)]="ProblemDescription"
+                                              (change)="Problem_Description_Update()"></textarea>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" *ngIf="ScltServiceRequestID !== ''">
+                    <div class="asign_space">
+                        <div class="row acc_header row_margin">
+                            <div class="col-lg-12">
+                                <h5 class="acc_heading">Allotted Parts <span class="pull-right"><button type="button"
+                                                                                                        class="btn btn-icon btn-warning pull-right btn-rounded margin-inline"
+                                                                                                        style="padding: 5px;
+    margin-bottom: 5px;" (click)="Load_Tickets_Parts();"><i class="icmn-spinner9" aria-hidden="true"></i></button></span></h5>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                            <h2 *ngIf="HeroKitPartAvailable">Hero Kit Parts</h2>
+                            <table class="table table-hover" id="All_Hero_Part_List" *ngIf="HeroKitPartAvailable">
+                                <thead>
+                                <tr>
+                                    <th>Part Name</th>
+                                    <th>Image</th>
+                                    <th>Required Qty.</th>
+                                    <th>Current Stock</th>
+                                    <th>Target Stock</th>
+                                    <th>Replenishment</th>
+                                    <th>Virtual Stock</th>
+                                    <th>Allotted Qty.</th>
+                                    <th>Total Reserved Qty.</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let RP of Ticket_Req_PartsArray">
+                                    <td *ngIf="RP.HeroKit === 'Y'">{{RP.PM_Part_Name}}</td>
+                                    <td *ngIf="RP.HeroKit === 'Y'">
+                                      <img *ngIf="RP.PM_Part_Image_Path !== ''" src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}" alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                    </td>
+                                    <td *ngIf=" RP.HeroKit === 'Y'">
+                                        <input type="number" class="form-control" [(ngModel)]="RP.COUNT"/>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'Y'">
+                                        <b>{{RP.Stock}}</b>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'Y'">
+                                        <b>{{RP.Target_Stock}}</b>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'Y'">
+                                        <b>{{RP.Replenishment}}</b>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'Y'">
+                                        <b>{{RP.Shipped_Virtual_Stock}}</b>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'Y'">
+                                        <b>{{this.GetReservedStock(RP.COUNT, RP.Stock, RP.Reserved_Stock)}}</b>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'Y'">
+                                        <b>{{RP.Reserved_Stock}}</b>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <h2 *ngIf="NonHeroKitPartAavailable">Non Hero Kit Parts</h2>
+                            <table class="table table-hover" id="All_non_Hero_Part_List" *ngIf="NonHeroKitPartAavailable">
+                                <thead>
+                                <tr>
+                                    <th>Part Name</th>
+                                    <th>Image</th>
+                                    <th>Required Qty.</th>
+                                    <th>Current Stock</th>
+                                    <th>Target Stock</th>
+                                    <th>Replenishment</th>
+                                    <th>Virtual Stock</th>
+                                    <th>Allotted Qty.</th>
+                                    <th>Total Reserved Qty.</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let RP of Ticket_Req_PartsArray">
+                                    <td *ngIf="RP.HeroKit === 'N'">{{RP.PM_Part_Name}}</td>
+                                    <td *ngIf="RP.HeroKit === 'N'"><img *ngIf="RP.PM_Part_Image_Path !== ''"
+                                                                          src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}"
+                                                                          alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'N'">
+                                        <input type="number" class="form-control"
+                                               [(ngModel)]="RP.COUNT"/>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'N'">
+                                        {{RP.Stock}}
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'N'">
+                                        {{RP.Target_Stock}}
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'N'">
+                                        <b>{{RP.Replenishment}}</b>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'N'">
+                                        {{RP.Shipped_Virtual_Stock}}
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'N'">
+                                        {{this.GetReservedStock(RP.COUNT, RP.Stock, RP.Reserved_Stock)}}
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'N'">
+                                        {{RP.Reserved_Stock}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <h2 *ngIf="NewPartAvailable">Branch New Parts</h2>
+                            <table class="table table-hover" id="All_New_List" *ngIf="NewPartAvailable">
+                                <thead>
+                                <tr>
+                                    <th>Part Name</th>
+                                    <th>Image</th>
+                                    <th>Required Qty.</th>
+                                    <th>Current Stock</th>
+                                    <th>Target Stock</th>
+                                    <th>Replenishment</th>
+                                    <th>Virtual Stock</th>
+                                    <th>Allotted Qty.</th>
+                                    <th>Total Reserved Qty.</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let RP of Ticket_Req_PartsArray">
+                                    <td *ngIf="RP.HeroKit === 'NIL'">{{RP.PM_Part_Name}}</td>
+                                    <td *ngIf="RP.HeroKit === 'NIL'"><img *ngIf="RP.PM_Part_Image_Path !== ''"
+                                                                          src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}"
+                                                                          alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'NIL'">
+                                        <input type="number" class="form-control"
+                                               [(ngModel)]="RP.COUNT"/>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'NIL'">
+                                        {{RP.Stock}}
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'NIL'">
+                                        {{RP.Target_Stock}}
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'NIL'">
+                                        <b>{{RP.Replenishment}}</b>
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'NIL'">
+                                        {{RP.Shipped_Virtual_Stock}}
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'NIL'">
+                                        {{this.GetReservedStock(RP.COUNT, RP.Stock, RP.Reserved_Stock)}}
+                                    </td>
+                                    <td *ngIf="RP.HeroKit === 'NIL'">
+                                        {{RP.Reserved_Stock}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="ScltServiceRequestID !== ''">
+        <span class="pull-right">
+          <button class="btn btn-primary pull-right" (click)="PreviewModel();Preview_Ticket_Info();">Preview</button>
+        </span>
+            </div>
+        </div>
+    </section>
+    <app-footer></app-footer>
+</div>
+
+<div class="modal fade modal-size-large" id="accountModel" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Select Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="All_Account_List">
+                    <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Country</th>
+                        <th>Zip</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let acc of AllAccountsArray">
+                        <td>{{acc.AM_Name}}</td>
+                        <td>{{acc.AM_City}}</td>
+                        <td>{{acc.AM_State}}</td>
+                        <td>{{acc.AM_Country}}</td>
+                        <td>{{acc.AM_Zip}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success btn-rounded" type="button"
+                                    (click)="assignAccount(acc.AM_KeyID,acc.AM_Name, acc.AM_City )">ADD
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-size-large" id="accountContactModel" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Account Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="AccConForm" (ngSubmit)="CreateAccContact(AccConForm.value)" #AccountContactForm>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Category <span style="color: red">*</span></label>
+                                    <select class="form-control select2" formControlName="Category" #category (change)="LoadTicketEmailStatus('2', category.value)">
+                                        <option class="select2-dropdown" *ngFor="let category of AccUserCategoryArray" [value]="category.UCM_KeyID">{{category.UCM_Category_Name}}</option>
+                                    </select>
+                                <div class="alert" *ngIf="!AccConForm.controls['Category'].valid && (AccConForm.controls['Category'].touched)">
+                                    <div [hidden]="!AccConForm.controls['Category'].errors.required">
+                                        Category name is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>First Name <span style="color: red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter first name" formControlName="FirstName">
+                                <div class="alert" *ngIf="!AccConForm.controls['FirstName'].valid && (AccConForm.controls['FirstName'].touched)">
+                                    <div [hidden]="!AccConForm.controls['FirstName'].errors.required">
+                                        First name is required.
+                                    </div>
+                                    <div [hidden]="!AccConForm.controls['FirstName'].errors.minlength">
+                                        First name must have 3 characters length.
+                                    </div>
+                                    <div [hidden]="!AccConForm.controls['FirstName'].errors.maxlength">
+                                        First name with in 1500 characters length.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" placeholder="Enter last name" formControlName="LastName">
+                                <div class="alert" *ngIf="!AccConForm.controls['LastName'].valid && (AccConForm.controls['LastName'].touched)">
+                                    <div [hidden]="!AccConForm.controls['LastName'].errors.minlength">
+                                        Last name must have 3 characters length.
+                                    </div>
+                                    <div [hidden]="!AccConForm.controls['LastName'].errors.maxlength">
+                                        Last name with in 1500 characters length.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email <span style="color: red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter email" formControlName="Email" (change)="checkunique($event,'')">
+                                <div class="alert" *ngIf="!AccConForm.controls['Email'].valid && (AccConForm.controls['Email'].touched)">
+                                    <div [hidden]="!AccConForm.controls['Email'].errors.required">
+                                        Email required.
+                                    </div>
+                                    <div [hidden]="!AccConForm.controls['Email'].errors.email">
+                                        Email not valid.
+                                    </div>
+                                </div>
+                                <div  class="alert alert-danger" id="existmailedit" style="display:none">Email already exists .</div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Additional Email</label>
+                                <input class="form-control"  placeholder="Enter the Email" type="text" formControlName="AltEmail"   >
+                                <div class="alert" *ngIf="!AccConForm.controls['AltEmail'].valid && (AccConForm.controls['AltEmail'].touched)">
+                                    <div [hidden]="!AccConForm.controls['AltEmail'].errors.required">
+                                        Email required.
+                                    </div>
+                                    <div [hidden]="!AccConForm.controls['AltEmail'].errors.pattern">
+                                        Email not valid.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Mobile <span style="color: red">*</span></label>
+                                <input type="text" id="mobile_number" class="form-control" placeholder="Enter mobile number" formControlName="Mobile"  [textMask]="{mask: mask}">
+                                <div class="alert" *ngIf="!AccConForm.controls['Mobile'].valid && (AccConForm.controls['Mobile'].touched)">
+                                    <div [hidden]="!AccConForm.controls['Mobile'].errors.required">
+                                        Mobile number required.
+                                    </div>
+                                    <div [hidden]="!AccConForm.controls['Mobile'].errors.minlength">
+                                        Mobile number must be 10 digits long.
+                                    </div>
+                                    <div [hidden]="!AccConForm.controls['Mobile'].errors.pattern">
+                                        Mobile number not valid.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <label class="form-control-label">User Image</label>
+                                <br>
+                                    <input type="file" class="dropify" formControlName="Image" #AccUserImg>
+                                    <br>
+                                    <small>Please upload user image less than 1.5 MB (.jpg, .png, .jpeg, .bmp)</small>
+                                <div class="alert" *ngIf="!AccConForm.controls['Image'].valid && (AccConForm.controls['Image'].touched)">
+                                    <div [hidden]="!AccConForm.controls['Image'].errors">
+                                       User image required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5>Email Settings</h5>
+                            <hr>
+                            <P>By choosing the above category, these are the notifications that contact will receive</P>
+                            <ol>
+                                <li *ngFor="let email of EmailStatusList">{{email.TSM_Status}}</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5>Email update for this contact</h5>
+                            <hr>
+                            <form>
+                                <input type="radio" value="S" name="status" [(ngModel)]="AccTicketEmailStatus"> This ticket only
+                                <input type="radio" value="A" name="status" [(ngModel)]="AccTicketEmailStatus"> All tickets
+                            </form>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="submit" class="btn btn-primary" value="Submit" [disabled]="!AccConForm.valid || loaduniqueemaillen !== 0">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="SelectaccountContactModel" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Account Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span class="pull-right"><button class="btn btn-primary" (click)="CreateNewAccContactModal()">Create New</button></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-hover" id="All_Account_Contact_List">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let acc_user of AllAccountContactsArray">
+                                <td>{{acc_user.UM_First_Name}} {{acc_user.UM_Last_Name}}</td>
+                                <td>{{acc_user.UM_EmailID}}</td>
+                                <td>{{acc_user.AUD_Cell}}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success btn-rounded" type="button"
+                                            (click)="AssignAccountContact(acc_user);">ADD
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="AssetModalBox" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Asset</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="Site_Asset_Table">
+                    <thead>
+                    <tr>
+                        <th>Asset Name</th>
+                        <th>Model</th>
+                        <th>Serial Number</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let asset of AllAssetsArray">
+                        <td>{{asset.ASM_Asset_Name}}</td>
+                        <td>{{asset.MM_Model_Name}}</td>
+                        <td>{{asset.ASM_Serial_No}}</td>
+                        <td>
+                            <button *ngIf="asset.ASM_IsActive==='Y'; else AssetNotActive" class="btn btn-sm btn-success btn-rounded" type="button"
+                                    (click)="AssignAsset(asset)">ADD
+                            </button>
+                          <ng-template #AssetNotActive><span class="badge badge-danger mr-4 mb-4">This asset is not active, contact MCM</span></ng-template>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="BranchModalBox" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Branch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="All_Branch_Table">
+                    <thead>
+                    <tr>
+                        <th>Branch Name</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let A_Branch of AllBranchesArray">
+                        <td>{{A_Branch.BM_Branch_Name}}</td>
+                        <td>{{A_Branch.BM_City}}</td>
+                        <td>{{A_Branch.BM_State}}</td>
+                        <td>
+                            <button *ngIf="A_Branch.BM_IsActive === 'Y';else BranchNotActive" class="btn btn-sm btn-success btn-rounded" type="button"
+                                    (click)="AssignBranch(A_Branch.BM_KeyID, A_Branch.BM_Branch_Name, A_Branch.BM_City, A_Branch.BM_State)">
+                                ADD
+                            </button>
+                          <ng-template #BranchNotActive> <span class="badge badge-danger mr-2 mb-2">This branch is not active, contact MCM</span></ng-template>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="BranchContactModel" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Branch Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="AllBranchContactArray.length !== 0">
+              <table class="table table-hover" id="Branch_User_Table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let A_BranchUser of AllBranchContactArray">
+                        <td>{{A_BranchUser.UM_First_Name}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success btn-rounded" type="button"
+                                    (click)="AssignBranchContact(A_BranchUser)">ADD
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+              </div>
+              <div *ngIf="AllBranchContactArray.length === 0">
+                <h3>Technicians</h3>
+                <table class="table table-hover" id="Technician_User_Table">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let A_Tech_User of AllTechContactArray">
+                    <td>{{A_Tech_User.UM_First_Name}}</td>
+                    <td>
+                      <button class="btn btn-sm btn-success btn-rounded" type="button"
+                              (click)="AssignTechContact(A_Tech_User)">ADD
+                      </button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="ServiceRequestModal" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Service Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="Service_Request_Table">
+                    <thead>
+                    <tr>
+                        <th>Service request</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let A_S_R of AllServiceRequestArray">
+                        <td>{{A_S_R.ASRM_Name}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success btn-rounded" type="button"
+                                    (click)="AssignServiceRequest(A_S_R.ASRM_KeyID, A_S_R.ASRM_Name, A_S_R.ASRM_Description, A_S_R.ASRM_Disable, A_S_R.AMSRD_KeyID)">
+                                ADD
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--SiteModal-->
+<div class="modal fade modal-size-large" id="SiteModalBox" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Site</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="All_Site_List">
+                    <thead>
+                    <tr>
+                        <th>Site</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Country</th>
+                        <th>Zip</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let site of SiteArray">
+                        <td>{{site.SM_SiteName}}</td>
+                        <td>{{site.SM_City}}</td>
+                        <td>{{site.SM_State}}</td>
+                        <td>{{site.SM_Country}}</td>
+                        <td>{{site.SM_Zip}}</td>
+                        <td>
+                            <button *ngIf="site.SM_IsActive === 'Y';else SiteDisabled" class="btn btn-sm btn-success btn-rounded" type="button"
+                                    (click)="AssignSite(site)">ADD
+                            </button>
+                          <ng-template #SiteDisabled> <span class="badge badge-danger mr-4 mb-4">This site is not active, contact MCM</span></ng-template>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="siteContactModal" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Site Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="SiteConForm" (ngSubmit)="CreateSiteContact(SiteConForm.value)" #SiteContactForm>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Category <span style="color: red">*</span></label>
+                                <select class="form-control select2" formControlName="Category" #Sitecategory (change)="LoadTicketEmailStatus('3', Sitecategory.value)">
+                                    <option class="select2-dropdown" *ngFor="let category of SiteContactCategoryList" [value]="category.UCM_KeyID">{{category.UCM_Category_Name}}</option>
+                                </select>
+                                <div class="alert" *ngIf="!SiteConForm.controls['Category'].valid && (SiteConForm.controls['Category'].touched)">
+                                    <div [hidden]="!SiteConForm.controls['Category'].errors.required">
+                                        Category name is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>First Name <span style="color: red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter first name" formControlName="FirstName">
+                                <div class="alert" *ngIf="!SiteConForm.controls['FirstName'].valid && (SiteConForm.controls['FirstName'].touched)">
+                                    <div [hidden]="!SiteConForm.controls['FirstName'].errors.required">
+                                        First name is required.
+                                    </div>
+                                    <div [hidden]="!SiteConForm.controls['FirstName'].errors.minlength">
+                                        First name must have 3 characters length.
+                                    </div>
+                                    <div [hidden]="!SiteConForm.controls['FirstName'].errors.maxlength">
+                                        First name with in 1500 characters length.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" placeholder="Enter last name" formControlName="LastName">
+                                <div class="alert" *ngIf="!SiteConForm.controls['LastName'].valid && (SiteConForm.controls['LastName'].touched)">
+                                    <div [hidden]="!SiteConForm.controls['LastName'].errors.minlength">
+                                        Last name must have 3 characters length.
+                                    </div>
+                                    <div [hidden]="!SiteConForm.controls['LastName'].errors.maxlength">
+                                        Last name with in 1500 characters length.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email <span style="color: red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter email" formControlName="Email" (change)="checkunique($event,'')">
+                                <div class="alert" *ngIf="!SiteConForm.controls['Email'].valid && (SiteConForm.controls['Email'].touched)">
+                                    <div [hidden]="!SiteConForm.controls['Email'].errors.required">
+                                        Email required.
+                                    </div>
+                                    <div [hidden]="!SiteConForm.controls['Email'].errors.email">
+                                        Email not valid.
+                                    </div>
+                                </div>
+                                <div  class="alert alert-danger" id="existmail" style="display:none">Email already exists .</div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Additional Email</label>
+                                <input class="form-control"  placeholder="Enter the Email" type="text" formControlName="AltEmail"   >
+                                <div class="alert" *ngIf="!SiteConForm.controls['AltEmail'].valid && (SiteConForm.controls['AltEmail'].touched)">
+                                    <div [hidden]="!SiteConForm.controls['AltEmail'].errors.required">
+                                        Email required.
+                                    </div>
+                                    <div [hidden]="!SiteConForm.controls['AltEmail'].errors.pattern">
+                                        Email not valid.
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mobile <span style="color: red">*</span></label>
+                                <input type="text" id="mobile_number_Site" class="form-control" placeholder="Enter mobile number" formControlName="Mobile" [textMask]="{mask: mask}">
+                                <div class="alert" *ngIf="!SiteConForm.controls['Mobile'].valid && (SiteConForm.controls['Mobile'].touched)">
+                                    <div [hidden]="!SiteConForm.controls['Mobile'].errors.required">
+                                        Mobile number required.
+                                    </div>
+                                    <div [hidden]="!SiteConForm.controls['Mobile'].errors.minlength">
+                                        Mobile number must be 10 digits long.
+                                    </div>
+                                    <div [hidden]="!SiteConForm.controls['Mobile'].errors.pattern">
+                                        Mobile number not valid.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">User Image</label>
+                                <br>
+                                <input type="file" class="dropify" formControlName="Image" #SiteUserImg>
+                                <br>
+                                <small>Please upload user image less than 1.5 MB (.jpg, .png, .jpeg, .bmp)</small>
+                                <div class="alert" *ngIf="!SiteConForm.controls['Image'].valid && (SiteConForm.controls['Image'].touched)">
+                                    <div [hidden]="!SiteConForm.controls['Image'].errors">
+                                        User image required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5>Email Settings</h5>
+                            <hr>
+                            <P>By choosing the above category, these are the notifications that contact will receive</P>
+                            <ol>
+                                <li *ngFor="let email of EmailStatusList">{{email.TSM_Status}}</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5>Email update for this contact</h5>
+                            <hr>
+                            <form>
+                                <input type="radio" value="S" name="status" [(ngModel)]="SiteTicketEmailStatus"> This ticket only
+                                <input type="radio" value="A" name="status" [(ngModel)]="SiteTicketEmailStatus"> All tickets
+
+                            </form>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="submit" class="btn btn-primary" value="Submit" [disabled]="!SiteConForm.valid || loaduniqueemaillen !== 0">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="SelectSiteContactModel" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Site Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span class="pull-right"><button class="btn btn-primary" (click)="CreateSiteCOntactModal()">Create New</button></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-hover" id="Site_User_Table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let site_user of SiteContactArray">
+                                <td>{{site_user.UM_First_Name}} {{site_user.UM_Last_Name}}</td>
+                                <td>{{site_user.UM_EmailID}}</td>
+                                <td>{{site_user.SUD_Cell}}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success btn-rounded" type="button"
+                                            (click)="AddSiteContact(site_user);">ADD
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--AgreementModalBox-->
+<div class="modal fade modal-size-large" id="AgreementModalBox" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Agreement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="All_Agreement_List">
+                    <thead>
+                    <tr>
+                        <th>Agreement Name</th>
+                        <th>Effective Date</th>
+                        <th>End Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let agm of AgreementArray">
+                        <td>{{agm.AGM_Agreement_Name}}</td>
+                        <td>{{agm.AGM_EffectiveDate}}</td>
+                        <td>{{agm.AGM_EndDate}}</td>
+                        <td>{{agm.AGM_WorkingHours_StartTime}}{{agm.AGM_WorkingHours_StartTime_Sessions}}</td>
+                        <td>{{agm.AGM_WorkingHours_EndTime}}{{agm.AGM_WorkingHours_EndTime_Sessions}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success btn-rounded" type="button"
+                                    (click)="AssignAgrement(agm.AGM_KeyID, agm.AGM_Agreement_Name, agm.AGM_Response_Time, agm.AGM_EffectiveDate, agm.AGM_EndDate, agm.AGM_WorkingHours_StartTime, agm.AGM_WorkingHours_EndTime)">
+                                ADD
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--AgreementModalBox-->
+<div class="modal fade modal-size-large" id="BranchPartModalBox" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Parts</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--<h2>Non Hero Kit Parts</h2>
+                <table class="table table-hover" id="All_Non_Hero_Part_List">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Replenishment Qty.</th>
+                    <th>Allotted Qty.</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let NP of NonHeroKitPartsArray">
+                    <td>{{NP.PM_Part_Name}}</td>
+                    <td>$ {{NP.PM_Price}}</td>
+                    <td>{{NP.Stock}}</td>
+                    <td>{{NP.Replenishment}}</td>
+                    <td *ngIf="NP.PM_KeyID === editRowId">
+                      <input type="text" class="form-control" [(ngModel)]="NP.Required_Qty" />
+                    </td>
+                    <td *ngIf="NP.PM_KeyID !== editRowId" (click)="toggle(NP.PM_KeyID)">
+                      {{NP.Required_Qty}}
+                    </td>
+                    <td>
+                      <button *ngIf="NP.Stock === 0 || ((NP.Stock - 1) <= ( NP.Required_Qty - 1)) || ((NP.Stock - NP.Required_Qty -1) <= (NP.Replenishment -1))" class="btn btn-sm btn-danger btn-rounded" type="button" (click)="Non_HeroKitPartRequest()">Request</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+                <br>
+                <h2>Hero Hit Parts</h2>
+                <table class="table table-hover" id="All_Hero_Part_List">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Replenishment Qty.</th>
+                    <th>Allotted Qty.</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let HP of HeroKitPartsArray">
+                    <td>{{HP.PM_Part_Name}}</td>
+                    <td>$ {{HP.PM_Price}}</td>
+                    <td>{{HP.Stock}}</td>
+                    <td>{{HP.Replenishment}}</td>
+                    <td *ngIf="HP.PM_KeyID === HeroKiteditRowId">
+                      <input type="text" class="form-control" [(ngModel)]="HP.Required_Qty" />
+                    </td>
+                    <td *ngIf="HP.PM_KeyID !== HeroKiteditRowId" (click)="Hero_toggle(HP.PM_KeyID)">
+                      {{HP.Required_Qty}}
+                    </td>
+                    <td>
+                      <button *ngIf="HP.Stock === 0 || ((HP.Stock - 1) <= ( HP.Required_Qty - 1)) || ((HP.Stock - HP.Required_Qty -1) <= (HP.Replenishment -1))" class="btn btn-sm btn-danger btn-rounded" type="button" (click)="HeroKitPartRequest()">Request</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+                <br>
+                <br>
+                <button class="btn btn-primary pull-right" (click)="Assign_TIC_Parts()">Save</button>
+                <br>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-size-large" id="BranchRecipientModel" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Branch Recipient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="Branch_Recipient_Table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let A_Branch_User of AllBranchContactArray">
+                        <td>{{A_Branch_User.UM_First_Name}}</td>
+                        <td>{{A_Branch_User.UM_EmailID}}</td>
+                        <td>{{A_Branch_User.BUD_Cell}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success btn-rounded" type="button"
+                                    (click)="Assign_TIC_Branch_Recipient(A_Branch_User)">ADD
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--ticket preview-->
+<div class="modal fade modal-size-large" id="Preview" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ticket Preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12" id="print-section">
+                        <div class="row col-lg-12">
+                            <div class="col-lg-4">
+                                <div class="asign_space">
+                                    <div class="row acc_header row_margin"
+                                         style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                                        <div class="col-lg-12"><h5 class="acc_heading" align="center">Account</h5></div>
+                                    </div>
+                                    <div class="row"
+                                         style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                             *ngFor="let acc of SelectedAccountArray">
+                                            <div class="panel panel-default card-view pa-0">
+                                                <div class="panel-wrapper collapse in">
+                                                    <div class="panel-body pa-0">
+                                                        <div class="sm-data-box bg-red">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                                                        <span class="txt-light block counter"><span
+                                                                                class="counter-anim">{{acc.Acc_Name}}</span></span>
+                                                                        <span class="weight-500 uppercase-font txt-light block font-13">{{acc.Acc_City}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="asign_space">
+                                    <div class="row acc_header row_margin"
+                                         style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                                        <div class="col-lg-12"><h5 class="acc_heading" align="center">Site</h5></div>
+                                    </div>
+                                    <div class="row"
+                                         style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                             *ngFor="let S_site of SelectedSiteArray">
+                                            <div class="panel panel-default card-view pa-0">
+                                                <div class="panel-wrapper collapse in">
+                                                    <div class="panel-body pa-0">
+                                                        <div class="sm-data-box bg-green">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-9 col-xs-9 text-center pl-0 pr-0 data-wrap-left">
+                                                                        <span class="txt-light block counter"><span
+                                                                                class="counter-anim">{{S_site.SM_SiteName}}</span></span>
+                                                                        <span class="weight-500 uppercase-font txt-light block font-13">{{S_site.SM_Address}}, {{S_site.SM_City}}, {{S_site.SM_State}} - {{S_site.SM_Zip}} </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="asign_space">
+                                    <div class="row acc_header row_margin"
+                                         style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                                        <div class="col-lg-12"><h5 class="acc_heading" align="center">Branch</h5></div>
+                                    </div>
+                                    <div class="row"
+                                         style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                             *ngFor="let S_Branch of SelectedBranchArray">
+                                            <div class="panel panel-default card-view pa-0">
+                                                <div class="panel-wrapper collapse in">
+                                                    <div class="panel-body pa-0">
+                                                        <div class="sm-data-box bg-blue">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                                                        <span class="txt-light block counter"><span
+                                                                                class="counter-anim">{{S_Branch.Branch_Name}}</span></span>
+                                                                        <span class="weight-500 uppercase-font txt-light block font-13">{{S_Branch.Branch_City}}, {{S_Branch.Branch_State}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="col-lg-6">
+                                <div class="asign_space">
+                                    <div class="row acc_header row_margin"
+                                         style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                                        <div class="col-lg-12"><h5 class="acc_heading">Account Contact</h5></div>
+                                    </div>
+                                    <div class="row"
+                                         style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                                        <div class="col-md-12 bg-white p-1">
+
+                                            <div class="mail-list ps ps--theme_default ps--active-y"
+                                                 perfect-scrollbar="" style="position: relative;"
+                                                 data-ps-id="37d79086-d3b8-6a25-6b6b-b3579064194d">
+
+                                                <div class="mail-list-item pb-2 pt-2 pl-1 pr-2 transititon unread"
+                                                     *ngFor="let A_C of SelectedAccountContactArray">
+                                                    <div class="media">
+                                                        <!----><img class="d-flex mr-3 w-50p"
+                                                                    src="{{FileBasePath}}uploads/user_images/{{A_C.AUD_AM_KeyID}}/avatars/{{A_C.AUD_User_Image}}" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                                        <!---->
+                                                        <div class="media-body overflow-hidden">
+                                                            <div class="d-flex justify-content-between">
+                                                                <h6 class="text-truncate mail-sender">
+                                                                    {{A_C.UM_First_Name}}</h6>
+                                                            </div>
+                                                            <p class="mail-subject mb-0 text-truncate">
+                                                                {{A_C.UM_EmailID}}</p>
+                                                            <p class="mail-subject mb-0 text-truncate">
+                                                                {{A_C.AUD_Cell}}</p>
+                                                          <p class="mail-subject mb-0">{{A_C.AUD_Additional_EmailID}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="asign_space">
+                                    <div class="row acc_header row_margin"
+                                         style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                                        <div class="col-lg-12"><h5 class="acc_heading">Site Contact</h5></div>
+                                    </div>
+                                    <div class="row"
+                                         style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+
+                                        <div class="col-md-12 bg-white p-1">
+
+                                            <div class="mail-list ps ps--theme_default ps--active-y"
+                                                 perfect-scrollbar="" style="position: relative;"
+                                                 data-ps-id="37d79086-d3b8-6a25-6b6b-b3579064194d">
+
+                                                <div class="mail-list-item pb-2 pt-2 pl-1 pr-2 transititon unread"
+                                                     *ngFor="let S_User of SelectedSiteContactArray">
+                                                    <div class="media">
+                                                        <!----><img class="d-flex mr-3 w-50p"
+                                                                    src="{{FileBasePath}}uploads/user_images/siteuser/{{S_User.SUD_SM_KeyID}}/avatars/{{S_User.SUD_User_image}}" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                                        <!---->
+                                                        <div class="media-body overflow-hidden">
+                                                            <div class="d-flex justify-content-between">
+                                                                <h6 class="text-truncate mail-sender">
+                                                                    {{S_User.UM_First_Name}}</h6>
+                                                            </div>
+                                                            <p class="mail-subject mb-0 text-truncate">
+                                                                {{S_User.UM_EmailID}}</p>
+                                                            <p class="mail-subject mb-0 text-truncate">
+                                                                {{S_User.SUD_Cell}}</p>
+                                                          <p class="mail-subject mb-0">{{S_User.SUD_Additional_EmailID}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row col-lg-12">
+
+                            <div class="col-lg-6">
+                                <div class="asign_space">
+                                    <div class="row acc_header row_margin"
+                                         style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                                        <div class="col-lg-12"><h5 class="acc_heading">Asset</h5></div>
+                                    </div>
+                                    <div class="row"
+                                         style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                             *ngFor="let S_Asset of SelectedAssetArray">
+                                            <div class="panel panel-default card-view pa-0">
+                                                <div class="panel-wrapper collapse in">
+                                                    <div class="panel-body pa-0">
+                                                        <div class="sm-data-box bg-pink">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                                                        <span class="txt-light block counter"><span
+                                                                                class="counter-anim">{{S_Asset.ASM_Asset_Name}}</span></span>
+                                                                        <span class="weight-500 uppercase-font txt-light block font-13">Model: {{S_Asset.MM_Model_Name}}</span>
+                                                                        <span class="weight-500 uppercase-font txt-light block font-13">Serial No.: {{S_Asset.ASM_Serial_No}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="asign_space">
+                                    <div class="row acc_header row_margin"
+                                         style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                                        <div class="col-lg-12"><h5 class="acc_heading">Service Request</h5></div>
+                                    </div>
+                                    <div class="row"
+                                         style="padding: 1px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                             *ngFor="let S_ASR of SelectedServicerequestAarray">
+                                            <div class="panel panel-default card-view pa-0">
+                                                <div class="panel-wrapper collapse in">
+                                                    <div class="panel-body pa-0">
+                                                        <div class="sm-data-box bg-yellow">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-9 text-center pl-0 pr-0 data-wrap-left">
+                                                                        <span class="txt-light block counter"><span
+                                                                                class="counter-anim">{{S_ASR.SR_Name}}</span></span>
+                                                                        <span class="weight-500 uppercase-font txt-light block font-13">{{S_ASR.SR_Desc}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="margin-bottom-50 col-lg-12" style="overflow: auto">
+                                <table class="table" *ngFor="let KI of SR_Details_Array; let i = index"
+                                       style="margin-bottom: 0px">
+                                    <thead class="thead-inverse">
+                                    <tr>
+                                        <th style="width: 300px; border: 1px solid">#Known Issue</th>
+                                        <th style="width: 150px; border: 1px solid">Parts</th>
+                                        <th style="width: 150px; border: 1px solid">Documents</th>
+                                        <th style="width: 150px; border: 1px solid">Images</th>
+                                        <th style="width: 150px; border: 1px solid">Videos</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th style="border: 1px solid">
+                                            {{i+1}} . {{KI.TKIM_Known_Issue}}
+                                            <br>
+                                            <span class="label label-primary"
+                                                  style="background-color: #0a79df; padding: 3px; color: #ffffff;">Troubleshooting List:</span>
+
+                                            <ol type="a">
+                                                <li *ngFor="let sol of KI.Solution;">{{sol.TSOM_Solution}}</li>
+                                            </ol>
+                                        </th>
+                                        <td style="border: 1px solid">
+                                            <div *ngFor="let sol of KI.Solution">
+                                                <ol type="1">
+                                                    <li *ngFor="let SP of sol.Part_Details;">
+                                                        {{SP.PM_Part_Name}}
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </td>
+                                        <td style="border: 1px solid">
+                                            <div *ngFor="let sol of KI.Solution">
+                                                <ol type="1">
+                                                    <li *ngFor="let SI of sol.Instruction_Details">
+                                                        <a href="{{FileBasePath}}uploads/service_request/instructions/{{SI.TIM_PDF_File}}"
+                                                           TARGET="_blank">{{SI.TIM_Name}}</a>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </td>
+                                        <td style="border: 1px solid">
+                                            <div *ngFor="let sol of KI.Solution">
+                                                <ol type="1">
+                                                    <li *ngFor="let SIM of sol.Image_Details">
+                                                        <a href="{{FileBasePath}}uploads/service_request/ins_list/{{SIM.TIPDFM_PDF_PATH}}"
+                                                           TARGET="_blank">{{SIM.TIPDFM_Name}}</a>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </td>
+                                        <td style="border: 1px solid">
+                                            <div *ngFor="let sol of KI.Solution">
+                                                <ol type="1">
+                                                    <li *ngFor="let SV of sol.Video_Details">
+                                                        <a href="{{FileBasePath}}uploads/service_request/Gen_ins/{{SV.TGGIPDF_PDF_PATH}}"
+                                                           TARGET="_blank">{{SV.TGGIPDF_Name}}</a>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="col-lg-12">
+                                <div class="asign_space">
+                                    <div class="row acc_header row_margin"
+                                         style="margin-left: -0.72rem; margin-right: -0.72rem;">
+                                        <div class="col-lg-12"><h5 class="acc_heading" style="margin-bottom: 12px">
+                                            Problem Description<span></span></h5></div>
+                                    </div>
+                                    <div class="row"
+                                         style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                                        <div class="col-lg-12">
+                                            <div class="form-group" [innerHTML]="ProblemDescriptionMod">
+
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-lg-12">
+                            <div class="col-lg-12">
+                                <div class="asign_space">
+                                    <div class="row">
+                                        <div class="col-lg-12" *ngIf="ScltServiceRequestID !== ''">
+                                            <div class="asign_space">
+                                                <div class="row acc_header">
+                                                    <div class="col-lg-12">
+                                                        <h5 class="acc_heading">Allotted Parts</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="row"
+                                                     style="padding: 10px; box-shadow: 0px 0px 5px #6c6c6c; margin-bottom: 5px;">
+                                                    <h2 *ngIf="HeroKitPartAvailable">Hero Kit Parts</h2>
+                                                    <table class="table table-hover" id="All_Hero_Part"
+                                                           *ngIf="HeroKitPartAvailable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Part Name</th>
+                                                            <th>Image</th>
+                                                            <th>Required Qty.</th>
+                                                            <th>Current Stock</th>
+                                                            <th>Target Stock</th>
+                                                            <th>Replenishment</th>
+                                                            <th>Virtual Stock</th>
+                                                            <th>Allotted Qty.</th>
+                                                            <th>Total Reserved Qty.</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr *ngFor="let RP of Ticket_Req_PartsArray">
+                                                            <td *ngIf="RP.HeroKit === 'Y'">{{RP.PM_Part_Name}}</td>
+                                                            <td *ngIf="RP.HeroKit === 'Y'">
+                                                                <img                                                                      src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}"
+                                                                     alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'Y'">
+                                                                {{RP.COUNT}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'Y'">
+                                                                <b>{{RP.Stock}}</b>
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'Y'">
+                                                                <b>{{RP.Target_Stock}}</b>
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'Y'">
+                                                                <b>{{RP.Replenishment}}</b>
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'Y'">
+                                                                <b>{{RP.Shipped_Virtual_Stock}}</b>
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'Y'">
+                                                                {{this.GetReservedStock(RP.COUNT, RP.Stock,
+                                                                RP.Reserved_Stock)}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'Y'">
+                                                                <b>{{RP.Reserved_Stock}}</b>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <h2 *ngIf="NonHeroKitPartAavailable">Non Hero Kit Parts</h2>
+                                                    <table class="table table-hover" id="All_non_Hero_Part"
+                                                           *ngIf="NonHeroKitPartAavailable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Part Name</th>
+                                                            <th>Image</th>
+                                                            <th>Required Qty.</th>
+                                                            <th>Current Stock</th>
+                                                            <th>Target Stock</th>
+                                                            <th>Replenishment</th>
+                                                            <th>Virtual Stock</th>
+                                                            <th>Allotted Qty.</th>
+                                                            <th>Total Reserved Qty.</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr *ngFor="let RP of Ticket_Req_PartsArray">
+                                                            <td *ngIf="RP.HeroKit === 'N'">{{RP.PM_Part_Name}}</td>
+                                                            <td *ngIf="RP.HeroKit === 'N'"><img
+                                                                    src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}"
+                                                                    alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'N'">
+                                                                {{RP.COUNT}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'N'">
+                                                                {{RP.Stock}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'N'">
+                                                                {{RP.Target_Stock}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'N'">
+                                                                {{RP.Replenishment}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'N'">
+                                                                {{RP.Shipped_Virtual_Stock}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'N'">
+                                                                {{this.GetReservedStock(RP.COUNT, RP.Stock,
+                                                                RP.Reserved_Stock)}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'N'">
+                                                                {{RP.Reserved_Stock}}
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <h2 *ngIf="NewPartAvailable">Branch New Parts</h2>
+                                                    <table class="table table-hover" id="All_New"
+                                                           *ngIf="NewPartAvailable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Part Name</th>
+                                                            <th>Image</th>
+                                                            <th>Required Qty.</th>
+                                                            <th>Current Stock</th>
+                                                            <th>Target Stock</th>
+                                                            <th>Replenishment</th>
+                                                            <th>Virtual Stock</th>
+                                                            <th>Allotted Qty.</th>
+                                                            <th>Total Reserved Qty.</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr *ngFor="let RP of Ticket_Req_PartsArray">
+                                                            <td *ngIf="RP.HeroKit === 'NIL'">{{RP.PM_Part_Name}}</td>
+                                                            <td *ngIf="RP.HeroKit === 'NIL'"><img
+                                                                    src="{{FileBasePath}}assets/uploads/parts/{{RP.PM_KeyID}}/image/{{RP.PM_Part_Image_Path}}"
+                                                                    alt="" height="50px" width="70px" onerror="this.onerror=null;this.src='http://www.euforgen.org/fileadmin/templates/euforgen.org/Site/img/picture-not-available.jpg'">
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'NIL'">
+                                                                {{RP.COUNT}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'NIL'">
+                                                                {{RP.Stock}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'NIL'">
+                                                                {{RP.Target_Stock}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'NIL'">
+                                                                {{RP.Replenishment}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'NIL'">
+                                                                {{RP.Shipped_Virtual_Stock}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'NIL'">
+                                                                {{this.GetReservedStock(RP.COUNT, RP.Stock,
+                                                                RP.Reserved_Stock)}}
+                                                            </td>
+                                                            <td *ngIf="RP.HeroKit === 'NIL'">
+                                                                {{RP.Reserved_Stock}}
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary" (click)="Submit_Ticket();">Submit</button>
+                    <button class="btn btn-secondary" (click)="Close_Preview()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ticket preview-->
+<div class="modal fade modal-size-large" id="HERO_Part_Request_Modal" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Request Part</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-hkrequest [id]="ScltBranchID"></app-hkrequest>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ticket preview-->
+<div class="modal fade modal-size-large" id="NON_Hero_Part_Request_Modal" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <app-nonhkrequest [id]="ScltBranchID"></app-nonhkrequest>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ticket preview-->
+<div class="modal fade modal-size-large" id="Ticket_Error" tabindex="-1" role="dialog" aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">We found these Errors</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12">
+                    <div class="margin-bottom-50">
+                        <div class="alert alert-danger" role="alert">
+                            <p><strong>Check the Following:</strong></p>
+                            <ul class="margin-top-10">
+                                <li *ngFor="let error of TicketErrors">{{error.errorMsg}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
